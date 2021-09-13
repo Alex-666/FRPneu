@@ -1,0 +1,489 @@
+.grid {
+    overflow: hidden;
+    margin: 0;
+    //padding: 3em 0 0 0;
+    width: 100%;
+    list-style: none;
+    //text-align: center;
+    background-color: white;
+}
+
+/* Common style */
+.grid figure {
+    position: relative;
+    z-index: 1;
+    display: inline-table;
+    overflow: hidden;
+    margin: 0px;
+    width: 33%;
+    //height: 170px;
+    background: #3085a3;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* .grid figure {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    overflow: hidden;
+    margin: -0.135em;
+    width: 33.36%;
+    //height: 170px;
+    background: #3085a3;
+    text-align: center;
+    cursor: pointer;
+} */
+
+.grid figure img {
+    position: relative;
+    display: block;
+    min-height: 100%;
+    opacity: 0.8;
+}
+
+.grid figure figcaption {
+    padding: 2em;
+    color: #fff;
+    font-size: 1.5em;
+    //text-shadow: 2px 3px 2px #000, 0 0 0.5em #000;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.grid figure figcaption::before,
+.grid figure figcaption::after {
+    pointer-events: none;
+}
+
+.grid figure figcaption,
+.grid figure a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Anchor will cover the whole item by default */
+/* For some effects it will show as a button */
+.grid figure a {
+    z-index: 1000;
+    text-indent: 200%;
+    white-space: nowrap;
+    font-size: 0;
+    opacity: 0;
+}
+
+.grid figure h3 {
+    //word-spacing: -0.15em;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+}
+
+.grid figure h3 span {
+    font-weight: 400;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.grid figure h3,
+.grid figure p {
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.grid figure p {
+    letter-spacing: 1px;
+    font-size: 68.5%;
+    color: #fff
+}
+.grid figure.w-20 {
+    width: 19.5%;
+    background: none;
+    vertical-align: middle;
+}
+.grid figure.w-20 img {
+    opacity: 1;
+    width: -webkit-calc(100% - 30px);
+    width: calc(100% - 30px);
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(+20px,0,0);
+    transform: translate3d(+20px,0,0);
+}
+.grid figure.w-20:hover img {
+    -webkit-transform: translate3d(+30px,0,0);
+    transform: translate3d(+30px,0,0);
+}
+.grid figure.w-20 figcaption {
+    color: #7d7d7d;
+    padding: 0;
+}
+.grid figure.w-20 figcaption h3 {
+    vertical-align: middle;
+}
+.grid figure.col-2 {
+    width: 16.66666667%;
+    background: none;
+    vertical-align: middle;
+}
+.grid figure.col-2 img {
+    opacity: 1;
+    width: -webkit-calc(100% - 30px);
+    width: calc(100% - 30px);
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(+10px,0,0);
+    transform: translate3d(+10px,0,0);
+}
+.grid figure.col-2:hover img {
+    -webkit-transform: translate3d(+20px,0,0);
+    transform: translate3d(+20px,0,0);
+}
+
+.grid figure.col-3 {
+    width: 24.5%;
+    background: none;
+    vertical-align: middle;
+}
+.grid figure.col-3 img {
+    opacity: 1;
+    width: -webkit-calc(100% - 30px);
+    width: calc(100% - 30px);
+    -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+    transition: opacity 0.35s, transform 0.35s;
+    -webkit-transform: translate3d(+20px,0,0);
+    transform: translate3d(+20px,0,0);
+}
+.grid figure.col-3:hover img {
+    -webkit-transform: translate3d(+30px,0,0);
+    transform: translate3d(+30px,0,0);
+}
+
+@media screen and (max-width: 69.5em) {
+    .grid figure {
+        width: 49%;
+    }
+    .grid figure figcaption {
+        font-size: 140%;
+    }
+    .grid figure.col-2 {
+        width: 24%;
+    }
+    .grid figure.col-3 {
+        width: 49%;
+    }
+    .grid figure.w-20 {
+        width: 19%;
+    }
+}
+
+
+@media screen and (max-width: 41.5em) {
+
+    .grid figure {
+        width: 100%;
+    }
+    .grid figure.col-2 {
+        width: 49%;
+    }
+    .grid figure.col-3 {
+        width: 49%;
+    }
+    .grid figure.w-20 {
+        width: 49%;
+    }
+}
+.stitek {
+    position:relative;
+}
+.stitek-sipka {
+    background: #000;
+    color: #fff;
+    width: 80px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 1px 3px;
+    margin: 5px;
+    display: inline-block;
+    position:relative;
+}
+.stitek-sipka-small {
+    width:35px;
+}
+.stitek-sipka:before {
+    content:"";
+    width: 0;
+    height: 0;
+    position:absolute;
+    left:-32px;
+    top:0;
+    border-top: 16px solid transparent;
+    border-right: 32px solid #000;
+    border-bottom: 16px solid transparent;
+}
+.tp {
+    top: 140px;
+    position: absolute;
+    left: 285px;
+}
+.tup {
+    top: 140px;
+    position: absolute;
+    left: 150px;
+}
+.uh {
+    position: absolute;
+    top: 404px;
+    left: 245px;
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+}
+#search-auto-filter #tabs li span{
+    vertical-align: top;
+    font-size: 20px;
+    line-height: 40px;
+}
+#search-auto-filter #tabs li img{
+    vertical-align: bottom;
+}
+#search-auto-filter #tabs li a{
+    padding: 10px 15px;
+    background-color: #DA9903;
+}
+#search-auto-filter #tabs li.active a,
+#search-auto-filter #tabs li a:hover{
+    background-color: #FCB408;
+    color: white;
+}
+#search-auto-filter .tabs-content .tab-content{
+    background-color: #FCB408;
+    padding: 15px 30px 20px;
+}
+#search-auto-filter .form-group label{
+    padding-right: 5%;
+    float: none;
+    font-size: 16px;
+    width: 90%;
+    color: white;
+}
+
+#search-auto-filter .form-group select{
+    width: 80%;
+    margin: 5px 0;
+    background-color: white;
+    font-size: 16px;
+    height: 30px;
+}
+
+#search-auto-filter .form-group select option:disabled{
+    color: #e0e0e0;
+    font-weight: 600;
+
+}
+#search-auto-filter .form-group select option{
+    font-weight: 600;
+}
+
+
+#search-auto-filter .btns{
+    padding-top: 11px;
+    float: right;
+}
+#search-auto-filter .button{
+    height: 31px;
+    width: 80%;
+    font-size: 18px;
+}
+#search-auto-filter .total_result{
+    height: 30px;
+    width: 80%;
+    font-size: 14px;
+}
+#search-auto-filter .reset-btns{
+    padding-top: 11px;
+}
+
+#search-auto-filter .reset-btns .reset_btn{
+	    padding-top: 30px;
+}
+#search-auto-filter .reset_btn{
+    /*display: flex;
+    padding-top: 10px;
+    justify-content: center;*/
+}
+#search-auto-filter .reset_button{
+    border-radius: 15px;
+    padding: 0 15px;
+    line-height: 25px;
+    background-color: #4C9410;
+    font-family: Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-size: 14px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    text-transform: uppercase;
+}
+#search-auto-filter .reset_button:hover{
+    background-color: #68CC14;
+}
+
+#search-auto-filter .total_rslt{
+    padding-bottom: 8px;
+}
+
+label{
+    cursor: default;
+}
+.result-auto .front-rear{
+    text-align: center;
+    font-weight: 800;
+}
+.result-auto span.type{
+    font-weight: 800;
+}
+.result-auto {
+    padding: 20px 0;
+    font-size: 16px;
+}
+.simple-content .form-control{
+    background-color: white;
+    height: 35px;
+    border-color: rgb(169, 184, 192);
+}
+#content label a b {
+    margin: 0;
+}
+
+div#footer>div>a>img {
+    display: none;
+}
+
+@media screen and (max-width: 760px) {
+div#chat-application {
+    margin-bottom: 50px !important;
+}
+
+.shino p {
+    margin: 0px !important;
+    padding: 5px;
+}
+}
+
+#footer .row.contacts{
+	display:flex;
+    flex-wrap: wrap;
+	align-items:center;
+}
+
+@media screen and (max-width: 470px) {
+#search-auto-filter .form-group select {
+    width: 100%;
+}
+
+#search-auto-filter .button{
+width:100%;
+}
+
+}
+
+.table-b table {
+  border-collapse: collapse;
+}
+
+.table-b table, .table-b table th, .table-b table td {
+  border: 1px solid #cecece
+}
+
+.table-color.table-responsive tbody tr:nth-child(2n){
+   background: #c1d6de;
+}
+
+#column-right .poster-tire-help:hover .descr-tire-help {
+    width: auto !important;
+    font-size: 13px !important;
+}
+
+#column-right .search-auto #tabs li a{
+    padding: 0 !important;
+}
+
+#column-right .search-auto #tabs li span {
+    font-size: 14px;
+}
+
+#column-right .search-auto .row {
+    display: flex;
+    flex-direction: column;
+}
+
+#column-right .search-auto .row div {
+    width: 100% !important;
+}
+
+#column-right .search-auto select {
+    width: 100% !important;
+}
+
+#column-right  .form-group label {
+    padding-right: 0 !important;
+    width: 100% !important;
+}
+
+#column-right  #tabs li img {
+    float: left;
+}
+
+#column-right .btns,
+#column-right .reset-btns {
+    text-align: center;
+    
+}
+
+
+
+
+#column-left .poster-tire-help:hover .descr-tire-help {
+    width: auto !important;
+    font-size: 13px !important;
+}
+
+#column-left .search-auto #tabs li a{
+    padding: 0 !important;
+}
+
+#column-left .search-auto #tabs li span {
+    font-size: 14px;
+}
+
+#column-left .search-auto .row {
+    display: flex;
+    flex-direction: column;
+}
+
+#column-left .search-auto .row div {
+    width: 100% !important;
+}
+
+#column-left .search-auto select {
+    width: 100% !important;
+}
+
+#column-left  .form-group label {
+    padding-right: 0 !important;
+    width: 100% !important;
+}
+
+#column-left  #tabs li img {
+    float: left;
+}
+
+#column-left .btns,
+#column-left .reset-btns {
+    text-align: center;
+
+}
+
+

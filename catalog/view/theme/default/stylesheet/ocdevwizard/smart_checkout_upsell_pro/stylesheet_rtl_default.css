@@ -1,0 +1,23 @@
+/*
+##==================================================================##
+## @author    : OCdevWizard                                         ##
+## @contact   : ocdevwizard@gmail.com                               ##
+## @support   : http://help.ocdevwizard.com                         ##
+## @license   : http://license.ocdevwizard.com/Licensing_Policy.pdf ##
+## @copyright : (c) OCdevWizard. Smart Checkout Upsell Pro, 2018    ##
+##==================================================================##
+*/
+
+#smchup-modal-body {
+  direction: rtl;
+}
+#smchup-modal-body .modal-close {
+  left: 15px !important;
+  right: initial;;
+}
+#smchup-modal-body .modal-heading {
+  text-align: right;
+}
+#smchup-modal-body #check-data > #smchup-ajax-products > .smchup-ajax-products-arrow button {
+  direction: ltr;
+}

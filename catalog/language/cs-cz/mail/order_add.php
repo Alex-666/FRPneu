@@ -1,0 +1,27 @@
+<?php //Copyright: opencart.cz
+$_['text_subject']                                = '%s - Objednávka %s';
+$_['text_greeting']                               = 'Děkujeme Vám za nákup v obchodě %s.';
+$_['text_greeting2']                              = ' Vaší objednávku jsme obdrželi, zpracujeme ji v co nejkratším termínu a budeme Vás kontaktovat.';
+$_['text_link']                                   = 'Pro zobrazení objednávky klikněte na odkaz níže:';
+$_['text_order_detail']                           = 'Detail objednávky';
+$_['text_instruction']                            = 'Instrukce';
+$_['text_order_id']                               = 'Číslo objednávky:';
+$_['text_date_added']                             = 'Datum přidání:';
+$_['text_order_status']                           = 'Stav objednávky:';
+$_['text_payment_method']                         = 'Způsob platby:';
+$_['text_shipping_method']                        = 'Způsob dopravy:';
+$_['text_email']                                  = 'E-mail:';
+$_['text_telephone']                              = 'Telefon:';
+$_['text_ip']                                     = 'IP Addresa:';
+$_['text_payment_address']                        = 'Fakturační adresa';
+$_['text_shipping_address']                       = 'Doručovací adresa';
+$_['text_products']                               = 'Produkty';
+$_['text_product']                                = 'Produkt';
+$_['text_model']                                  = 'Model';
+$_['text_quantity']                               = 'Množství';
+$_['text_price']                                  = 'Cena';
+$_['text_order_total']                            = 'Produkty celkem';
+$_['text_total']                                  = 'Celkem';
+$_['text_download']                               = 'Vaše platba byla potvrzena a můžete stahovat na odkazu níže:';
+$_['text_comment']                                = 'Komentář k objednávce:';
+$_['text_footer']                                 = 'V případě jakýchkoliv nejasností prosím odepište na tento e-mail nebo nám zavolejte na 777 889 869.';

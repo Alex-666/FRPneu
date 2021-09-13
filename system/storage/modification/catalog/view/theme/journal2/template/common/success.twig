@@ -1,0 +1,146 @@
+{{ header }}
+<div id="container" class="container j-container success-page">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ breadcrumb.href }}" itemprop="url"><span itemprop="title">{{ breadcrumb.text }}</span></a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}{{ column_right }}
+    {% if column_left and column_right %}
+      {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+      {% set class = 'col-sm-9' %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">
+      {{ content_top }}
+      <h1 class="heading-title">{{ heading_title }}</h1>
+      <div style="float:left; margin: 0 20px">
+	  <img width="115" src="/image/icon-success.svg"/>
+	  </div>
+	  <div class="order-done">
+      {{ text_message }}
+	  </div>
+      <div class="buttons">
+        <div class="pull-right"><a href="{{ continue }}" class="btn-primary button">{{ button_continue }}</a></div>
+      </div>
+      {{ content_bottom }}
+    </div>
+  </div>
+</div>
+{% if order_id  %}
+  <script type="text/javascript">
+    dataLayer.push({'event': 'order_cart' });
+  </script>
+{% endif %}
+{% if order_id  %}
+    <!-- Event snippet for Google Ads Website Conversion Tag conversion page -->
+    <script>
+
+        {% set totalPrice_AW = 0 %}
+        {% for product in products %}
+        {% set totalPrice_AW = totalPrice_AW + product.price * product.quantity %}
+        {% endfor %}
+
+        <!-- Měřicí kód Sklik.cz -->
+        var seznam_cId = 100068724;
+        var seznam_value = {{ totalPrice_AW }};
+    </script>
+    <script type="text/javascript" src="https://www.seznam.cz/rs/static/rc.js" async></script>
+{% endif %}
+
+{% if store_id == 0 %}
+{% if order_id  %}
+<script type="text/javascript">
+var _hrq = _hrq || [];
+    _hrq.push(['setKey', 'C1C1329B625466074605C03BF2814D41']);
+    _hrq.push(['setOrderId', '{{ order_id }}']);
+    {% set totalPrice_tom = 0 %}
+    {% for product in products %}
+    {% set totalPrice_tom = totalPrice_tom + product.price * product.quantity %}
+    _hrq.push(['addProduct', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }}']);
+    {% endfor %}
+    _hrq.push(['trackOrder']);
+
+(function() {
+    var ho = document.createElement('script'); ho.type = 'text/javascript'; ho.async = true;
+    ho.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//im9.cz/js/ext/1-roi-async.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ho, s);
+})();
+</script>
+
+{% endif %}
+{% endif %}
+
+{% if store_id == 1 %}
+{% if order_id  %}
+<script type="text/javascript">
+var _hrq = _hrq || [];
+    _hrq.push(['setKey', 'F9300CE0C1DD4A9A154D856EEDF09CE4']);
+    _hrq.push(['setOrderId', '{{ order_id }}']);
+    {% set totalPrice_tom = 0 %}
+    {% for product in products %}
+    {% set totalPrice_tom = totalPrice_tom + product.price * product.quantity %}
+    _hrq.push(['addProduct', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }}']);
+    {% endfor %}
+    _hrq.push(['trackOrder']);
+
+(function() {
+    var ho = document.createElement('script'); ho.type = 'text/javascript'; ho.async = true;
+    ho.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//im9.cz/js/ext/1-roi-async.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ho, s);
+})();
+</script>
+
+{% endif %}
+{% endif %}
+
+                {% if gtag_event %}{{ gtag_event }}{% endif %}
+                
+
+{% if order_id  %}
+    <script type="text/javascript">
+        var _srt = _srt || [];
+        _srt.push (['_ setShop', '1aec39893e235068e50cf7a5e7ce679a']);
+        _srt.push (['_ setTransId', '{{ order_id }}']);
+
+        {% for product in products %}
+        _srt.push (['_ addProduct', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }}']);
+        {% endfor %}
+
+        _srt.push (['_ trackTrans']);
+        (function () {
+            var s = document.createElement ("script");
+            s.type = "text / javascript";
+            s.async = true;
+            s.src = ("https:" == document.location.protocol? "https": "http")
+            ": //www.srovname.cz/js/track-trans.js";
+            var x = document.getElementsByTagName ("script") [0];
+            x.parentNode.insertBefore (s, x);
+        }) ();
+    </Script>
+{% endif %}
+<!-- Zbozi.cz -->
+{% if order_id  %}
+<script>
+    (function(w,d,s,u,n,k,c,t){w.ZboziConversionObject=n;w[n]=w[n]||function(){
+        (w[n].q=w[n].q||[]).push(arguments)};w[n].key=k;c=d.createElement(s);
+        t=d.getElementsByTagName(s)[0];c.async=1;c.src=u;t.parentNode.insertBefore(c,t)
+    })(window,document,"script","https://www.zbozi.cz/conversion/js/conv-v3.js","zbozi","109480");
+
+    // zapnutí testovacího režimu
+    // zbozi("useSandbox");
+
+    // nastavení informací o objednávce
+    zbozi("setOrder",{
+        "orderId": "{{ order_id }}"
+    });
+
+    // odeslání
+    zbozi("send");
+</script>
+{% endif %}
+            
+{{ footer }}
+

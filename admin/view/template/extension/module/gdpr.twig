@@ -1,0 +1,231 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-gdpr" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if (error_warning) %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-gdpr" class="form-horizontal">
+
+          <!-- TABS -->
+          <ul class="nav nav-tabs" id="language">
+            <li class="active"><a href="#general-settings" data-toggle="tab"> {{ text_gdpr_settings }}</a></li>
+            {% for language in languages %}
+            <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+            {% endfor %}
+          </ul>
+
+          <!-- PANES -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="general-settings">
+              <!-- Status -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                <div class="col-sm-10">
+                  <select name="module_gdpr_status" id="input-status" class="form-control">
+                    {% if (settings.module_gdpr_status) %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <!-- Max Requests per Day -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-max-requests-day">{{ entry_max_requests_day }}<span data-toggle="tooltip" title="{{ help_max_requests_day }}"></label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_max_requests_day" value="{{ settings.module_gdpr_max_requests_day }}" placeholder="{{ entry_max_requests_day }}" id="input-max-requests-day" class="form-control" />
+                  {% if error_max_requests_day is not empty %}
+                  <div class="text-danger">{{ error_max_requests_day }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Right to be Forgotten -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_right_to_be_forgotten }}">{{ entry_right_to_be_forgotten }}</span></label>
+                  <div class="col-sm-10">
+                    <label class="radio-inline">
+                      {% if settings.module_gdpr_right_to_be_forgotten %}
+                      <input type="radio" name="module_gdpr_right_to_be_forgotten" value="1" checked="checked" />
+                        {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="module_gdpr_right_to_be_forgotten" value="1" />
+                        {{ text_yes }}
+                      {% endif %}
+                    </label>
+                    <label class="radio-inline">
+                      {% if not settings.module_gdpr_right_to_be_forgotten %}
+                      <input type="radio" name="module_gdpr_right_to_be_forgotten" value="0" checked="checked" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="module_gdpr_right_to_be_forgotten" value="0" />
+                      {{ text_no }}
+                      {% endif %}
+                    </label>
+                 </div>
+               </div>
+               <!-- Store Policy Acceptance -->
+               <div class="form-group">
+                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_store_policy_acceptance }}">{{ entry_store_policy_acceptance  }}</span></label>
+                   <div class="col-sm-10">
+                     <label class="radio-inline">
+                       {% if settings.module_gdpr_store_policy_acceptance  %}
+                       <input type="radio" name="module_gdpr_store_policy_acceptance" value="1" checked="checked" />
+                         {{ text_yes }}
+                       {% else %}
+                       <input type="radio" name="module_gdpr_store_policy_acceptance" value="1" />
+                         {{ text_yes }}
+                       {% endif %}
+                     </label>
+                     <label class="radio-inline">
+                       {% if not settings.module_gdpr_store_policy_acceptance %}
+                       <input type="radio" name="module_gdpr_store_policy_acceptance" value="0" checked="checked" />
+                       {{ text_no }}
+                       {% else %}
+                       <input type="radio" name="module_gdpr_store_policy_acceptance" value="0" />
+                       {{ text_no }}
+                       {% endif %}
+                     </label>
+                  </div>
+                </div>
+                <!-- GDPR Forms Privacy -->
+                <div class="form-group">
+                  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_forms_are_private }}">{{ entry_forms_are_private }}</span></label>
+                    <div class="col-sm-10">
+                      <label class="radio-inline">
+                        {% if settings.module_gdpr_forms_are_private %}
+                        <input type="radio" name="module_gdpr_forms_are_private" value="1" checked="checked" />
+                          {{ text_yes }}
+                        {% else %}
+                        <input type="radio" name="module_gdpr_forms_are_private" value="1" />
+                          {{ text_yes }}
+                        {% endif %}
+                      </label>
+                      <label class="radio-inline">
+                        {% if not settings.module_gdpr_forms_are_private %}
+                        <input type="radio" name="module_gdpr_forms_are_private" value="0" checked="checked" />
+                        {{ text_no }}
+                        {% else %}
+                        <input type="radio" name="module_gdpr_forms_are_private" value="0" />
+                        {{ text_no }}
+                        {% endif %}
+                      </label>
+                   </div>
+                 </div>
+            </div>
+            
+            {% for language in languages %}
+            <div class="tab-pane" id="language{{ language.language_id }}">
+              <!-- Location of other personal data -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_locations_of_other_data }}<span data-toggle="tooltip" title="{{ help_locations_of_other_data }}"></label>
+                <div class="col-sm-10">
+                  <textarea name="module_gdpr_locations_of_other_data[{{ language.language_id }}]" value="{{ settings.module_gdpr_locations_of_other_data[language.language_id]}}" placeholder="{{ entry_locations_of_other_data }}" id="input-locations-of-other-data{{ language.language_id }}" class="form-control">{{settings.module_gdpr_locations_of_other_data[language.language_id]}}</textarea>
+                  {% if error_locations_of_other_data is not empty %}
+                  <div class="text-danger">{{ error_locations_of_other_data }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Location(s) where your website and other customer data are hosted -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-name{{ language.language_id }}">{{ entry_locations_of_servers }}<span data-toggle="tooltip" title="{{ help_locations_of_servers }}"></label>
+                <div class="col-sm-10">
+                  <textarea name="module_gdpr_locations_of_servers[{{ language.language_id }}]" value="{{ settings.module_gdpr_locations_of_servers[language.language_id]}}" placeholder="{{ entry_locations_of_servers }}" id="input-locations-of-servers{{ language.language_id }}" class="form-control">{{settings.module_gdpr_locations_of_servers[language.language_id]}}</textarea>
+                  {% if error_locations_of_servers is not empty %}
+                  <div class="text-danger">{{ error_locations_of_servers }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Pending status -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-free-email-text{{ language.language_id }}">{{ entry_pending_status }}<span data-toggle="tooltip" title="{{ help_pending_status }}"></label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_pending_status[{{ language.language_id }}]" value="{{ settings.module_gdpr_pending_status[language.language_id]}}" placeholder="{{ entry_pending_status }}" id="input-pending-status{{ language.language_id }}" class="form-control" />
+                  {% if error_pending_status is not empty %}
+                  <div class="text-danger">{{ error_pending_status }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Confirmed status -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-free-email-text{{ language.language_id }}">{{ entry_confirmed_status }}<span data-toggle="tooltip" title="{{ help_confirmed_status }}"></label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_confirmed_status[{{ language.language_id }}]" value="{{ settings.module_gdpr_confirmed_status[language.language_id]}}" placeholder="{{ entry_confirmed_status }}" id="input-confirmed-status{{ language.language_id }}" class="form-control" />
+                  {% if error_confirmed_status is not empty %}
+                  <div class="text-danger">{{ error_confirmed_status }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Emailed status -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-free-email-text{{ language.language_id }}">{{ entry_emailed_status }}<span data-toggle="tooltip" title="{{ help_emailed_status }}"></label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_emailed_status[{{ language.language_id }}]" value="{{ settings.module_gdpr_emailed_status[language.language_id]}}" placeholder="{{ entry_emailed_status }}" id="input-emailed-status{{ language.language_id }}" class="form-control" />
+                  {% if error_emailed_status is not empty %}
+                  <div class="text-danger">{{ error_emailed_status }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- Account deleted status -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-free-account-deleted-text{{ language.language_id }}">{{ entry_account_deleted_status }}<span data-toggle="tooltip" title="{{ help_account_deleted_status }}"></label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_account_deleted_status[{{ language.language_id }}]" value="{{ settings.module_gdpr_account_deleted_status[language.language_id]}}" placeholder="{{ entry_account_deleted_status }}" id="input-account-deleted-status{{ language.language_id }}" class="form-control" />
+                  {% if error_account_deleted_status is not empty %}
+                  <div class="text-danger">{{ error_account_deleted_status }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- GDPR Report Email footer --->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-email-header{{ language.language_id }}">{{ entry_email_header }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_email_header[{{ language.language_id }}]" value="{{ settings.module_gdpr_email_header[language.language_id]}}" placeholder="{{ entry_email_header }}" id="input-email-header{{ language.language_id }}" class="form-control" />
+                  {% if error_email_header is not empty %}
+                  <div class="text-danger">{{ error_email_header }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <!-- GDPR Report Email header -->
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-email-footer{{ language.language_id }}">{{ entry_email_footer }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="module_gdpr_email_footer[{{ language.language_id }}]" value="{{ settings.module_gdpr_email_footer[language.language_id]}}" placeholder="{{ entry_email_footer }}" id="input-email-footer{{ language.language_id }}" class="form-control" />
+                  {% if error_email_footer is not empty %}
+                  <div class="text-danger">{{ error_email_footer }}</div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

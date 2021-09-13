@@ -1,0 +1,19 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Schvalování zákazníků';
+$_['text_success']                                = 'Úspěch: Úspěšně jste změnili schvalování zákazníků!';
+$_['text_list']                                   = 'Schvalování zákazníků - přehled';
+$_['text_default']                                = 'Default';
+$_['text_customer']                               = 'Zákazník';
+$_['text_affiliate']                              = 'Affiliate';
+$_['column_name']                                 = 'Jméno zákazníka';
+$_['column_email']                                = 'E-Mail';
+$_['column_customer_group']                       = 'Zákaznická skupina';
+$_['column_type']                                 = 'Typ';
+$_['column_date_added']                           = 'Datum přidání';
+$_['column_action']                               = 'Akce';
+$_['entry_name']                                  = 'Jméno zákazníka';
+$_['entry_email']                                 = 'E-Mail';
+$_['entry_customer_group']                        = 'Zákaznická skupina';
+$_['entry_type']                                  = 'Typ';
+$_['entry_date_added']                            = 'Datum přidání';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění upravovat schvalování zákazníků!';

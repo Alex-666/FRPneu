@@ -1,0 +1,23 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Změna překladů';
+$_['text_success']                                = 'Úspěch: Úspěšně jste upravili překlad!';
+$_['text_list']                                   = 'Seznam překladů';
+$_['text_edit']                                   = 'Upravit překlad';
+$_['text_add']                                    = 'Přidat překlad';
+$_['text_default']                                = 'Výchozí';
+$_['text_store']                                  = 'Obchod';
+$_['text_language']                               = 'Jazyk';
+$_['column_store']                                = 'Obchod';
+$_['column_language']                             = 'Jazyk';
+$_['column_route']                                = 'Cesta';
+$_['column_key']                                  = 'Klíč';
+$_['column_value']                                = 'Hodnota';
+$_['column_action']                               = 'Akce';
+$_['entry_store']                                 = 'Obchod';
+$_['entry_language']                              = 'Jazyk';
+$_['entry_route']                                 = 'Cesta';
+$_['entry_key']                                   = 'Klíč';
+$_['entry_default']                               = 'Default';
+$_['entry_value']                                 = 'Hodnota';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění pro změnu překladů!';
+$_['error_key']                                   = 'Varování: Klíč musí mít mezi 3 and 64 znaky!';

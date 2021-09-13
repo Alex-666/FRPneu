@@ -1,0 +1,24 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Sledování marketingové kampaně';
+$_['text_success']                                = 'Úspěch: Bylo upraveno sledování marketingové kampaně!';
+$_['text_list']                                   = 'Seznam sledování marketingové kampaně';
+$_['text_add']                                    = 'Přidat sledování marketingové kampaně';
+$_['text_edit']                                   = 'Upravit sledování marketingové kampaně';
+$_['text_filter']                                 = 'Filtr';
+$_['column_name']                                 = 'Název kampaně';
+$_['column_code']                                 = 'Kód';
+$_['column_clicks']                               = 'Počet kliknutí';
+$_['column_orders']                               = 'Objednávky';
+$_['column_date_added']                           = 'Datum přidání';
+$_['column_action']                               = 'Akce';
+$_['entry_name']                                  = 'Název kampaně';
+$_['entry_description']                           = 'Popis kampaně';
+$_['entry_code']                                  = 'Sledovací kód';
+$_['entry_example']                               = 'Příklady';
+$_['entry_date_added']                            = 'Datum přidání';
+$_['help_code']                                   = 'Sledovací kód bude použit ke sledování marketingové kampaně.';
+$_['help_example']                                = 'Aby mohl systém sledovat podřízené partnery partnerů (refferals) musíte přidat sledovací kód do URL odkazu na Vaši stránku.';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění upravovat sledování marketingové kampaně!';
+$_['error_name']                                  = 'Kampaň musí obsahovat 1 až 32 znaky!';
+$_['error_code']                                  = 'Požadován sledovací kód!';
+$_['error_exists']                                = 'Sledovací kód je používán pro jinou kampaň!';

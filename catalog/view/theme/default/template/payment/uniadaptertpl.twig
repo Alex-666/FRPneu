@@ -1,0 +1,34 @@
+{#
+// Autor (c) Miroslav Novak, www.platiti.cz
+// Pouzivani bez souhlasu autora neni povoleno
+// #Ver:#
+#}
+
+<form action="{{action|e}}" method="post" id="checkout_pti">
+
+{% if forexMessage %}
+<div class="content">
+{{forexMessage}}
+</div>
+{% endif %}
+
+{{minilogo}}
+
+{% if selectCsPayBrand %}
+<b style="margin-bottom: 2px; display: block;">{{selectCsPayBrandTitle}}</b>
+<div class="content">
+	<input type="radio" name="brand" value="VISA" checked> VISA</input><br/>
+	<input type="radio" name="brand" value="MasterCard"> MasterCard</input><br/>
+	<input type="radio" name="brand" value="VisaElectron"> VisaElectron</input><br/>
+	<input type="radio" name="brand" value="Maestro"> Maestro</input><br/>
+</div>
+{% endif %}
+
+<div class="buttons">
+
+	<div class="pull-right">
+		<input type="submit" value="{{ button_confirm }}" class="btn btn-primary" />
+	</div>
+
+</div>
+</form>

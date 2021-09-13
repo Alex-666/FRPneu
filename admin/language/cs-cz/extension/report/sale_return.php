@@ -1,0 +1,20 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Hlášení o reklamacích';
+$_['text_extension']                              = 'Rozšíření';
+$_['text_edit']                                   = 'Upravit';
+$_['text_success']                                = 'Úspěch: Upravili jste "Hlášení o reklamacích"!';
+$_['text_filter']                                 = 'Filtr';
+$_['text_year']                                   = 'Roky';
+$_['text_month']                                  = 'Měsíce';
+$_['text_week']                                   = 'Týdny';
+$_['text_day']                                    = 'Dny';
+$_['text_all_status']                             = 'Všechny stavy';
+$_['column_date_start']                           = 'Datum - od:';
+$_['column_date_end']                             = 'Datum - do:';
+$_['column_returns']                              = 'Počet reklamací';
+$_['entry_date_start']                            = 'Datum - od:';
+$_['entry_date_end']                              = 'Datum - do:';
+$_['entry_group']                                 = 'Tříděno podle';
+$_['entry_status']                                = 'Stav reklamace';
+$_['entry_sort_order']                            = 'Pořadí';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění pro změnu "Hlášení o reklamacích"!';

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0rc1 (09960d6, 2020-04-09)"
+   height="201.10001"
+   width="350"
+   sodipodi:docname="magicscroll.svg"
+   xml:space="preserve"
+   viewBox="0 0 350 201.10001"
+   y="0px"
+   x="0px"
+   id="Слой_1"
+   version="1.1"><metadata
+   id="metadata416"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+   id="defs414" /><sodipodi:namedview
+   inkscape:current-layer="Слой_1"
+   inkscape:window-maximized="0"
+   inkscape:window-y="26"
+   inkscape:window-x="0"
+   inkscape:cy="155.27577"
+   inkscape:cx="61.296163"
+   inkscape:zoom="1.2795888"
+   showgrid="false"
+   id="namedview412"
+   inkscape:window-height="1094"
+   inkscape:window-width="1792"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0"
+   guidetolerance="10"
+   gridtolerance="10"
+   objecttolerance="10"
+   borderopacity="1"
+   bordercolor="#666666"
+   pagecolor="#ffffff" />
+<style
+   id="style388"
+   type="text/css">
+	.st0{clip-path:url(#SVGID_2_);}
+	.st1{fill:#77B70A;}
+	.st2{enable-background:new    ;}
+	.st3{fill:#FFFFFF;}
+	.st4{opacity:0.2;fill:#77B70A;enable-background:new    ;}
+	.st5{opacity:0.5;fill:#77B70A;enable-background:new    ;}
+</style>
+<g
+   transform="translate(-25.001,-100)"
+   id="g409">
+	<defs
+   id="defs391">
+		<rect
+   y="0"
+   x="0"
+   height="400"
+   width="400"
+   id="SVGID_1_" />
+	</defs>
+	<clipPath
+   id="SVGID_2_">
+		<use
+   height="100%"
+   width="100%"
+   y="0"
+   x="0"
+   id="use393"
+   style="overflow:visible"
+   xlink:href="#SVGID_1_" />
+	</clipPath>
+	<g
+   clip-path="url(#SVGID_2_)"
+   class="st0"
+   id="a">
+		<g
+   id="g406"
+   transform="translate(-165.999,-1721)">
+			<path
+   inkscape:connector-curvature="0"
+   id="path396"
+   d="m 277.6,1821 h 176.9 c 6.4,0 11.6,5.2 11.6,11.6 0,0 0,0 0,0 v 176.9 c 0,6.4 -5.2,11.6 -11.6,11.6 0,0 0,0 0,0 H 277.6 c -6.4,0 -11.6,-5.2 -11.6,-11.6 0,0 0,0 0,0 v -176.9 c 0,-6.4 5.2,-11.6 11.6,-11.6 z"
+   class="st1" />
+			<g
+   id="g400"
+   class="st2">
+				<path
+   inkscape:connector-curvature="0"
+   id="path398"
+   d="m 386.7,1899.1 c -0.4,0.8 -0.9,1.3 -1.4,1.7 -0.5,0.3 -1.1,0.5 -1.9,0.5 -0.7,0 -1.5,-0.3 -2.4,-0.8 -0.9,-0.6 -2,-1.2 -3.2,-1.9 -1.2,-0.7 -2.7,-1.3 -4.3,-1.9 -1.6,-0.6 -3.6,-0.8 -5.8,-0.8 -2,0 -3.8,0.2 -5.3,0.7 -1.5,0.5 -2.8,1.2 -3.8,2 -1,0.9 -1.8,1.9 -2.3,3.1 -0.5,1.2 -0.8,2.5 -0.8,4 0,1.8 0.5,3.4 1.5,4.6 1,1.2 2.4,2.3 4.1,3.1 1.7,0.9 3.6,1.6 5.8,2.3 2.2,0.7 4.4,1.4 6.6,2.2 2.2,0.8 4.5,1.7 6.6,2.7 2.2,1 4.1,2.3 5.8,3.9 1.7,1.6 3.1,3.5 4.1,5.8 1,2.3 1.5,5 1.5,8.3 0,3.5 -0.6,6.8 -1.8,9.9 -1.2,3.1 -3,5.8 -5.3,8 -2.3,2.3 -5.2,4.1 -8.5,5.4 -3.3,1.3 -7.2,2 -11.5,2 -2.5,0 -4.9,-0.2 -7.3,-0.7 -2.4,-0.5 -4.7,-1.2 -6.9,-2.1 -2.2,-0.9 -4.3,-2 -6.2,-3.2 -1.9,-1.3 -3.6,-2.7 -5.2,-4.2 l 4.2,-7 c 0.4,-0.5 0.9,-0.9 1.4,-1.3 0.6,-0.3 1.2,-0.5 1.9,-0.5 0.9,0 1.9,0.4 2.9,1.1 1,0.7 2.3,1.6 3.7,2.5 1.4,0.9 3.1,1.7 5,2.5 1.9,0.7 4.2,1.1 6.9,1.1 4.1,0 7.3,-1 9.6,-2.9 2.3,-2 3.4,-4.8 3.4,-8.5 0,-2.1 -0.5,-3.7 -1.5,-5 -1,-1.3 -2.4,-2.4 -4.1,-3.3 -1.7,-0.9 -3.6,-1.6 -5.8,-2.2 -2.2,-0.6 -4.4,-1.3 -6.6,-2 -2.2,-0.7 -4.4,-1.6 -6.6,-2.6 -2.2,-1 -4.1,-2.3 -5.8,-3.9 -1.7,-1.6 -3.1,-3.6 -4.1,-6.1 -1,-2.4 -1.5,-5.4 -1.5,-9 0,-2.8 0.6,-5.6 1.7,-8.3 1.1,-2.7 2.8,-5.1 5,-7.2 2.2,-2.1 4.9,-3.8 8,-5 3.2,-1.3 6.8,-1.9 10.9,-1.9 4.6,0 8.9,0.7 12.7,2.2 3.9,1.4 7.2,3.5 9.9,6 z"
+   class="st3" />
+			</g>
+			<path
+   inkscape:connector-curvature="0"
+   id="path402"
+   d="m 191,1822.1 h 45 c 5.5,0 10,4.5 10,10 v 180 c 0,5.5 -4.5,10 -10,10 h -45 v 0 z"
+   class="st4" />
+			<path
+   inkscape:connector-curvature="0"
+   id="path404"
+   d="m 496,1821 h 45 v 0 200 0 h -45 c -5.5,0 -10,-4.5 -10,-10 v -180 c 0,-5.5 4.5,-10 10,-10 z"
+   class="st5" />
+		</g>
+	</g>
+</g>
+</svg>

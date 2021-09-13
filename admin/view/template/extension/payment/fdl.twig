@@ -1,0 +1,169 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" form="form-fdl" data-toggle="tooltip" title="{{ text_button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ text_button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{ text_heading_title }}</h1>
+            <ul class="breadcrumb">
+                <?php foreach ($breadcrumbs as $breadcrumb) { ?>
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-fdl" class="form-horizontal">
+
+
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="fdl_config_server">{{ text_fdl_config_server }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_config_server" id="fdl_config_server" value="{{ fdl_config_server }}" placeholder="" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="fdl_config_cert">{{ text_fdl_config_cert }}</label>
+                        <div class="col-sm-10">
+                            <textarea name="payment_fdl_config_cert" id="fdl_config_cert" cols="100" rows="8">{{ fdl_config_cert }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="fdl_config_certpass">{{ text_fdl_config_certpass }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_config_certpass" id="fdl_config_certpass" value="{{ fdl_config_certpass }}" placeholder="" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="fdl_sort_order">{{ text_fdl_sort_order }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_sort_order" id="fdl_sort_order" value="{{ fdl_sort_order }}" placeholder="{{ text_fdl_sort_order }}" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="fdl_total">{{ text_fdl_total }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_total" id="fdl_total" value="{{ fdl_total }}" placeholder="0" class="form-control"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-status">{{ text_fdl_status }}</label>
+                        <div class="col-sm-10">
+                            <select name="payment_fdl_status" id="input-status" class="form-control">
+                                {% if fdl_status %}
+                                <option value="1" selected="selected">{{ text_enabled }}</option>
+                                <option value="0">{{ text_disabled }}</option>
+                                {% else %}
+                                <option value="1">{{ text_enabled }}</option>
+                                <option value="0" selected="selected">{{ text_disabled }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-order-status">{{ text_fdl_order_status_id }}</label>
+                        <div class="col-sm-10">
+                            <select name="payment_fdl_order_status_id" id="input-order-status" class="form-control">
+                                {% for order_status in order_statuses %}
+                                {% if order_status.order_status_id == fdl_order_status_id %}
+                                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                {% else %}
+                                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-refund-status">{{ text_fdl_refund_status_id }}</label>
+                        <div class="col-sm-10">
+                            <select name="payment_fdl_refund_status_id" id="input-refund-status" class="form-control">
+                                {% for order_status in order_statuses %}
+                                {% if order_status.order_status_id == fdl_refund_status_id %}
+                                <option value="{{ order_status.order_status_id }}" selected="selected">{{ order_status.name }}</option>
+                                {% else %}
+                                <option value="{{ order_status.order_status_id }}">{{ order_status.name }}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group disabled">
+                        <label class="col-sm-2 control-label" for="fdl_confirmation_url">{{ text_confirmation_url }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_confirmation_url" id="fdl_confirmation_url" value="{{ confirmation_url }}" placeholder="" class="form-control" readonly="true" />
+                        </div>
+                    </div>
+
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="fdl_closeday_token">{{ text_fdl_closeday_token }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_closeday_token" id="fdl_closeday_token" value="{{ fdl_closeday_token }}" placeholder="" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group disabled">
+                        <label class="col-sm-2 control-label" for="fdl_closing_url">{{ text_closing_url }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="payment_fdl_closing_url" id="fdl_closing_url" value="{{ closing_url }}" placeholder="" class="form-control" readonly="true" style="width:80%;float:left;margin-right:6px" />
+                            <a href="{{ closing_url }}&return=back" title="{{ text_closeday }}" class="btn btn-primary">{{ text_closeday }}</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_issue_refund }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ refund }}" method="post" enctype="multipart/form-data" id="form-fdl" class="form-horizontal">
+
+                    <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="order_id">{{ text_fdl_order_id }}</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="order_id" id="order_id" value="" placeholder="" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="order_id"></label>
+                        <div class="col-sm-10">
+                            <input type="submit" name="issue_refund" value="{{ text_issue_refund }}" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{{ footer }}

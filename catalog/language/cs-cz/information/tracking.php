@@ -1,0 +1,1 @@
+<?php //Copyright: opencart.cz

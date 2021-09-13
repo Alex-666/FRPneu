@@ -1,0 +1,151 @@
+<div class="row">
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-bar-chart"></i> {{ text_list }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label" for="input-date-start">{{ entry_date_start }}</label>
+                <div class="input-group date">
+                  <input type="text" name="filter_date_start" value="{{ filter_date_start }}" placeholder="{{ entry_date_start }}" data-date-format="YYYY-MM-DD" id="input-date-start" class="form-control" />
+                  <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                  </span></div>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-date-end">{{ entry_date_end }}</label>
+                <div class="input-group date">
+                  <input type="text" name="filter_date_end" value="{{ filter_date_end }}" placeholder="{{ entry_date_end }}" data-date-format="YYYY-MM-DD" id="input-date-end" class="form-control" />
+                  <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                  </span></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label" for="input-customer">{{ entry_customer_email }}</label>
+                <input type="text" name="filter_customer_email" value="{{ filter_customer_email }}" placeholder="{{ entry_customer_email }}" id="input-customer-email" class="form-control" />
+              </div>
+              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> {{ button_filter }}</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Policy Preview Modal -->
+        <div class="modal fade" id="policyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="policyModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="policyModalBody">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ text_close }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <td class="text-left">{{ column_policy_acceptance_id }}</td>
+                <td class="text-left">{{ column_email }}</td>
+                <td class="text-left">{{ column_policy_id}}</td>
+                <td class="text-left">{{ column_policy_name }}</td>
+                <td class="text-left">{{ column_policy_content }}</td>
+                <td class="text-left">{{ column_date_accepted }}</td>
+                <td class="text-left">{{ column_view }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% if gdpr_policy_records is not empty %}
+                {% for key,policy in gdpr_policy_records %}
+                  <tr>
+                    <td class="text-left">{{ policy.policy_acceptance_id }}</td>
+                    <td class="text-left">{{ policy.customer_email }}</td>
+                    <td class="text-left">{{ policy.policy_id }}</td>
+                    <td id="policy-name-{{ policy.policy_acceptance_id }}" class="text-left">{{ policy.policy_name }}</td>
+                    <td class="text-left">{{ policy.policy_content }}</td>
+                    <td class="text-left">{{ policy.date_accepted }}</td>
+                    <td class="text-left">
+                      <button id="view-policy-{{ policy.policy_acceptance_id }}" type="button" class="btn btn-sm btn-primary pull-right button-view" data-toggle="modal" data-target="#policyModal">
+                        View
+                      </button>
+                    </td>
+                    <td id="policy-full-{{ policy.policy_acceptance_id }}" style="display:none;">{{ policy.policy_full }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+              <tr>
+                <td class="text-center" colspan="8">{{ text_no_results }}</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	url = '';
+
+	var filter_customer_email = $('input[name=\'filter_customer_email\'').val();
+
+	if (filter_customer_email) {
+		url += '&filter_customer_email=' + encodeURIComponent(filter_customer_email);
+	}
+
+	var filter_date_start = $('input[name=\'filter_date_start\'').val();
+
+	if (filter_date_start) {
+		url += '&filter_date_start=' + encodeURIComponent(filter_date_start);
+	}
+
+	var filter_date_end = $('input[name=\'filter_date_end\'').val();
+
+	if (filter_date_end) {
+		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+	}
+
+	location = 'index.php?route=report/report&user_token={{ user_token }}&code=customer_gdpr_policy' + url;
+});
+
+$('.button-download').on('click', function(event) {
+  id = event.target.id;
+  policy_acceptance_id = id.substr(id.lastIndexOf('-') + 1);
+  url = 'index.php?route=report/report&user_token={{ user_token }}&code=customer_gdpr_policy/generateCsv&policy_acceptance_id=' + policy_acceptance_id;
+  location = url;
+});
+
+$('.button-view').on('click', function(event) {
+  id = event.target.id;
+  policy_acceptance_id = id.substr(id.lastIndexOf('-') + 1);
+  policy_name = $('#policy-name-' + policy_acceptance_id).text();
+  policy_content = $('#policy-full-' + policy_acceptance_id).text();
+  $('#policyModalLabel').html(policy_name);
+  $('#policyModalBody').html(policy_content);
+});
+
+//--></script>
+  <script type="text/javascript"><!--
+$('.date').datetimepicker({
+	pickTime: false
+});
+//--></script></div>
+{{ footer }}

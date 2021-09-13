@@ -1,0 +1,118 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+
+<!-- quicksave -->
+	  {% if pidqs %}
+	  <button id="qsave" style="margin: 0 10px;" data-toggle="tooltip" title="Quick Save" class="btn btn-warning"><i class="fa fa-save"></i></button>
+	  {% endif %}
+<!-- quicksave end -->
+			
+        <button type="submit" form="form-manufacturer" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid"> {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-manufacturer" class="form-horizontal">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+            <li><a href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
+                  {% if error_name %}
+                  <div class="text-danger">{{ error_name }}</div>
+                  {% endif %}</div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ entry_store }}</label>
+                <div class="col-sm-10">
+                  <div class="well well-sm" style="height: 150px; overflow: auto;"> {% for store in stores %}
+                    <div class="checkbox">
+                      <label>{% if store.store_id in manufacturer_store %}
+                        <input type="checkbox" name="manufacturer_store[]" value="{{ store.store_id }}" checked="checked" />
+                        {{ store.name }}
+                        {% else %}
+                        <input type="checkbox" name="manufacturer_store[]" value="{{ store.store_id }}" />
+                        {{ store.name }}
+                        {% endif %}</label>
+                    </div>
+                    {% endfor %}</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-image">{{ entry_image }}</label>
+                <div class="col-sm-10"><a href="" id="thumb-image" data-toggle="filemanager" class="img-thumbnail"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" width="100" height="100" /></a>
+                  <input type="hidden" name="image" value="{{ image }}" id="input-image" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-sort-order">{{ entry_sort_order }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="sort_order" value="{{ sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-seo">
+              <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_keyword }}</div>
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left">{{ entry_store }}</td>
+                      <td class="text-left">{{ entry_keyword }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for store in stores %}
+                  <tr>
+                    <td class="text-left">{{ store.name }}</td>
+                    <td class="text-left">{% for language in languages %}
+                      <div class="input-group"><span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                        <input type="text" name="manufacturer_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if manufacturer_seo_url[store.store_id][language.language_id] %}{{ manufacturer_seo_url[store.store_id][language.language_id] }}{% endif %}" placeholder="{{ entry_keyword }}" class="form-control" />
+                      </div>
+                      {% if error_keyword[store.store_id][language.language_id] %}
+                      <div class="text-danger">{{ error_keyword[store.store_id][language.language_id] }}</div>
+                      {% endif %} 
+                      {% endfor %}</td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript"><!--
+//quicksave
+$("#qsave").on("click",function(){for(var e=$(".note-editor").length,r=0;e>r;r++){var t=$(".note-editor").eq(r).parent().children("textarea").attr("id");if("function"==typeof $().code)var a=$("#"+t).code();else a=$("#"+t).summernote("code");$("#"+t).html(a)}$.ajax({type:"post",data:$("form").serialize(),url:"index.php?route=catalog/manufacturer/qsave&user_token={{ user_token }}&manufacturer_id={{ pidqs }}",dataType:"json",beforeSend:function(){$("#qsave").prop("disabled",!0)},complete:function(){$("#qsave").prop("disabled",!1)},success:function(e){if($(".alert").remove(),$(".text-danger").remove(),$("div").removeClass("has-error"),e.error){if(html='<div class="alert alert-danger">',html+=" "+e.error.warning+' <button type="button" class="close" data-dismiss="alert">&times;</button></br>',e.error.name&&($("#input-name").after('<div class="text-danger">'+e.error.name+"</div>"),$("#input-name").parent().addClass("has-error"),html+='</br><i class="fa fa-exclamation-circle"></i> '+e.error.name),e.error.keyword){var t="";for(s in e.error.keyword)for(r in e.error.keyword[s]){var a=$('[name="manufacturer_seo_url['+s+"]["+r+']"]');$(a).parent().after('<div class="text-danger">'+e.error.keyword[s][r]+"</div>"),$(a).parent(".input-group").addClass("has-error"),t='</br><i class="fa fa-exclamation-circle"></i> '+e.error.keyword[s][r],html+=t}}html+=" </div>",$("#content > .container-fluid").prepend(html)}e.success&&$("#content > .container-fluid").prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> '+e.success+'  <button type="button" class="close" data-dismiss="alert">&times;</button></div>')},error:function(e,r,t){alert(t+"\r\n"+e.statusText+"\r\n"+e.responseText)}})});
+//quicksave end
+//--></script>
+			
+{{ footer }}

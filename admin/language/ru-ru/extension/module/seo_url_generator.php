@@ -1,0 +1,25 @@
+<?php
+$_['page_title'] = 'SEO URL генератор';
+$_['heading_title'] = 'SEO URL генератор';
+$_['text_success'] = 'Успешно! Настройки модуля SEO URL генератор обновлены!';
+$_['text_module'] = 'Модули';
+$_['text_extension'] = 'Модули';
+$_['back'] = 'Назад';
+$_['warning_clear_categories'] = 'Внимание! Если выбрано /~ Перезаписать все ~/ будут перезаписаны SEO URL всех категорий магазина!';
+$_['warning_clear_products'] = 'Внимание! Если выбрано /~ Перезаписать все ~/  будут перезаписаны SEO URL всех товаров магазина!';
+$_['warning_clear_manufacturers'] = 'Внимание! Если выбрано /~ Перезаписать все ~/  будут перезаписаны SEO URL всех производителей магазина!';
+$_['main_settings'] = 'Настройки модуля SEO URL генератор';
+$_['categories'] = 'Категории';
+$_['products'] = 'Товары';
+$_['generate'] = 'Генерировать';
+$_['error_permission'] = 'Внимание: У вас нет доступа для управления модулем SEO URL генератор!';
+$_['manufacturers'] = 'Производители';
+$_['template'] = 'Шаблон';
+$_['available_category_tags'] = 'Шаблоны: [category_name], [category_id]';
+$_['available_product_tags'] = 'Шаблоны: [product_name], [model_name], [product_id]';
+$_['available_manufacturer_tags'] = 'Шаблоны: [manufacturer_name], [manufacturer_id]';
+$_['source_language'] = 'Базовый язык';
+$_['overwrite'] = 'Какие URL генерировать?';
+$_['overwrite_all'] = 'Перезаписать все';
+$_['dont_overwrite'] = 'Только те где нет значения';
+$_['help_tab'] = 'Дополнения';

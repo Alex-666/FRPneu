@@ -1,0 +1,65 @@
+[
+    {
+        "name": "isenselabs/httpclient",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "git@bitbucket.org:isenselabs/httpclient.git",
+            "reference": "9e4fb477e77e8254966cb50bdfce6a9a1044f8b2"
+        },
+        "require": {
+            "isenselabs/url": "dev-master"
+        },
+        "time": "2019-06-18T11:50:38+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "NitroPack\\": "src/"
+            }
+        },
+        "authors": [
+            {
+                "name": "Ivailo Hristov"
+            }
+        ],
+        "description": "HttpClient library written in PHP, without relying on cURL nor url_fopen",
+        "keywords": [
+            "client",
+            "http",
+            "library",
+            "php"
+        ]
+    },
+    {
+        "name": "isenselabs/url",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "git@bitbucket.org:isenselabs/url.git",
+            "reference": "1f82e575c313835fcfa9951da724ad319a526b2e"
+        },
+        "time": "2019-04-11T14:08:20+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "NitroPack\\": "src/"
+            }
+        },
+        "authors": [
+            {
+                "name": "Ivailo Hristov"
+            }
+        ],
+        "description": "URL manipulation library",
+        "keywords": [
+            "library",
+            "manipulation",
+            "php",
+            "url"
+        ]
+    }
+]

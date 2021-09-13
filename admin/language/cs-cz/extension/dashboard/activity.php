@@ -1,0 +1,25 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Poslední aktivita';
+$_['text_extension']                              = 'Rozšíření';
+$_['text_success']                                = 'Úspěch: Úspěšně jste upravili "poslední aktivity"!';
+$_['text_edit']                                   = 'Upravit "poslední aktivity"';
+$_['text_activity_register']                      = '%s registrací.';
+$_['text_activity_edit']                          = '%s změn detailů účtu.';
+$_['text_activity_password']                      = '%s změn hesel.';
+$_['text_activity_reset']                         = '%s restartovaných hesel.';
+$_['text_activity_login']                         = '%s přihlášeno.';
+$_['text_activity_forgotten']                     = '%s zažádalo o reset hesla.';
+$_['text_activity_address_add']                   = '%s přidaných nových adres.';
+$_['text_activity_address_edit']                  = '%s upravilo adresu.';
+$_['text_activity_address_delete']                = '%s smazalo adresu.';
+$_['text_activity_return_account']                = '%s zažádalo o vrácení zboží.';
+$_['text_activity_return_guest']                  = '%s zažádalo o vrácení zboží.';
+$_['text_activity_order_account']                 = '%s odeslalo novou objednávku.';
+$_['text_activity_order_guest']                   = '%s vytvořilo novou objednávku.';
+$_['text_activity_affiliate_add']                 = '%s zaregistrováno jako affiliate účet.';
+$_['text_activity_affiliate_edit']                = '%s upravilo jejich affiliate detaily.';
+$_['text_activity_transaction']                   = '%s obdrželi provizi z nové objednávky.';
+$_['entry_status']                                = 'Stav';
+$_['entry_sort_order']                            = 'Pořadí';
+$_['entry_width']                                 = 'Šířka';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění editovat "Poslední aktivity"!';

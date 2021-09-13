@@ -1,0 +1,16 @@
+<div id="nitropack-cart-placeholder"></div>
+<script nitro-exclude type="text/javascript">
+(_ => {
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", '{cart_url}', true);
+
+    xhr.addEventListener('load', function(e) {
+        var newContent = document.createElement('div');
+        newContent.innerHTML = this.responseText;
+        document.getElementById('nitropack-cart-placeholder').replaceWith(newContent.firstChild);
+    });
+
+    xhr.send(); 
+})();
+</script>

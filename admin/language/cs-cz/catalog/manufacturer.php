@@ -1,0 +1,24 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Výrobci';
+$_['text_success']                                = 'Úspěch: Byli upraveni výrobci!';
+$_['text_list']                                   = 'Seznam výrobců';
+$_['text_add']                                    = 'Přidat výrobce';
+$_['text_edit']                                   = 'Upravit výrobce';
+$_['text_default']                                = 'Výchozí';
+$_['text_percent']                                = 'Procentuálně';
+$_['text_amount']                                 = 'Pevná hodnota';
+$_['text_keyword']                                = 'Nepoužívejte mezery, místo toho nahraďte mezery za "-" a ujistěte se, že adresa SEO URL je jedinečná.';
+$_['column_name']                                 = 'Název výrobce';
+$_['column_sort_order']                           = 'Pořadí';
+$_['column_action']                               = 'Akce';
+$_['entry_name']                                  = 'Název výrobce';
+$_['entry_store']                                 = 'Obchody';
+$_['entry_keyword']                               = 'Klíčová slova SEO';
+$_['entry_image']                                 = 'Obrázek';
+$_['entry_sort_order']                            = 'Pořadí';
+$_['entry_type']                                  = 'Typ';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění upravovat Výrobce!';
+$_['error_name']                                  = 'Název výrobce musí obsahovat 2 až 64 znaky!';
+$_['error_keyword']                               = 'SEO URL adresa je již obsazena!';
+$_['error_unique']                                = 'SEO URL musí být unikátní!';
+$_['error_product']                               = 'Varování: Tento výrobce nemůže být vymazán, protože je přiřazen k %s produktům!';

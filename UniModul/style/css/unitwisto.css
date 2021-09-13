@@ -1,0 +1,203 @@
+div.twisto__modal--overlay {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+#twisto__wrapper {
+  display: block !important;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  overflow-y: auto;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #6d6d6d;
+}
+
+#twisto__wrapper .twisto__main--container {
+  font-family: Helvetica, Arial, 'sans-serif';
+  position: relative;
+  z-index: 9999;
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  margin: 0 auto;
+  -webkit-transition: opacity .4s, -webkit-transform .4s;
+  transition: opacity .4s, -webkit-transform .4s;
+  transition: transform .4s, opacity .4s;
+  transition: transform .4s, opacity .4s, -webkit-transform .4s;
+  border: 0 none;
+  border-radius: 6px;
+  background: #ffffff;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased;
+  -webkit-box-shadow: 0 15px 20px rgba(40, 9, 104, 0.1);
+  box-shadow: 0 15px 20px rgba(40, 9, 104, 0.1);
+  border-bottom-right-radius: 8%;
+  text-decoration: none;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+#twisto__wrapper .twisto__main--container h2 {
+  color: #4f008c;
+  font-size: 19px;
+  text-align: center;
+  line-height: 26px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+#twisto__wrapper .twisto__button {
+  cursor: pointer;
+  width: 240px;
+  height: 60px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 22px;
+  margin-bottom: 22px;
+  background-color: #5ad16a;
+  border: none;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 60px;
+  -webkit-transition: 0.1s all;
+  transition: 0.1s all;
+}
+
+#twisto__wrapper .twisto__button:hover {
+  -webkit-transition: .1s background-color;
+  transition: .1s background-color;
+  background-color: #36c249;
+  cursor: pointer;
+  color: #fff;
+}
+
+#twisto__wrapper .twisto__button:focus {
+  outline: 0 none;
+}
+
+#twisto__wrapper .twisto__logo {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+#twisto__wrapper .twisto__popover--trigger {
+  text-decoration: underline;
+  display: none;
+}
+
+#twisto__wrapper .twisto__modal {
+  display: block;
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  height: 100%;
+  background: #f7f7f8;
+  width: 310px;
+}
+
+#twisto__wrapper .twisto__terms {
+  font-size: 14px;
+}
+
+#twisto__wrapper .twisto__terms--link {
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#twisto__wrapper .twisto__link {
+  color: #4f008c;
+  text-align: center;
+  display: block;
+  font-size: 15px;
+}
+
+#twisto__wrapper .twisto__error--alert {
+  color: #f00;
+  font-size: 13px;
+  padding-top: 5px;
+}
+
+#twisto__wrapper .twisto--spinner {
+  width: 40px;
+  height: 40px;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  margin: 0 auto;
+}
+
+#twisto__wrapper .twisto--spinner .inner {
+  stroke-dasharray: 46;
+  stroke-dashoffset: 46;
+  -webkit-animation: dash 2s linear infinite;
+  animation: dash 2s linear infinite;
+}
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 46;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -46;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 46;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -46;
+  }
+}
+
+#twisto__wrapper .twisto--bottom {
+  position: relative;
+}
+
+#twisto__wrapper .twisto--overlay {
+  color: #4f008c;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background: #ffffff;
+  height: 60px;
+  display: none;
+  text-align: center;
+  font-size: 14px;
+}

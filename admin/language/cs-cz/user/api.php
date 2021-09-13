@@ -1,0 +1,22 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'API';
+$_['text_success']                                = 'Úspěch: Bylo upraveno API!';
+$_['text_list']                                   = 'Seznam API';
+$_['text_add']                                    = 'Přidat API';
+$_['text_edit']                                   = 'Upravit API';
+$_['text_ip']                                     = 'Níže můžete vytvořit seznam IP adres, které mají povolení přistupovat k API. Vaše současná IP je %s';
+$_['column_username']                             = 'API jméno';
+$_['column_status']                               = 'Stav';
+$_['column_token']                                = 'Šifrovací klíč';
+$_['column_ip']                                   = 'IP adresa';
+$_['column_date_added']                           = 'Datum přidání';
+$_['column_date_modified']                        = 'Datum úpravy';
+$_['column_action']                               = 'Akce';
+$_['entry_username']                              = 'API jméno';
+$_['entry_key']                                   = 'API klíč';
+$_['entry_status']                                = 'Stav';
+$_['entry_ip']                                    = 'IP adresa';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění upravovat API!';
+$_['error_username']                              = 'API jméno musí mít mezi 3-20 znaky!';
+$_['error_key']                                   = 'API klíč musí mít mezi 64 a 256 znaky!';
+$_['error_ip']                                    = 'Musíte do seznamu přidat nejméně jednu IP adresu!';

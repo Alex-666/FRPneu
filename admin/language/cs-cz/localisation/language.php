@@ -1,0 +1,26 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Jazyky';
+$_['text_success']                                = 'Úspěch: Jazyky byly upraveny!';
+$_['text_list']                                   = 'Seznam jazyků';
+$_['text_add']                                    = 'Přidat jazyk';
+$_['text_edit']                                   = 'Upravit jazyk';
+$_['column_name']                                 = 'Název jazyka';
+$_['column_code']                                 = 'Kód';
+$_['column_sort_order']                           = 'Pořadí';
+$_['column_action']                               = 'Akce';
+$_['entry_name']                                  = 'Název jazyka';
+$_['entry_code']                                  = 'Kód';
+$_['entry_locale']                                = 'Umístění';
+$_['entry_status']                                = 'Stav';
+$_['entry_sort_order']                            = 'Pořadí';
+$_['help_locale']                                 = 'Příklad: en_US.UTF-8,en_US,en-gb,en_gb,english';
+$_['help_status']                                 = 'Zobrazit / Skrýt jazyk v dropdown menu';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění upravovat jazyky!';
+$_['error_exists']                                = 'Varování: Chyba překladu!';
+$_['error_name']                                  = 'Název jazyka musí obsahovat 3 až 32 znaky!';
+$_['error_code']                                  = 'Kód jazyka musí mít nejméně dva znaky!';
+$_['error_locale']                                = 'Požadováno umístění!';
+$_['error_default']                               = 'Varování: Tento jazyk nemůže být vymazán, protože je přiřazen v obchodě jako výchozí!';
+$_['error_admin']                                 = 'Varování: Tento jazyk nemůže být vymazán, protože je přiřazen jako administrativní jazyk!';
+$_['error_store']                                 = 'Varování: Tento jazyk nemůže být vymazán, protože je přiřazen k %s obchodům!';
+$_['error_order']                                 = 'Varování: Tento jazyk nemůže být vymazán, protože je přiřazen k %s objednávkám!';

@@ -1,0 +1,173 @@
+
+/* NOTE: contaner with main image and selector's container */
+div.MagicToolboxContainer {
+    text-align: center;
+}
+
+/*
+div.MagicToolboxContainer.minWidth {
+    min-width: 250px;
+}
+*/
+
+
+
+/* NOTE: contaner with message under Magic Slideshow */
+div.MagicToolboxMessage {
+    text-align: center;
+}
+
+/* NOTE: magicscroll makes the image smaller if there is a margin */
+/*
+.MagicScrollItem a {
+    margin: 0 !important;
+}
+*/
+
+
+div.MagicToolboxContainer.selectorsLeft,
+div.MagicToolboxContainer.selectorsRight {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+    min-height: 300px;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+    flex-grow: 1;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+    /*font-size:0px;*/
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer a,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer a {
+    margin:0 0 10px 0;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer {
+
+}
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer {
+    width: auto;
+    padding-left: 10px;
+}
+div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+    width: auto;
+    padding-right: 10px;
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+@media only screen and (min-width: 768px) {
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
+        height: 100%;
+        flex:1;
+    }
+}
+
+div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll a,
+div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll a {
+    margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+
+
+    div.MagicToolboxContainer.selectorsLeft,
+    div.MagicToolboxContainer.selectorsRight {
+        flex-direction: column;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer {
+        order:2;
+        width: 100% !important;
+        margin-bottom:10px;
+        min-height: 0px;
+        flex:auto;
+        flex-basis: auto !important;
+        display: block !important;
+    }
+    
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer a,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer a {
+        margin:10px 5px;
+    }
+
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxMainContainer,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxMainContainer {
+        order:1;
+        padding:0px;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer:after,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer:after {
+        content: none;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
+        height: auto;
+    }
+    div.MagicToolboxContainer.selectorsLeft .MagicToolboxSelectorsContainer .MagicScroll,
+    div.MagicToolboxContainer.selectorsRight .MagicToolboxSelectorsContainer .MagicScroll {
+        margin: 10px 0 0 0;
+    }
+}
+#latest_home {
+    margin: 0px auto;
+}
+#bestseller_home {
+    margin: 0px auto;
+}
+#special_home {
+    margin: 0px auto;
+}
+#featured_home {
+    margin: 0px auto;
+}
+
+.MagicSlideshow { margin: 0 auto !important; }
+div.MagicSlideshowWrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.product-info .right div.options, .product-info .right .description, .product-info .right .htabs,  .product-info .right .price, .product-info .right .cart, .product-info .right .review{ 
+    overflow:auto; 
+}
+.product-info .right .htabs {
+    overflow-y:hidden;
+}
+.MagicToolboxContainer {  max-width:none !important; }
+
+
+#qt-similar-product { display: none !important; }
+
+.magictoolboxVideoContainer .media_embed {
+    padding:0 !important;
+    height:100%;
+    width:100%;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+div.MagicToolboxSelectorsContainer a {
+    vertical-align: middle;
+}

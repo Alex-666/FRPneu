@@ -1,0 +1,72 @@
+{{ header }}
+<div id="container" class="container j-container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+<div class="row">{{ column_left }}{{ column_right }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1 class="heading-title">{{ heading_title }}</h1>
+
+      <h2 class="secondary-title">{{ text_right_to_data_rectification }}</h2>
+      <div class="content my-account">
+        <p>{{ text_data_rectification_help }}</p>
+        <ul>
+          <li><a href="{{ edit_account }}" id="edit-account">{{ text_edit_account }}</a></li>
+          <li><a href="{{ edit_address }}" id="edit-address">{{ text_edit_address }}</a></li>
+          <li><a href="{{ edit_password }}" id="edit-password">{{ text_edit_password }}</a></li>
+          <li><a href="{{ edit_newsletter }}" id="edit-newsletter">{{ text_edit_newsletter }}</a></li>
+        <ul>
+      </div>
+      <h2 class="secondary-title">{{ text_right_to_data_portability }}</h2>
+      <div class="content my-account">
+        <p>{{ text_data_portablity_help }}</p>
+
+        <ul>
+          <li><a href="{{ download_account_data }}" id=download-account>{{ text_download_account_data }}</a></li>
+          <li><a href="{{ download_address_data }}" id=download-addresses>{{ text_download_address_data }}</a></li>
+          <li><a href="{{ download_order_data }}" id=download-orders>{{ text_download_order_data }}</a></li>
+          <li><a href="{{ download_gdpr_requests_data }}" id=download-gdpr-requests>{{ text_download_gdpr_requests_data }}</a></li>
+        </ul>
+      </div>
+
+      <h2 class="secondary-title">{{ text_right_to_restriction_of_processing }}</h2>
+      <div class="content my-account">
+        <ul>
+        <li><a href="{{ gdpr_restrict_processing }}" id=download-gdpr-requests>{{ text_right_to_restriction_of_processing }}</a></li>
+        </ul>
+      </div>
+      <h2 class="secondary-title">{{ text_right_to_data_access }}</h2>
+      <div class="content my-account">
+        <p>{{ text_gdpr_request_help }}</p>
+        <ul>
+          <li><a href="{{ gdpr_request }}" id=download-gdpr-requests>{{ text_gdpr_request }}</a></li>
+        </ul>
+      </div>
+
+      {% if gdpr_settings.module_gdpr_right_to_be_forgotten %}
+        <h2 class="secondary-title">{{ text_right_to_be_forgotten }}</h2>
+        <div class="content my-account">
+          <p>{{ text_gdpr_forget_me_help }} <br><strong>{{ text_gdpr_forget_me_warning }}</strong></p>
+          <ul>
+            <li><a href="{{ gdpr_forget_me }}" id=download-gdpr-requests>{{ text_gdpr_forget_me }}</a></li>
+          </ul>
+        </div>
+      {% endif %}
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+        {{ content_bottom }}
+      </div>
+    </div>
+</div>
+{{ footer }}

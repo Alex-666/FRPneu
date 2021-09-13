@@ -1,0 +1,477 @@
+{% if tab != 'disabled' %}
+    <div id="search-auto-filter" class="search-auto">
+        <ul id="tabs" class="nav nav-tabs htabs">
+            <li{% if tab == 'tire' or not tab %} class="active"{% endif %}><a href="#tab-tire" data-toggle="tab"><img
+                            src="/image/icon_tire.png" height="40px" width="40px"/>&nbsp;<span>{{ tab_tire }}</span></a>
+            </li>
+            <li{% if tab == 'disc' %} class="active"{% endif %}><a href="#tab-disc" data-toggle="tab"><img
+                            src="/image/icon_disc.png" height="40px" width="40px"/>&nbsp;<span>{{ tab_disc }}</span></a>
+            </li>
+            <li{% if tab == 'auto' %} class="active"{% endif %}><a href="#tab-auto" data-toggle="tab"><img
+                            src="/image/icon_auto.png" height="40px"
+                            width="40px"/>&nbsp;&nbsp;<span>{{ tab_auto }}</span></a></li>
+        </ul>
+        <div class="tabs-content">
+            <div class="tab-pane tab-content{% if tab == 'tire' or not tab %} active{% endif %}" id="tab-tire">
+                <form action="{{ action }}" name="tab" class="form-horizontal">
+                    <input type="hidden" name="tab" value="tire">
+                    {% if tire_model %}<input type="hidden" name="model" value="{{ tire_model }}">{% endif %}
+                    {% if limit %}<input type="hidden" name="limit" value="{{ limit }}">{% endif %}
+                    <div class="row">
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-width" class="poster-tire-help">
+                                    <span class="descr-tire-help">
+                                        {{ entry_width_help }}
+                                    </span>
+                                    <select name="width" class="form-control">
+                                        <option id="input-tire-width" value="">{{ entry_width }}</option>
+                                        {% for param in tire_width_choices %}
+                                            {% if param == tire_width %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-height" class="poster-tire-help">
+                                    <span class="descr-tire-help">
+                                        {{ entry_height_help }}
+                                    </span>
+
+                                    <select name="height" id="input-tire-height" class="form-control">
+                                        <option value="">{{ entry_height }}</option>
+                                        {% for param in tire_height_choices %}
+                                            {% if param == tire_height %}
+                                                <option value="{{ param }}" selected="selected">{{ param }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-diameter" class="poster-tire-help">
+                                    <span class="descr-tire-help">
+                                        {{ entry_diameter_help }}
+                                    </span>
+                                    <select name="diameter" id="input-tire-diameter" class="form-control">
+                                        <option value="">{{ entry_diameter }}</option>
+                                        {% for param in tire_diameter_choices %}
+                                            {% if param == tire_diameter %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-season">
+                                    <select name="season" id="input-tire-season" class="form-control">
+                                        <option value="">{{ entry_season }}</option>
+                                        {% for param in tire_season_choices %}
+                                            {% if param == tire_season %}
+                                                <option value="{{ param }}" selected="selected">{{ param }}</option>
+                                            {% else %}
+                                                <!-- Удалил временно чать параметров из сезона, чтобы оставить только три основны параметра -->
+                                                {% if param == 'celoroční' or param == 'zimní' or param == 'letní' %}
+                                                    <option value="{{ param }}">{{ param }}</option>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--<div id="tabs-hidden" style="display: none">-->
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-type">
+                                    <select name="type" id="input-tire-type" class="form-control">
+                                        <option value="">{{ entry_type }}</option>
+                                        {% for param in tire_type_choices %}
+                                            {% if param == tire_type %}
+                                                <option value="{{ param }}" selected="selected">{{ param }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-loadindex">
+                                    {# <a target="_blank"
+                                           href="https://www.frpneu.cz/index.php?route=information/information&information_id=24"
+                                           title="{{ entry_loadindex_help }}">
+                                            {{ entry_loadindex }}</a> #}
+
+                                    <select name="loadindex" id="input-tire-loadindex" class="form-control">
+                                        <option value="">{{ entry_loadindex }}</option>
+                                        {% for param in tire_loadindex_choices %}
+                                            {% if param == tire_loadindex %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-speedindex" class="poster-tire-help">
+                                    {# <a target="_blank"
+                                           href="https://www.frpneu.cz/index.php?route=information/information&information_id=24"
+                                           title="{{ entry_speedindex_help }}">
+                                            {{ entry_speedindex }}</a>#}
+
+                                    <select name="speedindex" id="input-tire-speedindex" class="form-control">
+                                        <option value="">{{ entry_speedindex }}</option>
+                                        {% for param in tire_speedindex_choices %}
+                                            {% if param == tire_speedindex %}
+                                                <option value="{{ param }}" selected="selected">{{ param }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-tire-manufacturer">
+                                    <select name="manufacturer" id="input-tire-manufacturer" class="form-control">
+                                        <option value="">{{ entry_manufacturer }}</option>
+                                        {% for param in tire_manufacturer_choices %}
+                                            {% if param.name == tire_manufacturer %}
+                                                <option value="{{ param.name }}"
+                                                        selected="selected">{{ param.name }}</option>
+                                            {% else %}
+                                                <option value="{{ param.name }}">{{ param.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <!--</div>-->
+
+                         <div class="xs-50 sm-50 md-50 lg-25 xl-25 btns">
+                            <div class="total_rslt"><span class="total_result"></span></div>
+                            <div><input type="submit" class="button" value="{{ btn_find }}"></div>
+                        </div>
+                        <div class="xs-50 sm-50 md-50 lg-25 xl-25 reset-btns">
+                            <div class="reset_btn">
+                                <button class="reset_button">{{ btn_reset }}</button>
+                            </div>
+                        </div>
+
+                        <!--<div class="xs-100 sm-50 md-50 lg-25 xl-25 show_hide_Content">
+                            <a id="showContent">
+                                <span>{{ text_additionally }} </span>
+
+                            </a>
+                            <a id="hideContent" style="display: none">
+                                <span>{{ text_hide }}</span>
+
+                            </a>
+                            <script>
+                                let content = document.getElementById("tabs-hidden");
+                                let show = document.getElementById("showContent");
+                                let hide = document.getElementById("hideContent");
+
+                                show.addEventListener("click", () => {
+                                    content.style.display = "block";
+                                    show.style.display = "none";
+                                    hide.style.display = "block";
+
+                                });
+
+                                hide.addEventListener("click", () => {
+                                    content.style.display = "none";
+                                    show.style.display = "block";
+                                    hide.style.display = "none";
+                                });
+                            </script>
+                        </div>-->
+
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane tab-content{% if tab == 'disc' %} active{% endif %}" id="tab-disc">
+                <form action="{{ action }}" class="form-horizontal">
+                    <input type="hidden" name="tab" value="disc">
+                    {% if limit %}<input type="hidden" name="limit" value="{{ limit }}">{% endif %}
+                    <div class="row">
+                        <div class="1 xs-45 sm-50 md-50 lg-33 xl-33">
+                            <div class="form-group">
+                                <label for="input-disc-diameter" class="poster-tire-help">
+                                    <span class="descr-tire-help">
+                                        {{ entry_diameter_help_disc }}
+                                    </span>
+
+                                    <select name="diameter" id="input-disc-diameter" class="form-control">
+                                        <option value="">{{ entry_diameter }}</option>
+                                        {% for param in disc_diameter_choices %}
+                                            {% if param == disc_diameter %}
+                                                <option value="{{ param }}" selected="selected">{{ param }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="2 xs-45 sm-50 md-50 lg-33 xl-33">
+                            <div class="form-group">
+                                <label for="input-disc-pcd" class="poster-tire-help">
+                                    <span class="descr-tire-help">
+                                        {{ entry_pcd_help }}
+                                    </span>
+
+                                    <select name="pcd" id="input-disc-pcd" class="form-control">
+                                        <option value="">{{ entry_pcd }}</option>
+                                        {% for param in disc_pcd_choices %}
+                                            {% if param == disc_pcd %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="3 xs-45 sm-50 md-50 lg-33 xl-33">
+                            <div class="form-group">
+                                <label for="input-disc-et" class="poster-tire-help">
+                                    <span class="descr-tire-help">
+                                        {{ entry_et_help }}
+                                    </span>
+
+                                    <select name="et" id="input-disc-et" class="form-control">
+                                        <option value="">{{ entry_et }}</option>
+                                        {% for param in disc_et_choices %}
+                                            {% if param == disc_et %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <!--<div id="tabs-hidden2" style="display: none">-->
+                        <div class="4 xs-45 sm-50 md-50 lg-33 xl-33">
+                            <div class="form-group">
+                                <label for="input-disc-width" class="poster-tire-help">
+                                        <span class="descr-tire-help">
+                                            {{ entry_width_help_disk }}
+                                        </span>
+
+                                    <select name="width" id="input-disc-width" class="form-control">
+                                        <option value="">{{ entry_width }}</option>
+                                        {% for param in disc_width_choices %}
+                                            {% if param == disc_width %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="5 xs-45 sm-50 md-50 lg-33 xl-33">
+                            <div class="form-group">
+                                <label for="input-disc-dia" class="poster-tire-help">
+                                        <span class="descr-tire-help">
+                                            {{ entry_dia_help }}
+                                        </span>
+                                    <select name="dia" id="input-disc-dia" class="form-control">
+                                        <option value="">{{ entry_dia }}</option>
+                                        {% for param in disc_dia_choices %}
+                                            {% if param == disc_dia %}
+                                                <option value="{{ param }}"
+                                                        selected="selected">{{ param|replace({'.':','}) }}</option>
+                                            {% else %}
+                                                <option value="{{ param }}">{{ param|replace({'.':','}) }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="6 xs-45 sm-50 md-50 lg-33 xl-33">
+                            <div class="form-group">
+                                <label for="input-disc-manufacturer" class="poster-tire-help">
+                                    <select name="manufacturer" id="input-disc-manufacturer" class="form-control">
+                                        <option value="">{{ entry_manufacturer }}</option>
+                                        {% for param in disc_manufacturer_choices %}
+                                            {% if param.name == disc_manufacturer %}
+                                                <option value="{{ param.name }}"
+                                                        selected="selected">{{ param.name }}</option>
+                                            {% else %}
+                                                <option value="{{ param.name }}">{{ param.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <!--</div>-->
+                        <div class="xs-50 sm-50 md-50 lg-25 xl-25 btns">
+                            <div class="total_rslt"><span class="total_result"></span></div>
+                            <div><input type="submit" class="button" value="{{ btn_find }}"></div>
+                        </div>
+                        <div class="xs-50 sm-50 md-50 lg-25 xl-25 reset-btns">
+                            <div class="reset_btn">
+                                <button class="reset_button">{{ btn_reset }}</button>
+                            </div>
+                        </div>
+
+                        <!--<div class="xs-100 sm-50 md-50 lg-25 xl-25 show_hide_Content">
+                            <a id="showContent2">
+                                <span>{{ text_additionally }} </span>
+
+                            </a>
+                            <a id="hideContent2" style="display: none">
+                                <span>{{ text_hide }}</span>
+
+                            </a>
+                            <script>
+                                let content2 = document.getElementById("tabs-hidden2");
+                                let show2 = document.getElementById("showContent2");
+                                let hide2 = document.getElementById("hideContent2");
+
+                                show2.addEventListener("click", () => {
+                                    content2.style.display = "block";
+                                    show2.style.display = "none";
+                                    hide2.style.display = "block";
+
+                                });
+
+                                hide2.addEventListener("click", () => {
+                                    content2.style.display = "none";
+                                    show2.style.display = "block";
+                                    hide2.style.display = "none";
+                                });
+                            </script>
+                        </div>-->
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane tab-content{% if tab == 'auto' %} active{% endif %}" id="tab-auto">
+                <form action="{{ action }}" class="form-horizontal">
+                    <input type="hidden" name="tab" value="auto">
+                    {% if limit %}<input type="hidden" name="limit" value="{{ limit }}">{% endif %}
+                    <div class="row">
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-vendor">
+                                    <select name="vendor" id="input-vendor" class="form-control">
+                                        <option value="">{{ entry_vendor }}</option>
+                                        {% for param in auto_vendor_choices %}
+                                            {% if param.vendor == auto_vendor %}
+                                                <option value="{{ param.vendor }}"
+                                                        selected="selected">{{ param.vendor }}</option>
+                                            {% else %}
+                                                <option value="{{ param.vendor }}">{{ param.vendor }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-model">
+                                    <select name="model" id="input-model"
+                                            class="form-control"{% if not auto_vendor %} disabled="disabled"{% endif %}>
+                                        <option value="">{{ entry_model }}</option>
+                                        {% for param in auto_model_choices %}
+                                            {% if param.model == auto_model %}
+                                                <option value="{{ param.model }}"
+                                                        selected="selected">{{ param.model }}</option>
+                                            {% else %}
+                                                <option value="{{ param.model }}">{{ param.model }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-year">
+                                    <select name="year" id="input-year"
+                                            class="form-control"{% if not auto_model %} disabled="disabled"{% endif %}>
+                                        <option value="">{{ entry_year }}</option>
+                                        {% for param in auto_year_choices %}
+                                            {% if param.year == auto_year %}
+                                                <option value="{{ param.year }}"
+                                                        selected="selected">{{ param.year }}</option>
+                                            {% else %}
+                                                <option value="{{ param.year }}">{{ param.year }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                            <div class="form-group">
+                                <label for="input-mod">
+                                    <select name="mod" id="input-mod"
+                                            class="form-control"{% if not auto_year %} disabled="disabled"{% endif %}>
+                                        <option value="">{{ entry_mod }}</option>
+                                        {% for param in auto_mod_choices %}
+                                            {% if param.modification == auto_mod %}
+                                                <option value="{{ param.modification }}"
+                                                        selected="selected">{{ param.modification }}</option>
+                                            {% else %}
+                                                <option value="{{ param.modification }}">{{ param.modification }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="xs-100 sm-50 md-50 lg-25 xl-25 btns">
+                            <input type="submit" class="button{% if not auto_mod %} disabled"{% endif %}"
+                            value="{{ btn_find }}"{% if not auto_mod %} disabled="disabled"{% endif %}>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}

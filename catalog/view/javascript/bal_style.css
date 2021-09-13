@@ -1,0 +1,24 @@
+/*раскомментируйте ниже строчку, если вам не нужна пагинация*/
+/*.pagination{ display:none;}*/
+.divpagination div:last-child { display:none;}
+#autopager-loading {
+	text-align: center;
+	z-index: 100;
+	width:115px;
+	padding: 20px;
+	color: #222;
+	display:block;
+	margin:0  auto;
+	font-size:14px;
+	font-weight: bold;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+span.results{
+	display: block;
+}
+a[rel=next]{
+	text-decoration: none;
+	font-size: 18px;
+}

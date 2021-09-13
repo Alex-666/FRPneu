@@ -1,0 +1,189 @@
+/*
+##==================================================================##
+## @author    : OCdevWizard                                         ##
+## @contact   : ocdevwizard@gmail.com                               ##
+## @support   : http://help.ocdevwizard.com                         ##
+## @license   : http://license.ocdevwizard.com/Licensing_Policy.pdf ##
+## @copyright : (c) OCdevWizard. Smart Checkout Upsell Pro, 2018    ##
+##==================================================================##
+*/
+
+/* start: Assistance */
+.special-margin {
+  height: 7px;
+}
+.special-margin-lg {
+  height: 14px;
+}
+.panel-default {
+  border-top: 1px solid #E8E8E8;
+}
+.dropdown-toggle.disabled {
+  cursor: not-allowed;
+}
+#content .well {
+  margin-bottom: 7px;
+}
+#content textarea {
+  resize: vertical;
+  min-height: 35px;
+}
+#setting-tabs li.active a {
+  cursor: pointer;
+}
+#modal-setting-tabs li.active a {
+  cursor: pointer;
+}
+#content .form-group .alert-danger,
+#content .form-group .alert-info,
+#content .form-group .alert-warning {
+  margin-bottom: 0px;
+  margin-top: 10px;
+}
+.list-group.list-group-root {
+  padding: 0;
+  overflow: hidden;
+}
+.list-group.list-group-root .list-group {
+  margin-bottom: 0;
+}
+.list-group.list-group-root .list-group-item {
+  border-radius: 0;
+  border-width: 1px 0 0 0;
+}
+.list-group.list-group-root > .list-group-item:first-child {
+  border-top-width: 0;
+}
+.list-group.list-group-root > .list-group-item {
+  font-weight: bold;
+}
+.list-group-item > i.fa {
+  margin-right: 7px;
+}
+#modal-setting-tabs li > a i.fa {
+  margin-right: 7px;
+}
+button {
+  outline: none !important;
+}
+.breadcrumb-module {
+  display: inline-block;
+  background: none;
+  margin: 0;
+  padding: 0 10px;
+}
+.breadcrumb-module > li {
+  display: inline-block;
+}
+.breadcrumb-module > li > a {
+  color: #999999;
+  font-size: 11px;
+  padding: 0px;
+  margin: 0px;
+}
+.breadcrumb-module > li:last-child > a {
+  color: #1e91cf;
+}
+.breadcrumb-module > li > a:hover {
+  text-decoration: none;
+}
+.breadcrumb-module > li + li:before {
+  content: "/";
+  font-family: FontAwesome;
+  color: #BBBBBB;
+  padding: 0 5px;
+}
+.dropdown-on-hover button {
+  border: 1px solid #fff;
+}
+.dropdown-on-hover button .caret {
+  opacity: 0;
+}
+.dropdown-on-hover:hover button {
+  border: 1px solid #ccc;
+}
+.dropdown-on-hover:hover button .caret {
+  opacity: 1;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  cursor: pointer;
+}
+.pro-version-only {
+  opacity: 1;
+  cursor: not-allowed !important;
+  -webkit-transition: all 1s ease-out;
+  -moz-transition: all 1s ease-out;
+  -o-transition: all 1s ease-out;
+  -ms-transition: all 1s ease-out;
+  transition: all 1s ease-out;
+}
+.pro-version-only:hover {
+  opacity: 0.2;
+}
+#modal-form + .alert {
+  margin-top: 17px;
+}
+/* end: Assistance */
+/* start: for tab Popup setting */
+.div-background-images input {
+  display: none;
+}
+input + .background-for-label {
+  width: 55px;
+  height: 55px;
+  border: 1px solid #000;
+  margin: 0 7px 7px 0;
+  opacity: 0.7;
+}
+input:checked + .background-for-label  {
+  -webkit-box-shadow:inset 0px 0px 27px 0px #080;
+  -moz-box-shadow:inset 0px 0px 27px 0px #080;
+  box-shadow:inset 0px 0px 27px 0px #080;
+  opacity: 1;
+}
+/* end: for tab Popup setting */
+/* start: for tab OCdev Products */
+#promo-block .thumbnail {
+  cursor: pointer;
+  outline: none;
+}
+/* end: for tab OCdev Products */
+/* start: for tab Language setting */
+.note-editor {
+  display: inline-grid;
+}
+.note-editor,
+.note-editor.note-frame {
+  margin-bottom: 0;
+}
+.note-toolbar i {
+  line-height: 1.5px;
+  font-size: 12px !important;
+}
+.input-group + .modal-error-block,
+.btn-group + .modal-error-block {
+  margin-bottom: 10px;
+}
+.btn-group + .input-group {
+  margin-top: 5px;
+}
+/* end: for tab Language setting */
+/* start: for tab Marketing Tools */
+.fa-minus-circle {
+  cursor: pointer;
+}
+.table-responsive table.table tr td p:last-child {
+  margin-bottom: 0;
+}
+#history0 .dropdown-menu > li > a {
+  cursor: pointer;
+}
+#history1 .dropdown-menu > li > a {
+  cursor: pointer;
+}
+.dropdown-menu > li > a {
+  font-size: 12px;
+  cursor: pointer;
+}
+/* end: for tab Marketing Tools */

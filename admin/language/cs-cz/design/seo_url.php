@@ -1,0 +1,21 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'SEO URL';
+$_['text_success']                                = 'Úspěch: Podařilo se změnit SEO URL!';
+$_['text_list']                                   = 'SEO URL';
+$_['text_add']                                    = 'Nová SEO URL';
+$_['text_edit']                                   = 'Upravit SEO URL';
+$_['text_filter']                                 = 'Filtr';
+$_['text_default']                                = 'Default';
+$_['column_query']                                = 'Dotaz';
+$_['column_keyword']                              = 'Klíčové slovo';
+$_['column_store']                                = 'Obchod';
+$_['column_language']                             = 'Jazyk';
+$_['column_action']                               = 'Akce';
+$_['entry_query']                                 = 'Query';
+$_['entry_keyword']                               = 'Klíčové slovo';
+$_['entry_store']                                 = 'Obchod';
+$_['entry_language']                              = 'Jazyk';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění upravovat SEO URL!';
+$_['error_query']                                 = 'Query musí mít mezi 3 a 64 znaky!';
+$_['error_keyword']                               = 'Klíčové slovo musí mít mezi 3 a 64 znaky';
+$_['error_exists']                                = 'Klíčové slovo je již použito';

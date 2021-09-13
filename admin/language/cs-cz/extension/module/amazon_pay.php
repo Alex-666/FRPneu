@@ -1,0 +1,26 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Amazon Platba';
+$_['text_extension']                              = 'Rozšíření';
+$_['text_success']                                = 'Úspěch: You have modified module Pay with Amazon!';
+$_['text_content_top']                            = 'Obsah nahoře';
+$_['text_content_bottom']                         = 'Obsah dole';
+$_['text_column_left']                            = 'Levý sloupec';
+$_['text_column_right']                           = 'Pravý soupec';
+$_['text_pwa_button']                             = 'Amazon platba';
+$_['text_pay_button']                             = 'Pay';
+$_['text_a_button']                               = 'A';
+$_['text_gold_button']                            = 'Gold';
+$_['text_darkgray_button']                        = 'Dark Gray';
+$_['text_lightgray_button']                       = 'Light Gray';
+$_['text_small_button']                           = 'Small';
+$_['text_medium_button']                          = 'Medium';
+$_['text_large_button']                           = 'Large';
+$_['text_x_large_button']                         = 'X-Large';
+$_['entry_button_type']                           = 'Tlačítko - typ';
+$_['entry_button_colour']                         = 'Tlačítko - barva';
+$_['entry_button_size']                           = 'Tlačítko - velikost';
+$_['entry_layout']                                = 'Rozložení';
+$_['entry_position']                              = 'Pozice';
+$_['entry_status']                                = 'Stav';
+$_['entry_sort_order']                            = 'Pořadí';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění měnit modul Amazon Platbu!';

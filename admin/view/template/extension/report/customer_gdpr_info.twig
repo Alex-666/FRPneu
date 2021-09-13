@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-bar-chart"></i> {{ text_list }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label" for="input-date-start">{{ entry_date_start }}</label>
+                <div class="input-group date">
+                  <input type="text" name="filter_date_start" value="{{ filter_date_start }}" placeholder="{{ entry_date_start }}" data-date-format="YYYY-MM-DD" id="input-date-start" class="form-control" />
+                  <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                  </span></div>
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-date-end">{{ entry_date_end }}</label>
+                <div class="input-group date">
+                  <input type="text" name="filter_date_end" value="{{ filter_date_end }}" placeholder="{{ entry_date_end }}" data-date-format="YYYY-MM-DD" id="input-date-end" class="form-control" />
+                  <span class="input-group-btn">
+                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                  </span></div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label" for="input-customer">{{ entry_customer_email }}</label>
+                <input type="text" name="filter_customer_email" value="{{ filter_customer_email }}" placeholder="{{ entry_customer_email }}" id="input-customer-email" class="form-control" />
+              </div>
+              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> {{ button_filter }}</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <td class="text-left">{{ column_request_id }}</td>
+                <td class="text-left">{{ column_email }}</td>
+                <td class="text-left">{{ column_status }}</td>
+                <td class="text-left">{{ column_http_user_agent }}</td>
+                <td class="text-left">{{ column_http_accept_language }}</td>
+                <td class="text-left">{{ column_server_addr }}</td>
+                <td class="text-left">{{ column_remote_addr }}</td>
+                <td class="text-left">{{ column_date_added }}</td>
+              </tr>
+            </thead>
+            <tbody>
+              {% if gdpr_requests is not empty %}
+                {% for key,gdpr in gdpr_requests %}
+                  <tr class="{{ row_class[gdpr.status] }}">
+                    <td class="text-left">{{ gdpr.request_id }}</td>
+                    <td class="text-left">{{ gdpr.email }}</td>
+                    <td class="text-left">{{ status[gdpr.status] }}</td>
+                    <td class="text-left">{{ gdpr.http_user_agent }}</td>
+                    <td class="text-left">{{ gdpr.http_accept_language }}</td>
+                    <td class="text-left">{{ gdpr.server_addr }}</td>
+                    <td class="text-left">{{ gdpr.remote_addr }}</td>
+                    <td class="text-left">{{ gdpr.date_added }}</td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+              <tr>
+                <td class="text-center" colspan="8">{{ text_no_results }}</td>
+              </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript"><!--
+$('#button-filter').on('click', function() {
+	url = '';
+
+	var filter_customer_email = $('input[name=\'filter_customer_email\'').val();
+
+	if (filter_customer_email) {
+		url += '&filter_customer_email=' + encodeURIComponent(filter_customer_email);
+	}
+
+	var filter_date_start = $('input[name=\'filter_date_start\'').val();
+
+	if (filter_date_start) {
+		url += '&filter_date_start=' + encodeURIComponent(filter_date_start);
+	}
+
+	var filter_date_end = $('input[name=\'filter_date_end\'').val();
+
+	if (filter_date_end) {
+		url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
+	}
+
+	location = 'index.php?route=report/report&user_token={{ user_token }}&code=customer_gdpr' + url;
+});
+//--></script>
+  <script type="text/javascript"><!--
+$('.date').datetimepicker({
+	pickTime: false
+});
+//--></script></div>
+{{ footer }}

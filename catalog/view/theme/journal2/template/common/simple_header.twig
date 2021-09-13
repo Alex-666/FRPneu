@@ -1,0 +1,21 @@
+{{ header }}
+<div id="container" class="container j-container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ breadcrumb.href }}" itemprop="url"><span itemprop="title">{{ breadcrumb.text }}</span></a></li>
+    {% endfor %}
+  </ul>
+  {% if error_warning %}
+    <div class="alert alert-warning warning"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+  {% endif %}
+  <div class="row">{{ column_left }}{{ column_right }}
+    {% if column_left and column_right %}
+      {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+      {% set class = 'col-sm-9' %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1 class="heading-title">{{ heading_title }}</h1>
+

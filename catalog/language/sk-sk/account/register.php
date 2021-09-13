@@ -1,0 +1,26 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Zaregistrovat účet';
+$_['text_account']                                = 'Účet';
+$_['text_register']                               = 'Registrácia';
+$_['text_account_already']                        = 'Pokud již zde máte zaregistrovaný účet, prosím přihlaste se <a href="%s">zde</a>.';
+$_['text_your_details']                           = 'Informace o Vaší osobě';
+$_['text_newsletter']                             = 'Novinky';
+$_['text_your_password']                          = 'Vaše heslo';
+$_['text_agree']                                  = 'Četl(a) jsem a souhlasím se <a href="%s" class="agree"><b>%s</b></a>';
+$_['entry_customer_group']                        = 'Skupina zákazníků';
+$_['entry_firstname']                             = 'Jméno';
+$_['entry_lastname']                              = 'Příjmení';
+$_['entry_email']                                 = 'E-mail';
+$_['entry_telephone']                             = 'Telefon';
+$_['entry_newsletter']                            = 'Přihlásit se k novinkám';
+$_['entry_password']                              = 'Heslo';
+$_['entry_confirm']                               = 'Potvrzení hesla';
+$_['error_exists']                                = 'Varování: E-mailová adresa je již zaregistrována!';
+$_['error_firstname']                             = 'Jméno musí mít mezi 1 a 32 znaky!';
+$_['error_lastname']                              = 'Příjmení musí mít mezi 1 a 32 znaky!';
+$_['error_email']                                 = 'Zdá se, že Vaše e-mailová adresa je neplatná!';
+$_['error_telephone']                             = 'Telefon musí mít mezi 3 a 32 znaky!';
+$_['error_custom_field']                          = 'Prosím vyplňte pole %s!';
+$_['error_password']                              = 'Heslo musí mít mezi 4 a 20 znaky!';
+$_['error_confirm']                               = 'Potvrzení hesla a heslo se neshodují!';
+$_['error_agree']                                 = 'Varování: Musíte souhlasit se %s!';

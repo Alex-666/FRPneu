@@ -1,0 +1,67 @@
+<h3>{{ heading_title }}</h3>
+<div class="row product-layout">
+  <!--
+  ##==================================================================##
+  ## @author    : OCdevWizard                                         ##
+  ## @contact   : ocdevwizard@gmail.com                               ##
+  ## @support   : http://help.ocdevwizard.com                         ##
+  ## @license   : http://license.ocdevwizard.com/Licensing_Policy.pdf ##
+  ## @copyright : (c) OCdevWizard. Smart Checkout Upsell Pro, 2018    ##
+  ##==================================================================##
+  -->
+  {% for product in products %}
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+    <div class="product-thumb transition">
+      {% if (product_widget_show_product_image) %}
+      <div class="image"><a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" class="img-responsive" /></a></div>
+      {% endif %}
+      <div class="caption">
+        {% if (product_widget_show_product_name) %}
+        <h4><a href="{{ product['href'] }}">{{ product['name'] }}</a></h4>
+        {% endif %}
+        {% if (product_widget_show_product_description) %}
+        <p>{{ product['description'] }}</p>
+        {% endif %}
+        {% if (product_widget_show_product_rating) %}
+          {% if (product['rating']) %}
+          <div class="rating">
+            {% set i = 1 %}{% for i in i..5 %}
+            {% if (product['rating'] < i) %}
+            <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+            {% else %}
+            <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        {% endif %}
+        {% if (product_widget_show_product_price) %}
+          {% if (product['price']) %}
+          <p class="price">
+            {% if (not product['special']) %}
+            {{ product['price'] }}
+            {% else %}
+            <span class="price-new">{{ product['special'] }}</span> <span class="price-old">{{ product['price'] }}</span>
+            {% endif %}
+            {% if (product['tax']) %}
+            <span class="price-tax">{{ text_tax }} {{ product['tax'] }}</span>
+            {% endif %}
+          </p>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="button-group">
+        {% if (product_widget_show_product_cart_button) %}
+        <button type="button" onclick="cart.add('{{ product['product_id'] }}', '{{ product['minimum'] }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+        {% endif %}
+        {% if (product_widget_show_product_wishlist_button) %}
+        <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product['product_id'] }}');"><i class="fa fa-heart"></i></button>
+        {% endif %}
+        {% if (product_widget_show_product_compare_button) %}
+        <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product['product_id'] }}');"><i class="fa fa-exchange"></i></button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

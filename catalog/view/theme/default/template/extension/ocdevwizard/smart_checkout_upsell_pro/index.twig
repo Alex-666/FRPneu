@@ -1,0 +1,228 @@
+<div id="{{ _code }}-modal-body">
+  <!--
+  ##==================================================================##
+  ## @author    : OCdevWizard                                         ##
+  ## @contact   : ocdevwizard@gmail.com                               ##
+  ## @support   : http://help.ocdevwizard.com                         ##
+  ## @license   : http://license.ocdevwizard.com/Licensing_Policy.pdf ##
+  ## @copyright : (c) OCdevWizard. Smart Checkout Upsell Pro, 2018    ##
+  ##==================================================================##
+  -->
+  <div class="modal-heading">
+    {{ heading_title }}
+    <span class="modal-close" onclick="$.magnificPopup.close();"></span>
+  </div>
+  <div class="modal-body" id="check-data">
+    {% if (text_info is defined and hide_info_message == 1) %}
+    <div class="info-text-block pos-1">{{ text_info }}</div>
+    {% endif %}
+    {% if (products) %}
+    <!-- AJAX PRODUCTS -->
+    <div id="{{ _code }}-ajax-products">
+      <div class="{{ _code }}-ajax-products-arrow">
+        <button id="ajax-products-arrow-prev" onclick="go_prev();">{{ button_carousel_prev }}</button>
+        <input type="hidden" name="ajax_pagination" value="0" style="display:none;" />
+        <input type="hidden" name="ajax_all_products" value="{{ ajax_all_products }}" style="display:none;" />
+        <button id="ajax-products-arrow-next" onclick="go_next();">{{ button_carousel_next }}</button>
+      </div>
+      <div id="{{ _code }}-ajax-products-list">
+        {% for product in products %}
+          <div class="ajax-product">
+            {% if (popup_widget_show_product_image) %}
+            <div class="image"><a href="{{ product['href'] }}"><img src="{{ product['thumb'] }}" alt="{{ product['name'] }}" title="{{ product['name'] }}" /></a></div>
+            {% endif %}
+            {% if (popup_widget_show_product_name) %}
+            <div class="name"><a href="{{ product['href'] }}">{{ product['name'] }}</a></div>
+            {% endif %}
+            {% if (popup_widget_show_product_description) %}
+            <p>{{ product['description'] }}</p>
+            {% endif %}
+            {% if (popup_widget_show_product_rating) %}
+              {% if (product['rating']) %}
+              <div class="rating">
+                {% set i = 1 %}{% for i in i..5 %}
+                {% if (product['rating'] < i) %}
+                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                {% else %}
+                <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+            {% endif %}
+            {% if (product['price'] and popup_widget_show_product_price) %}
+            <div class="price">
+              {% if (not product['special']) %}
+              <span class="price-new">{{ product['price'] }}</span>
+              {% else %}
+              <span class="price-new">{{ product['special'] }}</span> <span class="price-old">{{ product['price'] }}</span>
+              {% endif %}
+            </div>
+            {% endif %}
+            <div class="cart">
+              {% if (popup_widget_show_product_cart_button) %}
+              <a onclick="modal_addToCart('{{ product['product_id'] }}', '{{ product['minimum'] }}');">{{ button_cart }}</a>
+              {% endif %}
+              {% if (popup_widget_show_product_wishlist_button) %}
+              <a onclick="modal_addToWishlist('{{ product['product_id'] }}');">{{ button_wishlist }}</a>
+              {% endif %}
+              {% if (popup_widget_show_product_compare_button) %}
+              <a onclick="modal_addToCompare('{{ product['product_id'] }}');">{{ button_compare }}</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% if (text_info is defined and hide_info_message == 2) %}
+    <div class="info-text-block pos-2">{{ text_info }}</div>
+    {% endif %}
+  </div>
+  <!-- BUTTONS -->
+  <div class="modal-footer">
+    <input type="button" onclick="$.magnificPopup.close();" value="{{ button_go_back }}" class="close-button-bottom" />
+    <input type="button" onclick="location.href='{{ page_link }}';" value="{{ button_go_to_page }}" class="go-button-bottom" />
+  </div>
+
+  <script type="text/javascript">
+  function go_prev() {
+    maskElement('#{{ _code }}-ajax-products-list > .ajax-product', true);
+    $('#ajax-products-arrow-prev').next().val(~~$('#ajax-products-arrow-prev').next().val() - 3);
+    ajaxProducts('#ajax-products-arrow-prev');
+  }
+
+  function go_next() {
+    maskElement('#{{ _code }}-ajax-products-list > .ajax-product', true);
+    var count_div = $('#{{ _code }}-ajax-products-list > .ajax-product').length,
+        current_part = parseInt($('#{{ _code }}-ajax-products input[name=ajax_pagination]').val()),
+        all_products = parseInt($('#{{ _code }}-ajax-products input[name=ajax_all_products]').val());
+
+    if (count_div < 3) {
+      $('#ajax-products-arrow-next').css({'opacity': 0.3, 'cursor' : 'default'}).unbind('onclick');
+      maskElement('#{{ _code }}-ajax-products-list > .ajax-product', false);
+      return;
+    } else if (current_part+3 >= all_products) {
+      $('#ajax-products-arrow-next').css({'opacity': 0.3, 'cursor' : 'default'}).unbind('onclick');
+      maskElement('#{{ _code }}-ajax-products-list > .ajax-product', false);
+      return;
+    } else {
+      $('#ajax-products-arrow-next').prev().prev().val(~~$('#ajax-products-arrow-next').prev().prev().val()+3);
+    }
+
+    ajaxProducts('#ajax-products-arrow-next');
+  }
+
+  function ajaxProducts(target) {
+    var input_val = $(target).parent().children('input[name=ajax_pagination]').val(),
+        quantity  = parseInt(input_val),
+        count_ajax_products = $(target).parent().children('input[name=ajax_all_products]').val();
+
+    $('.{{ _code }}-ajax-products-arrow button').css({'opacity': 1, 'cursor' : 'pointer' });
+
+    if (quantity <= -3) {
+      $('#ajax-products-arrow-prev').css({'opacity': 0.5, 'cursor' : 'default' });
+      quantity = $(target).parent().children('input[name=ajax_pagination]').val(0);
+      maskElement('#{{ _code }}-ajax-products-list > .ajax-product', false);
+      return;
+    }
+
+    if (quantity >= $('#{{ _code }}-ajax-products input[name=ajax_all_products]').val()) {
+      $('#ajax-products-arrow-next').css({'opacity': 0.5, 'cursor' : 'default' });
+      quantity = $(target).parent().children('input[name=ajax_pagination]').val($('#{{ _code }}-ajax-products input[name=ajax_all_products]').val());
+      maskElement('#{{ _code }}-ajax-products-list > .ajax-product', false);
+      return;
+    }
+
+    if (quantity > count_ajax_products) {
+      $.ajax({
+        url:  'index.php?route=extension/ocdevwizard/{{ _name }}&product_id={{ product_id }}&start=0'+'&end=3',
+        type: 'get',
+        dataType: 'html',
+        success: function(data) {
+          $(target).parent().children('input[name=ajax_pagination]').val(0);
+          $('#{{ _code }}-ajax-products-list').html($(data).find('#{{ _code }}-ajax-products-list > *'));
+        }
+      });
+    } else {
+      $.ajax({
+        url:  'index.php?route=extension/ocdevwizard/{{ _name }}&product_id={{ product_id }}&start='+quantity+'&end=3',
+        type: 'get',
+        dataType: 'html',
+        success: function(data) {
+          $('#{{ _code }}-ajax-products-list').html($(data).find('#{{ _code }}-ajax-products-list > *'));
+        }
+      });
+    }
+  }
+  // loadmask function
+  function maskElement(element, status) {
+    if (status == true) {
+      $('<div/>').attr('class', '{{ _code }}-modal-loadmask').prependTo(element);
+      $('<div class="{{ _code }}-modal-loadmask-loading" />').insertAfter($('.{{ _code }}-modal-loadmask'));
+    } else {
+      $('.{{ _code }}-modal-loadmask').remove();
+      $('.{{ _code }}-modal-loadmask-loading').remove();
+    }
+  }
+  {% if (popup_widget_show_product_cart_button) %}
+  function modal_addToCart(product_id, minimum) {
+    $.ajax({
+      url: 'index.php?route=checkout/cart/add',
+      type: 'post',
+      data: 'product_id=' + product_id + '&quantity=' + minimum,
+      dataType: 'json',
+      success: function(json) {
+        $('.alert').remove();
+        if (json['redirect']) {
+          location = json['redirect'];
+        }
+        if (json['success']) {
+          $('#{{ _code }}-modal-body .modal-body').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> '+json['success']+'<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+          $('#cart > button').html('<i class="fa fa-shopping-cart"></i> ' + json['total']);
+          $('#cart > ul').load('index.php?route=common/cart/info ul li');
+        }
+      }
+    });
+  }
+  {% endif %}
+  {% if (popup_widget_show_product_compare_button) %}
+  function modal_addToCompare(product_id) {
+    $.ajax({
+      url: 'index.php?route=product/compare/add',
+      type: 'post',
+      data: 'product_id=' + product_id,
+      dataType: 'json',
+      success: function(json) {
+        $('.alert').remove();
+        if (json['success']) {
+          $('#{{ _code }}-modal-body .modal-body').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> '+json['success']+'<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+          $('#compare-total').html(json['total']);
+        }
+      }
+    });
+  }
+  {% endif %}
+  {% if (popup_widget_show_product_wishlist_button) %}
+  function modal_addToWishlist(product_id) {
+    $.ajax({
+      url: 'index.php?route=account/wishlist/add',
+      type: 'post',
+      data: 'product_id=' + product_id,
+      dataType: 'json',
+      success: function(json) {
+        $('.alert').remove();
+        if (json['success']) {
+          $('#{{ _code }}-modal-body .modal-body').prepend('<div class="alert alert-success">'+json['success']+'<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        }
+        if (json['info']) {
+          $('#{{ _code }}-modal-body .modal-body').prepend('<div class="alert alert-info"><i class="fa fa-info-circle"></i> ' + json['info'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        }
+        $('#wishlist-total span').html(json['total']);
+        $('#wishlist-total').attr('title', json['total']);
+      }
+    });
+  }
+  {% endif %}
+  </script>
+</div>

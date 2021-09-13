@@ -1,0 +1,2379 @@
+{{ header }}
+{{ column_left }}
+
+<!--
+##==================================================================##
+## @author    : OCdevWizard                                         ##
+## @contact   : ocdevwizard@gmail.com                               ##
+## @support   : http://help.ocdevwizard.com                         ##
+## @license   : http://license.ocdevwizard.com/Licensing_Policy.pdf ##
+## @copyright : (c) OCdevWizard. Smart Checkout Upsell Pro, 2018    ##
+##==================================================================##
+-->
+
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right" id="top-nav-line">
+        <button type="submit" formaction="{{ action }}" form="form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <button type="submit" formaction="{{ action_plus }}" form="form" data-toggle="tooltip" title="{{ button_save_and_stay }}" class="btn btn-primary"><i class="fa fa-save"></i> + <i class="fa fa-refresh"></i></button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-trash"></i>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a onclick="confirm('{{ text_are_you_sure }}') ? href='{{ uninstall }}' : false;"><i class="fa fa-trash"></i> {{ button_uninstall }}</a></li>
+            <li><a onclick="confirm('{{ text_are_you_sure }}') ? href='{{ uninstall_and_remove }}' : false;"><i class="fa fa-trash"></i> {{ button_uninstall_and_remove }}</a></li>
+            <li><a onclick="confirm('{{ text_are_you_sure }}') ? href='{{ cache }}' : false;"><i class="fa fa-trash"></i> {{ button_cache }}</a></li>
+            <li><a onclick="confirm('{{ text_are_you_sure }}') ? href='{{ cache_backup }}' : false;"><i class="fa fa-trash"></i> {{ button_cache_backup }}</a></li>
+            <li><a onclick="confirm('{{ text_are_you_sure }}') ? href='{{ restore }}' : false;"><i class="fa fa-repeat"></i> {{ button_restore }}</a></li>
+          </ul>
+        </div>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb-module">
+        {% for breadcrumb in breadcrumbs %}
+          {% if (breadcrumb['href']) %}
+            <li><a href="{{ breadcrumb['href'] }}">{{ breadcrumb['text'] }}</a></li>
+          {% elseif (breadcrumb['href'] is empty and breadcrumb['dropdown']) %}
+            <li>
+              <div class="btn-group dropdown-on-hover">
+                <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ breadcrumb['text'] }} <span class="caret"></span></button>
+                {% if (breadcrumb['dropdown']) %}
+                  <ul class="dropdown-menu">
+                    {% for dropdown in breadcrumb['dropdown'] %}
+                      <li><a href="{{ dropdown['href'] }}">{% if (dropdown['active']) %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %} {{ dropdown['text'] }}</a></li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </li>
+          {% else %}
+            <li><a>{{ breadcrumb['text'] }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid" id="top-alerts">
+    {% if (error_warning) %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if (warning) %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if (success) %}
+    <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="row">
+      <div class="col-sm-3 col-md-3 col-lg-2">
+        <div class="btn-group" style="width: 100%;margin-bottom: 10px;">
+          <button type="button" class="btn btn-default dropdown-toggle btn-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> {{ text_select_store }} <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            {% for store in all_stores %}
+              <li><a href="{{ store['href'] }}">{% if (store_id == store['store_id']) %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %} {{ store['name'] }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <!-- Nav tabs -->
+        <div class="list-group list-group-root well" id="setting-tabs">
+          <a class="list-group-item list-group-item-info"><i class="fa fa-cog"></i>{{ tab_control_panel }}</a>
+          <div class="list-group">
+            <a class="list-group-item" data-toggle="tab" href="#general-block" role="tab"><i class="fa fa-cogs"></i> {{ tab_general_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#basic-block" role="tab"><i class="fa fa-cogs"></i> {{ tab_basic_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#product-widget-block" role="tab"><i class="fa fa-cogs"></i> {{ tab_product_widget_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#cart-widget-block" role="tab"><i class="fa fa-cogs"></i> {{ tab_cart_widget_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#popup-widget-block" role="tab"><i class="fa fa-cogs"></i> {{ tab_popup_widget_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#static-widget-block" role="tab"><i class="fa fa-cogs"></i> {{ tab_static_widget_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#layout-block" role="tab"><i class="fa fa-eye"></i> {{ tab_layout_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#css-block" role="tab"><i class="fa fa-css3"></i> {{ tab_css_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#popup-block" role="tab"><i class="fa fa-desktop"></i> {{ tab_popup_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#module-import-export-block" role="tab"><i class="fa fa-file-archive-o"></i> {{ tab_module_import_export_setting }}</a>
+          </div>
+          <a class="list-group-item list-group-item-info"><i class="fa fa-language"></i>{{ tab_language_setting }}</a>
+          <div class="list-group">
+            <a class="list-group-item" data-toggle="tab" href="#language-product-widget-block" role="tab"><i class="fa fa-flag-o"></i> {{ tab_product_widget_language_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#language-cart-widget-block" role="tab"><i class="fa fa-flag-o"></i> {{ tab_cart_widget_language_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#language-popup-widget-block" role="tab"><i class="fa fa-flag-o"></i> {{ tab_popup_widget_language_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#language-static-widget-block" role="tab"><i class="fa fa-flag-o"></i> {{ tab_static_widget_language_setting }}</a>
+          </div>
+          <a class="list-group-item list-group-item-info"><i class="fa fa-thumbs-o-up"></i>{{ tab_marketing_tools_setting }}</a>
+          <div class="list-group">
+            <a class="list-group-item" data-toggle="tab" href="#up-sell-block" role="tab"><i class="fa fa-sliders"></i> {{ tab_up_sell_products_setting }}</a>
+          </div>
+          <a class="list-group-item list-group-item-info"><i class="fa fa-life-ring"></i>{{ tab_support_setting }}</a>
+          <div class="list-group">
+            <a class="list-group-item" data-toggle="tab" href="#support-extension-block" role="tab"><i class="fa fa-info-circle"></i> {{ tab_support_extension_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#support-general-block" role="tab"><i class="fa fa-info-circle"></i> {{ tab_support_general_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#support-terms-block" role="tab"><i class="fa fa-info-circle"></i> {{ tab_support_terms_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#support-faq-block" role="tab"><i class="fa fa-question-circle"></i> {{ tab_support_faq_setting }}</a>
+            <a class="list-group-item" data-toggle="tab" href="#promo-block" role="tab"><i class="fa fa-briefcase"></i> {{ tab_promo_setting }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-9 col-md-9 col-lg-10">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form method="post" enctype="multipart/form-data" id="form" class="form-horizontal">
+              <div class="tab-content">
+                <!-- TAB General block -->
+                <div class="tab-pane fade active in" role="tabpanel" id="general-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_activate_module }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group btn-toggle" data-toggle="buttons">
+                        <label class="btn {{ form_data['activate'] == 1 ? 'active btn-success' : 'btn-default' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['activate'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn {{ form_data['activate'] == 0 ? 'active btn-success' : 'btn-default' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['activate'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-main_product_id_selector">{{ text_main_product_id_selector }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_css_id_indicator }}</span>
+                        <input value="{{ form_data['main_product_id_selector'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[main_product_id_selector]" class="form-control" id="input-main_product_id_selector" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button" data-faq-target="faq_3" data-toggle="tooltip" title="{{ text_open_example }}"><i class="fa fa-info-circle"></i></button>
+                        </span>
+                      </div>
+                      {% if (error_main_product_id_selector) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_main_product_id_selector }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_main_product_id_selector_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-route_to_system_add_method">{{ text_route_to_system_add_method }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_route_indicator }}</span>
+                        <input value="{{ form_data['route_to_system_add_method'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[route_to_system_add_method]" class="form-control" id="input-route_to_system_add_method" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button" data-faq-target="faq_4" data-toggle="tooltip" title="{{ text_open_example }}"><i class="fa fa-info-circle"></i></button>
+                        </span>
+                      </div>
+                      {% if (error_route_to_system_add_method) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_route_to_system_add_method }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_route_to_system_add_method_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_customer_groups }}</label>
+                    <div class="col-sm-10">
+                      {% set row_height = 55 %} {% set row = 0 %} {% for customer_group in all_customer_groups %}
+                      {% if (row < 5) %} {% set row_height = row_height*1.26 %} {% endif %} {% set row = row + 1 %}
+                      {% endfor %}
+                      <div class="well well-sm" style="height: {{ row_height }}px; overflow: auto;">
+                        {% set row = 0 %} {% for customer_group in all_customer_groups %}
+                        <div class="checkbox">
+                          <label>
+                            <input
+                              type="checkbox"
+                              name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[customer_groups][]"
+                              value="{{ customer_group['customer_group_id'] }}" {{ form_data['customer_groups'] is not empty and customer_group['customer_group_id'] in form_data['customer_groups'] ? 'checked' : '' }}
+                            /> {{ customer_group['name'] }}
+                          </label>
+                        </div>
+                        {% set row = row + 1 %}
+                        {% endfor %}
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs" onclick="$(this).parent().parent().find(':checkbox').trigger('click').attr('checked', true);">{{ text_select_all }}</button>
+                        <button type="button" class="btn btn-default btn-xs" onclick="$(this).parent().parent().find(':checkbox').attr('checked', false);">{{ text_unselect_all }}</button>
+                      </div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_customer_groups_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Basic block -->
+                <div class="tab-pane fade" role="tabpanel" id="basic-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_direction_type }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="btn-group-vertical btn-toggle" data-toggle="buttons">
+                        <label class="btn {{ form_data['direction_type'][language['language_id']] is defined and form_data['direction_type'][language['language_id']] == 1 ? 'active btn-success' : 'btn-default' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[direction_type][{{ language['language_id'] }}]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['direction_type'][language['language_id']] is defined and form_data['direction_type'][language['language_id']] == 1 ? 'checked="checked"' : '' }}
+                          /><img src="{{ language['image'] }}" title="{{ language['name'] }}" /> {{ text_direction_type_1 }}
+                        </label>
+                        <label class="btn {{ form_data['direction_type'][language['language_id']] is defined and form_data['direction_type'][language['language_id']] == 2 ? 'active btn-success' : 'btn-default' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[direction_type][{{ language['language_id'] }}]"
+                            value="2"
+                            autocomplete="off"
+                            {{ form_data['direction_type'][language['language_id']] is defined and form_data['direction_type'][language['language_id']] == 2 ? 'checked="checked"' : '' }}
+                          /><img src="{{ language['image'] }}" title="{{ language['name'] }}" /> {{ text_direction_type_2 }}
+                        </label>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="form-group pro-block">
+                    <label class="col-sm-2 control-label">{{ text_minify_main_js }}</label>
+                    <div class="col-sm-10">
+                      <select name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[minify_main_js]" class="form-control">
+                        <option value="0" {{ form_data['minify_main_js'] == 0 ? 'selected="selected"' : '' }} >{{ text_no }}</option>
+                        <option value="1" {{ form_data['minify_main_js'] == 1 ? 'selected="selected"' : '' }} >{{ text_minify_main_js_1 }}</option>
+                        <option value="2" {{ form_data['minify_main_js'] == 2 ? 'selected="selected"' : '' }} >{{ text_minify_main_js_2 }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Product widget block -->
+                <div class="tab-pane fade" role="tabpanel" id="product-widget-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_activate_product_widget }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['activate_product_widget'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_product_widget]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['activate_product_widget'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['activate_product_widget'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_product_widget]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['activate_product_widget'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                      <div class="alert alert-warning" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_product_widget_faq_1 }}</div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_product_widget_faq_2 }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="textarea-insert_widget">{{ text_insert_widget }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_js_indicator }}</span>
+                        <textarea style="min-height:70px;" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[insert_widget]" class="form-control" id="textarea-insert_widget">{{ form_data['insert_widget'] }}</textarea>
+                      </div>
+                      {% if (error_insert_widget) %}
+                        <div class="alert alert-danger text-danger">{{ error_insert_widget }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_insert_widget_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_image'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_image]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_image'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_image'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_image]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_image'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_dementions_of_main_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_width_indicator }}</span>
+                        <input value="{{ form_data['product_widget_main_image_width'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_main_image_width]" class="form-control" placeholder="{{ text_image_width_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      <div class="special-margin"></div>
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_height_indicator }}</span>
+                        <input value="{{ form_data['product_widget_main_image_height'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_main_image_height]" class="form-control" placeholder="{{ text_image_height_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      {% if (error_product_widget_main_image_width) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_product_widget_main_image_width }}</div>
+                      {% endif %}
+                      {% if (error_product_widget_main_image_height) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_product_widget_main_image_height }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_warning_dementions_of_main_image }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_price }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_price'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_price]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_price'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_price'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_price]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_price'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_name }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_name'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_name]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_name'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_name'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_name]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_name'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_description }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_description'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_description]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_description'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_description'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_description]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_description'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_product_description_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['product_widget_product_description_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_product_description_limit]" class="form-control" />
+                      {% if (error_product_widget_product_description_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_product_widget_product_description_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_rating }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_rating'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_rating]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_rating'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_rating'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_rating]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_rating'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_cart_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_cart_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_cart_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_cart_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_cart_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_cart_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_cart_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_wishlist_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_wishlist_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_wishlist_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_wishlist_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_wishlist_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_wishlist_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_wishlist_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_show_product_compare_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_compare_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_compare_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_compare_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_show_product_compare_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_show_product_compare_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_show_product_compare_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_randomize }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['product_widget_randomize'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_randomize]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['product_widget_randomize'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['product_widget_randomize'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_randomize]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['product_widget_randomize'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_product_widget_product_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['product_widget_product_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[product_widget_product_limit]" class="form-control" />
+                      {% if (error_product_widget_product_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_product_widget_product_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Cart widget block -->
+                <div class="tab-pane fade" role="tabpanel" id="cart-widget-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_activate_cart_widget }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['activate_cart_widget'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_cart_widget]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['activate_cart_widget'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['activate_cart_widget'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_cart_widget]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['activate_cart_widget'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                      <div class="alert alert-warning" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_cart_widget_faq_1 }}</div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_cart_widget_faq_2 }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_image'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_image]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_image'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_image'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_image]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_image'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_dementions_of_main_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_width_indicator }}</span>
+                        <input value="{{ form_data['cart_widget_main_image_width'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_main_image_width]" class="form-control" placeholder="{{ text_image_width_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      <div class="special-margin"></div>
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_height_indicator }}</span>
+                        <input value="{{ form_data['cart_widget_main_image_height'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_main_image_height]" class="form-control" placeholder="{{ text_image_height_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      {% if (error_cart_widget_main_image_width) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_cart_widget_main_image_width }}</div>
+                      {% endif %}
+                      {% if (error_cart_widget_main_image_height) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_cart_widget_main_image_height }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_warning_dementions_of_main_image }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_price }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_price'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_price]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_price'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_price'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_price]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_price'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_name }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_name'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_name]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_name'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_name'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_name]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_name'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_description }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_description'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_description]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_description'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_description'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_description]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_description'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_product_description_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['cart_widget_product_description_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_product_description_limit]" class="form-control" />
+                      {% if (error_cart_widget_product_description_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_cart_widget_product_description_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_rating }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_rating'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_rating]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_rating'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_rating'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_rating]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_rating'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_cart_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_cart_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_cart_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_cart_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_cart_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_cart_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_cart_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_wishlist_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_wishlist_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_wishlist_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_wishlist_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_wishlist_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_wishlist_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_wishlist_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_show_product_compare_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_compare_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_compare_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_compare_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_show_product_compare_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_show_product_compare_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_show_product_compare_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_randomize }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['cart_widget_randomize'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_randomize]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_randomize'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['cart_widget_randomize'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_randomize]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['cart_widget_randomize'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_cart_widget_product_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['cart_widget_product_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[cart_widget_product_limit]" class="form-control" />
+                      {% if (error_cart_widget_product_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_cart_widget_product_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Popup widget block -->
+                <div class="tab-pane fade" role="tabpanel" id="popup-widget-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_activate_popup_widget }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['activate_popup_widget'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_popup_widget]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['activate_popup_widget'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['activate_popup_widget'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_popup_widget]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['activate_popup_widget'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_popup_widget_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_image'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_image]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_image'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_image'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_image]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_image'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_dementions_of_main_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_width_indicator }}</span>
+                        <input value="{{ form_data['popup_widget_main_image_width'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_main_image_width]" class="form-control" placeholder="{{ text_image_width_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      <div class="special-margin"></div>
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_height_indicator }}</span>
+                        <input value="{{ form_data['popup_widget_main_image_height'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_main_image_height]" class="form-control" placeholder="{{ text_image_height_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      {% if (error_popup_widget_main_image_width) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_popup_widget_main_image_width }}</div>
+                      {% endif %}
+                      {% if (error_popup_widget_main_image_height) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_popup_widget_main_image_height }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_warning_dementions_of_main_image }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_price }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_price'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_price]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_price'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_price'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_price]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_price'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_name }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_name'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_name]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_name'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_name'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_name]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_name'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_description }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_description'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_description]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_description'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_description'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_description]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_description'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_product_description_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['popup_widget_product_description_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_product_description_limit]" class="form-control" />
+                      {% if (error_popup_widget_product_description_limit) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_popup_widget_product_description_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_rating }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_rating'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_rating]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_rating'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_rating'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_rating]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_rating'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_cart_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_cart_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_cart_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_cart_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_cart_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_cart_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_cart_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_wishlist_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_wishlist_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_wishlist_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_wishlist_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_wishlist_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_wishlist_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_wishlist_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_show_product_compare_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_compare_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_compare_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_compare_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_show_product_compare_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_show_product_compare_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_show_product_compare_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_randomize }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['popup_widget_randomize'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_randomize]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_randomize'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['popup_widget_randomize'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_randomize]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['popup_widget_randomize'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_popup_widget_product_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['popup_widget_product_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_widget_product_limit]" class="form-control" />
+                      {% if (error_popup_widget_product_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_popup_widget_product_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-route_to_chekout_page">{{ text_route_to_chekout_page }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_route_indicator }}</span>
+                        <input value="{{ form_data['route_to_chekout_page'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[route_to_chekout_page]" class="form-control" id="input-route_to_chekout_page" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" type="button" data-faq-target="faq_5" data-toggle="tooltip" title="{{ text_open_example }}"><i class="fa fa-info-circle"></i></button>
+                        </span>
+                      </div>
+                      {% if (error_route_to_chekout_page) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_route_to_chekout_page }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Static widget block -->
+                <div class="tab-pane fade" role="tabpanel" id="static-widget-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_activate_static_widget }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['activate_static_widget'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_static_widget]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['activate_static_widget'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['activate_static_widget'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[activate_static_widget]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['activate_static_widget'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                      <div class="alert alert-warning" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_static_widget_faq_1 }}</div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_activate_static_widget_faq_2 }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_image'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_image]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_image'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_image'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_image]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_image'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_dementions_of_main_image }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_width_indicator }}</span>
+                        <input value="{{ form_data['static_widget_main_image_width'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_main_image_width]" class="form-control" placeholder="{{ text_image_width_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      <div class="special-margin"></div>
+                      <div class="input-group">
+                        <span class="input-group-addon">{{ text_height_indicator }}</span>
+                        <input value="{{ form_data['static_widget_main_image_height'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_main_image_height]" class="form-control" placeholder="{{ text_image_height_ph }}" />
+                        <span class="input-group-addon">{{ text_px }}</span>
+                      </div>
+                      {% if (error_static_widget_main_image_width) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_static_widget_main_image_width }}</div>
+                      {% endif %}
+                      {% if (error_static_widget_main_image_height) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_static_widget_main_image_height }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_warning_dementions_of_main_image }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_price }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_price'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_price]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_price'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_price'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_price]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_price'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_name }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_name'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_name]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_name'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_name'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_name]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_name'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_description }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_description'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_description]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_description'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_description'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_description]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_description'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_product_description_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['static_widget_product_description_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_product_description_limit]" class="form-control" />
+                      {% if (error_static_widget_product_description_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_static_widget_product_description_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_rating }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_rating'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_rating]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_rating'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_rating'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_rating]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_rating'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_cart_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_cart_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_cart_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_cart_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_cart_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_cart_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_cart_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_wishlist_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_wishlist_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_wishlist_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_wishlist_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_wishlist_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_wishlist_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_wishlist_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_show_product_compare_button }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_compare_button'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_compare_button]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_compare_button'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_show_product_compare_button'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_show_product_compare_button]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_show_product_compare_button'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_randomize }}</label>
+                    <div class="col-sm-10">
+                      <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-success {{ form_data['static_widget_randomize'] == 1 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_randomize]"
+                            value="1"
+                            autocomplete="off"
+                            {{ form_data['static_widget_randomize'] == 1 ? 'checked="checked"' : '' }}
+                          />{{ text_yes }}
+                        </label>
+                        <label class="btn btn-success {{ form_data['static_widget_randomize'] == 0 ? 'active' : '' }}">
+                          <input type="radio"
+                            name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_randomize]"
+                            value="0"
+                            autocomplete="off"
+                            {{ form_data['static_widget_randomize'] == 0 ? 'checked="checked"' : '' }}
+                          />{{ text_no }}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_product_limit }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['static_widget_product_limit'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_product_limit]" class="form-control" />
+                      {% if (error_static_widget_product_limit) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_static_widget_product_limit }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_static_widget_position }}</label>
+                    <div class="col-sm-10">
+                      <select name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_position]" class="form-control">
+                        {% if (form_data['static_widget_position'] == 'column_left') %}
+                          <option value="column_left" selected="selected">{{ text_static_widget_position_1 }}</option>
+                          <option value="column_right">{{ text_static_widget_position_2 }}</option>
+                          <option value="content_top">{{ text_static_widget_position_3 }}</option>
+                          <option value="content_bottom">{{ text_static_widget_position_4 }}</option>
+                        {% elseif (form_data['static_widget_position'] == 'column_right') %}
+                          <option value="column_left">{{ text_static_widget_position_1 }}</option>
+                          <option value="column_right" selected="selected">{{ text_static_widget_position_2 }}</option>
+                          <option value="content_top">{{ text_static_widget_position_3 }}</option>
+                          <option value="content_bottom">{{ text_static_widget_position_4 }}</option>
+                        {% elseif (form_data['static_widget_position'] == 'content_top') %}
+                          <option value="column_left">{{ text_static_widget_position_1 }}</option>
+                          <option value="column_right">{{ text_static_widget_position_2 }}</option>
+                          <option value="content_top" selected="selected">{{ text_static_widget_position_3 }}</option>
+                          <option value="content_bottom">{{ text_static_widget_position_4 }}</option>
+                        {% else %}
+                          <option value="column_left">{{ text_static_widget_position_1 }}</option>
+                          <option value="column_right">{{ text_static_widget_position_2 }}</option>
+                          <option value="content_top">{{ text_static_widget_position_3 }}</option>
+                          <option value="content_bottom" selected="selected">{{ text_static_widget_position_4 }}</option>
+                        {% endif %}
+                      </select>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_static_widget_position_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="input-sort_order">{{ text_static_widget_sort_order }}</label>
+                    <div class="col-sm-10">
+                      <input value="{{ form_data['static_widget_sort_order'] }}" type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[static_widget_sort_order]" class="form-control" />
+                      {% if (error_static_widget_sort_order) %}
+                        <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_static_widget_sort_order }}</div>
+                      {% endif %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_static_widget_sort_order_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Layout block -->
+                <div class="tab-pane fade" role="tabpanel" id="layout-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_hide_info_message }}</label>
+                    <div class="col-sm-10">
+                      <select name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[hide_info_message]" class="form-control">
+                        <option value="0" {{ form_data['hide_info_message'] == 0 ? 'selected="selected"' : '' }} >{{ text_no }}</option>
+                        <option value="1" {{ form_data['hide_info_message'] == 1 ? 'selected="selected"' : '' }} >{{ text_before_products_list }}</option>
+                        <option value="2" {{ form_data['hide_info_message'] == 2 ? 'selected="selected"' : '' }} >{{ text_after_products_list }}</option>
+                      </select>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle" aria-hidden="true"></i> {{ text_hide_info_message_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB CSS block -->
+                <div class="tab-pane fade" role="tabpanel" id="css-block">
+                  <div class="form-group pro-block">
+                    <label class="col-sm-2 control-label">{{ text_edit_css }}</label>
+                    <div class="col-sm-10">
+                      <textarea id="edit-css-block-0">{{ stylesheet_code }}</textarea>
+                      <br/>
+                      <button type="button" class="btn btn-primary" data-toggle="tooltip" title="{{ button_save_css }}" onclick="save_css('0', 'stylesheet');"><i class="fa fa-save"></i></button>
+                      <button type="button" class="btn btn-default" data-toggle="tooltip" title="{{ button_restore_css }}" onclick="confirm('{{ text_are_you_sure }}') ? restore_css('0', 'stylesheet', 'stylesheet_default') : false;"><i class="fa fa-refresh"></i></button>
+                      <br/><br/>
+                      <div id="result-css-block-0"></div>
+                    </div>
+                  </div>
+                  <div class="form-group pro-block">
+                    <label class="col-sm-2 control-label">{{ text_edit_css_rtl }}</label>
+                    <div class="col-sm-10">
+                      <textarea id="edit-css-block-1">{{ stylesheet_code_rtl }}</textarea>
+                      <br/>
+                      <button type="button" class="btn btn-primary" data-toggle="tooltip" title="{{ button_save_css }}" onclick="save_css('1', 'stylesheet_rtl');"><i class="fa fa-save"></i></button>
+                      <button type="button" class="btn btn-default" data-toggle="tooltip" title="{{ button_restore_css }}" onclick="confirm('{{ text_are_you_sure }}') ? restore_css('1', 'stylesheet_rtl', 'stylesheet_rtl_default') : false;"><i class="fa fa-refresh"></i></button>
+                      <br/><br/>
+                      <div id="result-css-block-1"></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Popup block -->
+                <div class="tab-pane fade" role="tabpanel" id="popup-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_background_images }}</label>
+                    <div class="col-sm-10">
+                      <div class="input-group div-background-images">
+                        {% if (backgrounds) %}
+                          {% set key = 1 %} {% for background in backgrounds %}
+                          <input type="radio" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[style_background]" id="label-img-{{ key }}" value="{{ background['name'] }}" {{ form_data['style_background'] is not empty and form_data['style_background'] == background['name'] ? 'checked' : '' }} />
+                          <button type="button" class="background-for-label" data-background-image-id="{{ key }}" data-background-image-src="{{ background['src'] }}" style="background:url({{ background['src'] }});"></button>
+                          {% set key = key + 1 %} {% endfor %}
+                        {% endif %}
+                      </div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_background_images_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group pro-block">
+                    <label class="col-sm-2 control-label">{{ text_popup_animation_type }}</label>
+                    <div class="col-sm-10">
+                      <select name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[popup_animation_type]" class="form-control">
+                        <option value="0" {{ form_data['popup_animation_type'] == 0 ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_1 }}</option>
+                        <option value="mfp-zoom-in" {{ form_data['popup_animation_type'] == 'mfp-zoom-in' ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_2 }}</option>
+                        <option value="mfp-zoom-out" {{ form_data['popup_animation_type'] == 'mfp-zoom-out' ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_3 }}</option>
+                        <option value="mfp-move-from-left" {{ form_data['popup_animation_type'] == 'mfp-move-from-left' ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_4 }}</option>
+                        <option value="mfp-move-from-top" {{ form_data['popup_animation_type'] == 'mfp-move-from-top' ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_5 }}</option>
+                        <option value="mfp-3d-flip" {{ form_data['popup_animation_type'] == 'mfp-3d-flip' ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_6 }}</option>
+                        <option value="mfp-newspaper" {{ form_data['popup_animation_type'] == 'mfp-newspaper' ? 'selected="selected"' : '' }} >{{ text_popup_animation_type_7 }}</option>
+                      </select>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_popup_animation_type_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_background_opacity }} <i class="fa fa-info-sign faq" data-toggle="tooltip" data-placement="right" title="{{ text_background_opacity_faq }}"></i></label>
+                    <div class="col-xs-10 col-sm-6 col-md-6 col-lg-3">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-success" type="button" onclick="if (parseInt($(this).parent().next().val())>=1){$(this).parent().next().val(~~$(this).parent().next().val()-1)}">-</button>
+                        </span>
+                        <input type="text" value="{{ form_data['background_opacity'] is not empty ? form_data['background_opacity'] : 0 }}" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[background_opacity]" class="form-control" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-success" type="button" onclick="if (parseInt($(this).parent().prev().val())<=9){$(this).parent().prev().val(~~$(this).parent().prev().val()+1)}">+</button>
+                        </span>
+                      </div>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_background_opacity_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Import/Export module block -->
+                <div class="tab-pane fade" role="tabpanel" id="module-import-export-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_restore_from_external_file }}</label>
+                    <div class="col-sm-5">
+                      <input type="file" name="module_import" style="display:none;" id="module-load-file" />
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-primary" type="button" onclick="$('#module-load-file').click();">{{ text_select_file }}</button>
+                        </span>
+                        <input type="text" name="module_load_file_mask" id="module-load-file-mask" class="form-control">
+                        <span class="input-group-btn">
+                          <button id="module-button-import-file-1" type="submit" formaction="{{ action_plus }}" form="form" class="btn btn-success" disabled="disabled"><i class="fa fa-download"></i> {{ button_import }}</button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_restore_from_local_file }}</label>
+                    <div class="col-sm-5">
+                      <div class="input-group">
+                        <select name="module_backup_file_name" class="form-control">
+                          <option value="">{{ text_make_a_choice }}</option>
+                          {% if (module_backup_files) %}
+                          {% for module_backup_file in module_backup_files %}
+                          <option value="{{ module_backup_file['name'] }}">{{ module_backup_file['name'] }}</option>
+                          {% endfor %}
+                          {% endif %}
+                        </select>
+                        <span class="input-group-btn">
+                          <button id="module-button-import-file-2" type="button" class="btn btn-success" disabled="disabled"><i class="fa fa-download"></i> {{ button_import }}</button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_export }}</label>
+                    <div class="col-sm-5">
+                      <a href="{{ export_module_settings_button }}" class="btn btn-primary"><i class="fa fa-upload"></i> {{ button_export }}</a>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Product widget language block -->
+                <div class="tab-pane fade" role="tabpanel" id="language-product-widget-block">
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_heading_product_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][heading_product_widget]" value="{{ text_data[language['language_id']]['heading_product_widget'] is not empty ? text_data[language['language_id']]['heading_product_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_heading_product_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_heading_product_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_heading_product_widget_faq }}</div>
+                      <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapse-heading-product-widget-sub" aria-expanded="false" aria-controls="collapse-heading-product-widget-sub" style="margin-top:10px;">{{ button_view_shortcodes }}</button>
+                    </div>
+                  </div>
+                  <div class="collapse" id="collapse-heading-product-widget-sub">
+                    <div class="form-group" style="margin-bottom: 0px;">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-10">
+                        <div class="well">
+                          {{ text_heading_product_widget_sub_h1 }}<br/>
+                          {{ text_heading_product_widget_sub_c1 }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_alternative_heading_product_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][alternative_heading_product_widget]" value="{{ text_data[language['language_id']]['alternative_heading_product_widget'] is not empty ? text_data[language['language_id']]['alternative_heading_product_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_alternative_heading_product_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_alternative_heading_product_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_alternative_heading_product_widget_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Cart widget language block -->
+                <div class="tab-pane fade" role="tabpanel" id="language-cart-widget-block">
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_heading_cart_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][heading_cart_widget]" value="{{ text_data[language['language_id']]['heading_cart_widget'] is not empty ? text_data[language['language_id']]['heading_cart_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_heading_cart_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_heading_cart_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_heading_cart_widget_faq }}</div>
+                      <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapse-heading-cart-widget-sub" aria-expanded="false" aria-controls="collapse-heading-cart-widget-sub" style="margin-top:10px;">{{ button_view_shortcodes }}</button>
+                    </div>
+                  </div>
+                  <div class="collapse" id="collapse-heading-cart-widget-sub">
+                    <div class="form-group" style="margin-bottom: 0px;">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-10">
+                        <div class="well">
+                          {{ text_heading_cart_widget_sub_h1 }}<br/>
+                          {{ text_heading_cart_widget_sub_c1 }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Popup widget language block -->
+                <div class="tab-pane fade" role="tabpanel" id="language-popup-widget-block">
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_heading_popup_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][heading_popup_widget]" value="{{ text_data[language['language_id']]['heading_popup_widget'] is not empty ? text_data[language['language_id']]['heading_popup_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_heading_popup_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_heading_popup_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_heading_popup_widget_faq }}</div>
+                      <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapse-heading-popup-widget-sub" aria-expanded="false" aria-controls="collapse-heading-popup-widget-sub" style="margin-top:10px;">{{ button_view_shortcodes }}</button>
+                    </div>
+                  </div>
+                  <div class="collapse" id="collapse-heading-popup-widget-sub">
+                    <div class="form-group" style="margin-bottom: 0px;">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-10">
+                        <div class="well">
+                          {{ text_heading_popup_widget_sub_h1 }}<br/>
+                          {{ text_heading_popup_widget_sub_c1 }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_alternative_heading_popup_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][alternative_heading_popup_widget]" value="{{ text_data[language['language_id']]['alternative_heading_popup_widget'] is not empty ? text_data[language['language_id']]['alternative_heading_popup_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_alternative_heading_popup_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_alternative_heading_popup_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_alternative_heading_popup_widget_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_go_to_cart_button }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][go_to_cart_button]" value='{{ text_data[language['language_id']]['go_to_cart_button'] is not empty ? text_data[language['language_id']]['go_to_cart_button'] : '' }}' class="form-control" />
+                      </div>
+                      {% if (error_go_to_cart_button[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_go_to_cart_button[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_go_to_cart_button_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_continue_shopping_button }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][continue_shopping_button]" value="{{ text_data[language['language_id']]['continue_shopping_button'] is not empty ? text_data[language['language_id']]['continue_shopping_button'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_continue_shopping_button[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_continue_shopping_button[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_continue_shopping_button_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_info_message_popup_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <textarea name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][info_message_popup_widget]" id="info_message_popup_widget{{ language['language_id'] }}" class="form-control">{{ text_data[language['language_id']]['info_message_popup_widget'] is not empty ? text_data[language['language_id']]['info_message_popup_widget'] : '' }}</textarea>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs" onclick="texteditor_action({id: '#info_message_popup_widget{{ language['language_id'] }}'});">{{ text_open_texteditor }}</button>
+                        <button type="button" class="btn btn-default btn-xs" onclick="texteditor_action({id: '#info_message_popup_widget{{ language['language_id'] }}', start: false, destroy: true});" style="display: none;">{{ text_save_texteditor }}</button>
+                      </div>
+                      {% if (error_info_message_popup_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger" role="alert">{{ error_info_message_popup_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_info_message_popup_widget_faq }}</div>
+                      <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapse-info-message-popup-widget-sub" aria-expanded="false" aria-controls="collapse-info-message-popup-widget-sub" style="margin-top:10px;">{{ button_view_shortcodes }}</button>
+                    </div>
+                  </div>
+                  <div class="collapse" id="collapse-info-message-popup-widget-sub">
+                    <div class="form-group" style="margin-bottom: 0px;">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-10">
+                        <div class="well">
+                          {{ text_info_message_popup_widget_sub_h1 }}<br/>
+                          {{ text_info_message_popup_widget_sub_c1 }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_alternative_info_message_popup_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <textarea name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][alternative_info_message_popup_widget]" id="alternative_info_message_popup_widget{{ language['language_id'] }}" class="form-control">{{ text_data[language['language_id']]['alternative_info_message_popup_widget'] is not empty ? text_data[language['language_id']]['alternative_info_message_popup_widget'] : '' }}</textarea>
+                      </div>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs" onclick="texteditor_action({id: '#alternative_info_message_popup_widget{{ language['language_id'] }}'});">{{ text_open_texteditor }}</button>
+                        <button type="button" class="btn btn-default btn-xs" onclick="texteditor_action({id: '#alternative_info_message_popup_widget{{ language['language_id'] }}', start: false, destroy: true});" style="display: none;">{{ text_save_texteditor }}</button>
+                      </div>
+                      {% if (error_alternative_info_message_popup_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger" role="alert">{{ error_alternative_info_message_popup_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_alternative_info_message_popup_widget_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Static widget language block -->
+                <div class="tab-pane fade" role="tabpanel" id="language-static-widget-block">
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_heading_static_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][heading_static_widget]" value="{{ text_data[language['language_id']]['heading_static_widget'] is not empty ? text_data[language['language_id']]['heading_static_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_heading_static_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_heading_static_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_heading_static_widget_faq }}</div>
+                      <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapse-heading-static-widget-sub" aria-expanded="false" aria-controls="collapse-heading-static-widget-sub" style="margin-top:10px;">{{ button_view_shortcodes }}</button>
+                    </div>
+                  </div>
+                  <div class="collapse" id="collapse-heading-static-widget-sub">
+                    <div class="form-group" style="margin-bottom: 0px;">
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-10">
+                        <div class="well">
+                          {{ text_heading_static_widget_sub_h1 }}<br/>
+                          {{ text_heading_static_widget_sub_c1 }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group required">
+                    <label class="col-sm-2 control-label">{{ text_alternative_heading_static_widget }}</label>
+                    <div class="col-sm-10">
+                      {% for language in languages %}
+                      <div class="input-group" style="margin-bottom: 5px;">
+                        <span class="input-group-addon"><img src="{{ language['image'] }}" title="{{ language['name'] }}" /></span>
+                        <input type="text" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3o474x4p464b464q4j5[{{ language['language_id'] }}][alternative_heading_static_widget]" value="{{ text_data[language['language_id']]['alternative_heading_static_widget'] is not empty ? text_data[language['language_id']]['alternative_heading_static_widget'] : '' }}" class="form-control" />
+                      </div>
+                      {% if (error_alternative_heading_static_widget[language['language_id']] is defined) %}
+                      <div class="alert alert-danger text-danger"><i class="fa fa-exclamation-circle"></i> {{ error_alternative_heading_static_widget[language['language_id']] }}</div>
+                      {% endif %}
+                      {% endfor %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_alternative_heading_static_widget_faq }}</div>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Up-sell block -->
+                <div class="tab-pane fade" role="tabpanel" id="up-sell-block">
+                  <table id="upsell-blocks" class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <td class="text-left">{{ column_products_in_cart }}</td>
+                        <td class="text-left">{{ column_recommended_products }}</td>
+                        <td class="text-left">{{ column_action }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% set upsell_row = 0 %}
+                      {% for upsell in upsells %}
+                      <tr id="upsell_row{{ upsell_row }}">
+                        <td class="text-left" style="vertical-align:top">
+                          <input type="text" name="product_cart{{ upsell_row }}" value="" placeholder="{{ text_enter_product }}" class="form-control" onmousedown="cartautocomplete({{ upsell_row }});"/>
+                          <div id="cart-products{{ upsell_row }}" class="well well-sm" style="height: 150px; overflow: auto;">
+                            {% for product in upsell['cart_products'] %}
+                            <div id="cart-product{{ product['product_id'] }}"><i class="fa fa-minus-circle" onclick="$(this).parent().remove();"></i> {{ product['name'] }}
+                              <input type="hidden" name="{{ _name }}_upsell_data[{{ upsell_row }}][cart_products][]" value="{{ product['product_id'] }}" />
+                            </div>
+                            {% endfor %}
+                          </div>
+                          <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_enter_product_faq }}</div>
+                        </td>
+                        <td class="text-left" style="vertical-align:top">
+                          <select name="{{ _name }}_upsell_data[{{ upsell_row }}][type]" class="form-control">
+                            <option value="0" {{ upsell['type'] == 0 ? 'selected="selected"' : '' }} >{{ text_make_a_choice }}</option>
+                            <option value="1" {{ upsell['type'] == 1 ? 'selected="selected"' : '' }} >{{ text_get_from_related_products }}</option>
+                            <option value="2" {{ upsell['type'] == 2 ? 'selected="selected"' : '' }} >{{ text_select_products }}</option>
+                            <option value="3" {{ upsell['type'] == 3 ? 'selected="selected"' : '' }} >{{ text_combo_products }}</option>
+                          </select>
+                          <div class="special-margin"></div>
+                          <div style="{{ upsell['type'] == 2 or upsell['type'] == 3 ? '' : 'display:none;' }}">
+                            <input type="text" name="product_upsell{{ upsell_row }}" value="" placeholder="{{ text_enter_product }}" class="form-control" onmousedown="upsellautocomplete({{ upsell_row }});"/>
+                            <div id="upsell-products{{ upsell_row }}" class="well well-sm" style="height: 150px; overflow: auto;">
+                              {% for product in upsell['upsell_products'] %}
+                              <div id="upsell-product{{ product['product_id'] }}"><i class="fa fa-minus-circle" onclick="$(this).parent().remove();"></i> {{ product['name'] }}
+                                <input type="hidden" name="{{ _name }}_upsell_data[{{ upsell_row }}][upsell_products][]" value="{{ product['product_id'] }}" />
+                              </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-left">
+                          <button type="button" onclick="$('#upsell_row{{ upsell_row }}, .tooltip').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                        </td>
+                      </tr>
+                      {% set upsell_row = upsell_row + 1 %}
+                      {% endfor %}
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="2"></td>
+                        <td class="text-left"><button type="button" onclick="addUpsell();" data-toggle="tooltip" title="{{ button_add_upsell }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- TAB Support General block -->
+                <div class="tab-pane fade" role="tabpanel" id="support-general-block">
+                  {% if (support_info['general'] is defined) %}
+                    {{ support_info['general'] }}
+                  {% else %}
+                    <div class="alert alert-danger" role="alert"><i class="fa fa-info-circle"></i> {{ error_data_load_error }}</div>
+                  {% endif %}
+                </div>
+                <!-- TAB Support Extension block -->
+                <div class="tab-pane fade" role="tabpanel" id="support-extension-block">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_license_text }}</label>
+                    <div class="col-sm-10">
+                      <p style="margin-top: 9px;">{{ license_type }}</p>
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_license_text_faq }}</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_license_holder }}</label>
+                    <div class="col-sm-10">
+                      <p style="margin-top: 9px;">{{ license_holder }}</p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_license_expires }}</label>
+                    <div class="col-sm-10">
+                      <p style="margin-top: 9px;">{{ license_expire }} {% if (license_expire_status == 0) %}<i class="fa fa-refresh fa-spin fa-fw"></i> <b><a href="http://help.ocdevwizard.com" target="_blank">[{{ text_renew_my_license }}]</a></b>{% endif %}</p>
+                      {% if (license_expire_status == 0) %}
+                      <div class="alert alert-danger" role="alert"><i class="fa fa-info-circle"></i> {{ text_license_expires_faq_0 }}</div>
+                      {% elseif (license_expire_status == 1) %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_license_expires_faq_1 }}</div>
+                      {% elseif (license_expire_status == 2) %}
+                      <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_license_expires_faq_2 }}</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% if (products) %}
+                  {% for product in products %}
+                  {% if (product['extension_id'] == 33733) %}
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_installed_module_name }}</label>
+                    <div class="col-sm-10">
+                      <p style="margin-top: 9px;"><i class="fa fa-external-link"></i> <a href="{{ product['url'] }}" target="_blank">{{ product['title'] }}</a></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_installed_module_version }}</label>
+                    <div class="col-sm-10">
+                      {% set _tmp_module_version = product.version_compare %}
+                      <p style="margin-top: 9px;">{{ _version }} {% if (_tmp_module_version == "-1") %}<i class="fa fa-refresh fa-spin fa-fw"></i> <b><a href="{{ product['url'] }}" target="_blank">[{{ text_new_module_version }} {{ product['latest_version'] }}]</a></b>{% endif %}</p>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ text_opencart_version }}</label>
+                    <div class="col-sm-10">
+                      <p style="margin-top: 9px;">{{ opencart_version }}</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- TAB Support General block -->
+                <div class="tab-pane fade" role="tabpanel" id="support-terms-block">
+                  {% if (support_info['terms'] is defined) %}
+                    {{ support_info['terms'] }}
+                  {% else %}
+                    <div class="alert alert-danger" role="alert"><i class="fa fa-info-circle"></i> {{ error_data_load_error }}</div>
+                  {% endif %}
+                </div>
+                <!-- TAB Support Faq block -->
+                <div class="tab-pane fade" role="tabpanel" id="support-faq-block">
+                  {% if (support_info['faq'] is defined) %}
+                    {{ support_info['faq'] }}
+                  {% else %}
+                    <div class="alert alert-danger" role="alert"><i class="fa fa-info-circle"></i> {{ error_data_load_error }}</div>
+                  {% endif %}
+                </div>
+                <!-- TAB OCdev Products -->
+                <div class="tab-pane fade" role="tabpanel" id="promo-block">
+                  {% if (products) %}
+                  <div class="row">
+                    {% for product in products %}
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                      <button type="button" class="thumbnail" data-promo-product-id="{{ product['extension_id'] }}" data-toggle="tooltip" data-placement="bottom" title="{{ button_read_more }}" >
+                        <img src="{{ product['img'] }}" alt="{{ product['title'] }}" width="100%" />
+                      </button>
+                    </div>
+                    {% endfor %}
+                  </div>
+                  {% else %}
+                  <div class="alert alert-danger" role="alert"><i class="fa fa-info-circle"></i> {{ error_data_load_error }}</div>
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <input type="hidden" style="display:none;" name="{{ _name }}_license" value="{{ license_key }}" />
+                <input type="hidden" style="display:none;" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[front_module_name]" value="{{ heading_title }}" />
+                <input type="hidden" style="display:none;" name="r4k4j5k4q4f584a4j5b4t5j416q464p4w5j484p5q544g4w5u5z3a4h4r4i464b464q4j5[front_module_version]" value="{{ _version }}" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- start: code for tab OCdev products -->
+<script type="text/javascript">
+$(document).delegate('button[data-promo-product-id]', 'click', function(e) {
+  e.preventDefault();
+
+  $('#modal-promo-product').remove();
+
+  var element = this;
+
+  $(element).tooltip('hide');
+
+  $.ajax({
+    url: 'index.php?route=extension/ocdevwizard/{{ _name }}/get_promo_products&{{ token }}&extension_id='+$(element).attr('data-promo-product-id'),
+    type: 'get',
+    dataType: 'json',
+    success: function(json) {
+      html = '';
+      if (json['product']) {
+        html += '<div id="modal-promo-product" class="modal fade">';
+        html += '  <div class="modal-dialog modal-mf" style="max-width:450px;">';
+        html += '    <div class="modal-content">';
+        html += '      <div class="modal-header">';
+        html += '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>';
+        html += '        <h4 class="modal-title" id="myModalLabel">'+json['product']['title']+'</h4>';
+        html += '      </div>';
+        html += '      <div class="modal-body">';
+        html += '        <div role="tabpanel">';
+        html += '          <ul class="nav nav-tabs" role="tablist">';
+        html += '            <li class="active"><a href="#modal-info" data-toggle="tab"><i class="fa fa-info-circle"></i> {{ tab_modal_info }}</a></li>';
+        html += '            <li><a href="#modal-opencart-version" data-toggle="tab"><i class="fa fa-check-circle"></i> {{ tab_modal_for_opencart }}</a></li>';
+        html += '            <li><a href="#modal-features" data-toggle="tab"><i class="fa fa-star"></i> {{ tab_modal_features }}</a></li>';
+        html += '          </ul>';
+        html += '          <div class="tab-content">';
+        html += '            <div class="tab-pane active" id="modal-info">';
+        html += '              <ul class="list-group">';
+        html += '                <li class="list-group-item">{{ text_modal_price }} <b class="pull-right">'+json['product']['price']+'</b></li>';
+        html += '                <li class="list-group-item">{{ text_modal_date_added }} <b class="pull-right">'+json['product']['date_added']+'</b></li>';
+        html += '                <li class="list-group-item">{{ text_modal_latest_version }} <b class="pull-right">'+json['product']['latest_version']+'</b></li>';
+        html += '              </ul>';
+        html += '            </div>';
+        html += '            <div class="tab-pane" id="modal-opencart-version">';
+        html += '              <ul class="list-group">';
+        html += '                <li class="list-group-item">';
+        html += '                  <div class="row">';
+                                   $.each(json['opencart_version_array'], function(i,value) {
+        html += '                    <div class="col-xs-6 col-md-2 col-sm-3">'+value+'</div>';
+                                   });
+        html += '                  </div>';
+        html += '                </li>';
+        html += '              </ul>';
+        html += '            </div>';
+        html += '            <div class="tab-pane" id="modal-features">';
+        html += '              <ul class="list-group">';
+        html += '                <li class="list-group-item">';
+        html += '                  <div class="row">';
+                                   $.each(json['opencart_features_array'], function(i,value) {
+        html += '                    <div class="col-xs-12 col-md-12 col-sm-12">'+value+'</div>';
+                                   });
+        html += '                  </div>';
+        html += '                </li>';
+        html += '              </ul>';
+        html += '            </div>';
+        html += '          </div>';
+        html += '        </div>';
+        html += '        <a href="'+json['product']['url']+'" target="_blank" class="btn btn-primary" style="width:100%;"><i class="fa fa-external-link"></i> {{ button_visit_sales_page }}</a>';
+        html += '      </div>  ';
+        html += '    </div';
+        html += '  </div>';
+        html += '</div>';
+      }
+
+      $('body').append(html);
+
+      $('#modal-promo-product').modal('show');
+    }
+  });
+});
+</script>
+<!-- end: code for tab OCdev products -->
+<!-- start: code for tab Popup setting -->
+<script type="text/javascript">
+$(document).delegate('button[data-background-image-id]', 'click', function(e) {
+  e.preventDefault();
+
+  $('#modal-background-image').remove();
+
+  var element = this;
+
+  html  = '<div id="modal-background-image" class="modal fade">';
+  html += '  <div class="modal-dialog modal-mf">';
+  html += '    <div class="modal-content">';
+  html += '      <div class="modal-header">';
+  html += '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>';
+  html += '        <h4 class="modal-title" id="myModalLabel">{{ text_preview_image }}</h4>';
+  html += '      </div>';
+  html += '      <div class="modal-body">';
+  html += '        <div style="background:url('+$(element).attr('data-background-image-src')+');width: 100%;height: 500px;"></div>';
+  html += '      </div>';
+  html += '      <div class="modal-footer">';
+  html += '        <button type="button" class="btn btn-info" onclick="button_apply_image(\''+$(element).attr('data-background-image-id')+'\');">{{ button_select_image }}</button>';
+  html += '      </div>';
+  html += '    </div';
+  html += '  </div>';
+  html += '</div>';
+
+  $('body').append(html);
+
+  $('#modal-background-image').modal('show');
+});
+
+function button_apply_image(id) {
+  $('.div-background-images input[type=\'checkbox\']').attr('checked', false);
+  $('#label-img-'+id).attr('checked', true);
+  $('#modal-background-image').modal('hide');
+}
+</script>
+<!-- end: code for tab Popup setting -->
+<!-- start: code for tab CSS setting -->
+<script type="text/javascript">
+var codemirror = CodeMirror.fromTextArea(document.querySelector('#edit-css-block-0'), {
+  mode : "css",
+  height: '500px',
+  lineNumbers: true,
+  autofocus: true,
+  theme: 'monokai',
+  lineWrapping: true
+});
+
+var codemirror2 = CodeMirror.fromTextArea(document.querySelector('#edit-css-block-1'), {
+  mode : "css",
+  height: '500px',
+  lineNumbers: true,
+  autofocus: true,
+  theme: 'monokai',
+  lineWrapping: true
+});
+
+$('a[href=\'#css-block\']').on('click', function() {
+  setTimeout(function() {
+    $(this).click();
+    codemirror.refresh();
+    codemirror2.refresh();
+  }, 500);
+});
+
+function save_css(id, stylesheet) {
+  if (id == '0') {
+    var codemirror_code = codemirror;
+  } else {
+    var codemirror_code = codemirror2;
+  }
+  $.ajax({
+    type: 'post',
+    url:  'index.php?route=extension/ocdevwizard/{{ _name }}/save_css&{{ token }}',
+    data: 'code='+encodeURIComponent(codemirror_code.getValue())+'&stylesheet='+stylesheet,
+    dataType: 'json',
+    success: function(json) {
+      if (json['error']) {
+        $('#result-css-block-'+id).html('<div class="alert alert-danger"><i class="fa fa-check-circle"></i> '+json['error']+' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+      }
+      if (json['success']) {
+        $('#result-css-block-'+id).html('<div class="alert alert-success"><i class="fa fa-check-circle"></i> '+json['success']+' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+      }
+    }
+  });
+}
+
+function restore_css(id, stylesheet, stylesheet_default) {
+  $.ajax({
+    type: 'post',
+    url:  'index.php?route=extension/ocdevwizard/{{ _name }}/restore_css&{{ token }}',
+    data: 'stylesheet='+stylesheet+'&stylesheet_default='+stylesheet_default,
+    dataType: 'json',
+    success: function(json) {
+      if (json['error']) {
+        $('#result-css-block-'+id).html('<div class="alert alert-danger"><i class="fa fa-check-circle"></i> '+json['error']+' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+      }
+      if (json['success']) {
+        $('#result-css-block-'+id).html('<div class="alert alert-success"><i class="fa fa-check-circle"></i> '+json['success']+' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        setTimeout(function() {
+          location.reload();
+        }, 2000);
+      }
+    }
+  });
+}
+</script>
+<!-- end: code for tab CSS setting -->
+<!-- start: code for tab Marketing Tools -->
+<script type="text/javascript">
+var upsell_row = {{ upsell_row }};
+
+function addUpsell() {
+  html  = '<tr id="upsell_row'+upsell_row+'">';
+  html += '   <td class="text-left" style="vertical-align:top">';
+  html += '   <input type="text" name="product_cart'+upsell_row+'" value="" placeholder="{{ text_enter_product }}" class="form-control" />';
+  html += '   <div id="cart-products'+upsell_row+'" class="well well-sm" style="height: 150px; overflow: auto;"></div>';
+  html += '   <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> {{ text_enter_product_faq }}</div>';
+  html += '   </td>';
+  html += '   <td class="text-left" style="vertical-align:top">';
+  html += '     <select name="{{ _name }}_upsell_data['+upsell_row+'][type]" class="form-control">';
+  html += '       <option value="0" selected="selected">{{ text_make_a_choice }}</option>';
+  html += '       <option value="1">{{ text_get_from_related_products }}</option>';
+  html += '       <option value="2">{{ text_select_products }}</option>';
+  html += '       <option value="3">{{ text_combo_products }}</option>';
+  html += '     </select>';
+  html += '   <div class="special-margin"></div>';
+  html += '   <div style="display:none;">';
+  html += '     <input type="text" name="product_upsell'+upsell_row+'" value="" placeholder="{{ text_enter_product }}" class="form-control" />';
+  html += '     <div id="upsell-products'+upsell_row+'" class="well well-sm" style="height: 150px; overflow: auto;"></div>';
+  html += '   </div>';
+  html += '   </td>';
+  html += '   <td class="text-left"><button type="button" onclick="$(\'#upsell_row'+upsell_row+'\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+  html += '</tr>';
+
+  $('#upsell-blocks tbody').append(html);
+
+  cartautocomplete(upsell_row);
+  upsellautocomplete(upsell_row);
+
+  $('select[name*=type]').change(function() {
+    var val = $(this).val();
+    if (val == 2 || val == 3) {
+      $(this).next().next().show();
+    } else {
+      $(this).next().next().hide();
+    }
+  });
+
+  upsell_row++;
+}
+
+$('select[name*=type]').change(function() {
+  var val = $(this).val();
+  if (val == 2 || val == 3) {
+    $(this).next().next().show();
+  } else {
+    $(this).next().next().hide();
+  }
+});
+
+function cartautocomplete(upsell_row) {
+  $('input[name=product_cart'+upsell_row+']').autocomplete({
+    source: function(request, response) {
+      $.ajax({
+        url: 'index.php?route=extension/ocdevwizard/{{ _name }}/autocomplete_product&{{ token }}&filter_type=1&filter_name='+ encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item['name'],
+              value: item['product_id']
+            }
+          }));
+
+        }
+      });
+    },
+    select: function(item) {
+      $('input[name=product_cart'+upsell_row+']').val('');
+      $('#cart-product'+item['value']).remove();
+      $('#cart-products'+upsell_row).append('<div id="cart-product'+item['value']+'"><i class="fa fa-minus-circle" onclick="$(this).parent().remove();"></i> '+item['label']+'<input type="hidden" name="{{ _name }}_upsell_data['+upsell_row+'][cart_products][]" value="'+item['value']+'" /></div>');
+    }
+  });
+}
+
+function upsellautocomplete(upsell_row) {
+  $('input[name=product_upsell'+upsell_row+']').autocomplete({
+    source: function(request, response) {
+      $.ajax({
+        url: 'index.php?route=extension/ocdevwizard/{{ _name }}/autocomplete_product&{{ token }}&filter_type=2&filter_name='+ encodeURIComponent(request),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item['name'],
+              value: item['product_id']
+            }
+          }));
+
+        }
+      });
+    },
+    select: function(item) {
+      $('input[name=product_upsell'+upsell_row+']').val('');
+      $('#upsell-products'+upsell_row+' #upsell-product'+item['value']).remove();
+      $('#upsell-products'+upsell_row).append('<div id="upsell-product'+item['value']+'"><i class="fa fa-minus-circle" onclick="$(this).parent().remove();"></i> '+item['label']+'<input type="hidden" name="{{ _name }}_upsell_data['+upsell_row+'][upsell_products][]" value="'+item['value']+'" /></div>');
+    }
+  });
+}
+</script>
+<!-- end: code for tab Marketing Tools -->
+<!-- start: code for tab Language setting -->
+<script type="text/javascript">
+function texteditor_action({id = '', destroy = false, start = true} = {}) {
+  if (start) {
+    $(id).summernote({focus: true});
+
+    $(id).parent().next().find('button:eq(1)').show();
+
+    if ($(id).summernote('isEmpty')) {
+      $(id).val('');
+    }
+  }
+
+  if (destroy) {
+    $(id).summernote('destroy');
+    $(id).parent().next().find('button:eq(1)').hide();
+  }
+}
+</script>
+<!-- end: code for tab Language setting -->
+<!-- start: code for tab Import/Export module setting -->
+<script type="text/javascript">
+$('#module-load-file').change(function(){
+  $('#module-load-file-mask').val($(this).val());
+  $('#module-button-import-file-1').attr('disabled', false);
+});
+
+$('select[name=\'module_backup_file_name\']').change(function(){
+  if ($(this).val()) {
+    $('#module-button-import-file-2').attr('disabled', false);
+  } else {
+    $('#module-button-import-file-2').attr('disabled', true);
+  }
+});
+
+$('#module-button-import-file-2').on('click', function(){
+  $.ajax({
+    type: 'post',
+    url:  'index.php?route=extension/ocdevwizard/{{ _name }}/import_module_settings&{{ token }}&store_id={{ store_id }}',
+    data: 'file_name='+$('select[name=\'module_backup_file_name\']').val(),
+    dataType: 'json',
+    success: function(json) {
+      if (json['success']) {
+        $('#top-alerts').prepend('<div class="alert alert-success"><i class="fa fa-check-circle"></i> '+json['success']+' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+        setTimeout(function() {
+          location.reload();
+        }, 2000);
+      }
+    }
+  });
+});
+</script>
+<!-- end: code for tab Import/Export module setting -->
+<!-- start: code for module usability -->
+<script type="text/javascript">
+if (window.localStorage && window.localStorage['last_active_tab']) {
+  $('#setting-tabs a[href='+window.localStorage['last_active_tab']+']').trigger('click').addClass('list-group-item-warning').prepend('<i class="fa fa-chevron-right"></i>');
+  $('body,html').animate({
+    scrollTop: 0
+  }, 800);
+}
+
+$('#setting-tabs a[data-toggle="tab"]').click(function() {
+  if (window.localStorage) {
+    window.localStorage['last_active_tab'] = $(this).attr('href');
+  }
+  $('#setting-tabs a[data-toggle="tab"]').removeClass('list-group-item-warning').find('i[class=\'fa fa-chevron-right\']').remove();
+  $(this).addClass('list-group-item-warning').prepend('<i class="fa fa-chevron-right"></i>');
+  $('body, html').animate({
+    scrollTop: 0
+  }, 800);
+});
+
+$('.btn-toggle').on('click', '.btn', function() {
+  if(!$(this).hasClass('disabled')){
+    $(this).addClass('btn-success').siblings().removeClass('btn-success').addClass('btn-default');
+  }
+});
+
+$('.btn-toggle').on('click', '.disabled', function() {
+  return false;
+});
+
+$('body').on('hidden.bs.modal', function () {
+  if ($('.modal.in').length > 0) {
+    $('body').addClass('modal-open');
+  }
+});
+
+$(document).delegate('button[data-faq-target]', 'click', function(e) {
+  e.preventDefault();
+
+  $('#modal-faq').remove();
+
+  var element = this;
+
+  html  = '<div id="modal-faq" class="modal fade bs-example-modal-lg">';
+  html += '  <div class="modal-dialog modal-lg">';
+  html += '    <div class="modal-content">';
+  html += '      <div class="modal-header">';
+  html += '        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>';
+  html += '        <h4 class="modal-title" id="myModalLabel">{{ text_preview_image }}</h4>';
+  html += '      </div>';
+  html += '      <div class="modal-body">';
+  html += '        <img src="http://images.ocdevwizard.com/{{ _name }}/'+$(element).attr('data-faq-target')+'.gif" width="100%" />';
+  html += '      </div>';
+  html += '      <div class="modal-footer">';
+  html += '        <a href="http://images.ocdevwizard.com/{{ _name }}/'+$(element).attr('data-faq-target')+'.gif" class="btn btn-info" target="_blank">{{ button_open_image_in_original_size }}</a>';
+  html += '      </div>';
+  html += '    </div';
+  html += '  </div>';
+  html += '</div>';
+
+  $('body').append(html);
+
+  $('#modal-faq').modal('show');
+});
+
+$(function(){
+  if ($('.pro-block').length) {
+    $('.pro-block').each(function(index) {
+      $(this).find('.control-label').append('<div class="clear"></div><div class="label label-info" style="text-transform: uppercase;">{{ text_available_in_pro_version }}</div>');
+      // $(this).find('input[type=\'radio\'], input[type=\'checkbox\'], select, button').attr('disabled', true);
+      // $(this).find('input[type=\'text\'], textarea').on('focus', function(){ alert('{{ text_available_in_pro_version }}'); });
+      // $(this).find('label').addClass('disabled');
+      // $(this).addClass('pro-version-only');
+    });
+  }
+});
+</script>
+<!-- end: code for module usability -->
+{{ footer }}

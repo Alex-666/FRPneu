@@ -1,0 +1,99 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <!-- Form submit button -->
+        {# <button type="submit" form="form-coreadmin-module" data-toggle="tooltip" title="{{text_button_save}}" class="btn btn-primary"><i class="fa fa-save"></i></button> #}
+        <!-- Back button -->
+        <a href="{{cancel}}" data-toggle="tooltip" title="{{ text_button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <!-- Heading is mentioned here -->
+      <h1>{{ heading_title }}</h1>
+      <!-- breadcrumb -->
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <!-- main content -->
+  <div class="container-fluid">
+    <!-- if it contains a warning then it will be visible as an alert -->
+    {% if error_warning %}
+      <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+      </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <!-- form starts here -->
+        <form action="{{form_action}}" method="post" enctype="multipart/form-data" id="form--module" class="form-horizontal">
+            <h3>{{text_reg_title}}</h3>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_owner}}</label>
+              <div class="col-sm-10">
+                <input class="form-control" value="{{owner}}" name="owner">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_email}}</label>
+              <div class="col-sm-10">
+                <input class="form-control" value="{{email}}" name="email">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_telephone}}</label>
+              <div class="col-sm-10">
+                <input class="form-control" value="{{telephone}}" name="telephone">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_storename}}</label>
+              <div class="col-sm-10">
+                <input class="form-control" value="{{store_name}}" name="store_name">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_url}}</label>
+              <div class="col-sm-10">
+                <input readonly class="form-control" value="{{url}}" name="url">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_country}}</label>
+              <div class="col-sm-10">
+                <input readonly class="form-control" value="{{country}}" name="country">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{text_reg_sla}}</label>
+              <div class="col-sm-10 checkbox">
+                <label>
+                  <input type="checkbox" class="form-check-input" value="1" name="sla" {% if sla %}checked{% endif %}>
+                  {{ text_reg_sla_description }}
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-10 col-sm-offset-2">
+                <button class="btn btn-primary">{{btn_register}}</button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{ footer }}

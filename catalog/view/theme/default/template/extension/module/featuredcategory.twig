@@ -1,0 +1,17 @@
+<h3>{{ name }}</h3>
+<div class="row">
+  
+     {% for category in categories %}
+    <div class="col-md-3 category_box">
+      <div class="image">
+        <a href="{{ category.href }}"><center>
+          <img src="{{ category.thumb }}" alt="{{ category.name }}" title="{{ category.name }}" class="img-responsive" /></center>
+        </a>
+      </div>
+      <div class="category-name">
+        <h4><center><a href="{{ category.href }}">{{ category.name }}</a></center></h4>  
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<br>

@@ -1,0 +1,24 @@
+<?php //Copyright: opencart.cz
+$_['heading_title']                               = 'Profil';
+$_['text_success']                                = 'Úspěch: Úprava profilu proběhla úspěšně!';
+$_['text_edit']                                   = 'Upravit profil';
+$_['column_username']                             = 'Uživatelské jméno';
+$_['column_status']                               = 'Stav';
+$_['column_date_added']                           = 'Datum přidání';
+$_['column_action']                               = 'Akce';
+$_['entry_username']                              = 'Uživatelské jméno';
+$_['entry_password']                              = 'Heslo';
+$_['entry_confirm']                               = 'Potvrzení';
+$_['entry_firstname']                             = 'Jméno';
+$_['entry_lastname']                              = 'Příjmení';
+$_['entry_email']                                 = 'E-Mail';
+$_['entry_image']                                 = 'Obrázek';
+$_['error_permission']                            = 'Varování: Nemáte oprávnění pro editaci profilu!';
+$_['error_exists_username']                       = 'Carování: Uživatelské jméno již někdo používá!';
+$_['error_username']                              = 'Uživatelské jméno musí obsahovat více než 3 a méně než 20 znaků!';
+$_['error_password']                              = 'Heslo musí obsahovat více než 3 a méně než 20 znaků!';
+$_['error_confirm']                               = 'Hesla nesouhlasí!';
+$_['error_firstname']                             = 'Jméno musí obsahovat více než 1 a méně než 32 znaků!';
+$_['error_lastname']                              = 'Příjmení musí obsahovat více než 1 a méně než 32 znaků!';
+$_['error_email']                                 = 'Neplatná e-mailová adresa!';
+$_['error_exists_email']                          = 'Varování: e-mail je již obsazen!';
