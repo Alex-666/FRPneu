@@ -7,6 +7,7 @@ class ControllerProductProduct extends Controller
     public function index()
     {
         $this->load->language('product/product');
+$this->load->model('setting/setting');
 
         $data['breadcrumbs'] = array();
 
@@ -32,7 +33,6 @@ class ControllerProductProduct extends Controller
                 }
 
                 $category_info = $this->model_catalog_category->getCategory($path_id);
-
                 if ($category_info) {
                     $data['breadcrumbs'][] = array(
                         'text' => $category_info['name'],
@@ -41,7 +41,10 @@ class ControllerProductProduct extends Controller
                 }
                 if ($path_id == 139 || $path_id == 156){
                     $data['warranty'] = $category_info['name'];
+                    $data['main_category_id'] = $category_info['category_id'];
+
                 }
+
                 // Для Кнопки в Шинах не грузовых, Дисках и Стеклах
                 If (in_array($path_id, array("297", "303", "383")) ) {
                     $data['pneu_not_nakladni'] = enable;
@@ -53,12 +56,7 @@ class ControllerProductProduct extends Controller
                 If ($category_id =="1287") {
                     $data['sklo'] = enable;
                 }
-
             }
-
-            $data ['text_button_trusko'] = $this->language->get('text_button_trusko');
-            $data ['text_button_brna'] = $this->language->get('text_button_brna');
-            $data ['text_button_sklo'] = $this->language->get('text_button_sklo');
 
             // Set the last category breadcrumb
             $category_info = $this->model_catalog_category->getCategory($category_id);
@@ -88,6 +86,14 @@ class ControllerProductProduct extends Controller
                 );
             }
         }
+
+        $data ['text_button_trusko'] = $this->language->get('text_button_trusko');
+        $data ['text_button_brna'] = $this->language->get('text_button_brna');
+        $data ['text_button_sklo'] = $this->language->get('text_button_sklo');
+
+        $data['text_year'] = $this->language->get('text_year');
+        $data['text_includes_recycling'] = $this->language->get('text_includes_recycling');
+        $data['text_recycling_used_tires'] = $this->language->get('text_recycling_used_tires');
 
         $this->load->model('catalog/manufacturer');
 
