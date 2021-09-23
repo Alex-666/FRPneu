@@ -1007,3 +1007,11 @@ Quick Checkout Stripe Payment CSS for OC 1.5.X AND 2.X
 .MagicSlideshow {
   overflow: hidden;
 }
+
+/******************************
+
+*******************************/
+
+.simplecheckout-block-content label[for="gpwebpaygpebinder"]  {
+    display: none !important
+}

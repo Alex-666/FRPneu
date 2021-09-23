@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 //$GLOBALS['UniErrorReporting_DBG'] = 1;   // pro ladeni neparovych UniErru
 
@@ -117,7 +117,7 @@ function ExceptionUniErr($ex) {
 	}
 }
 
-function UniErrHandler($errno, $errstr, $errfile, $errline, $errcontext) {
+function UniErrHandler($errno, $errstr, $errfile, $errline, $errcontext = null) {
 	if (isset($GLOBALS['UniErrorReporting']) && count($GLOBALS['UniErrorReporting'])!=0) {
 		$erlev = end($GLOBALS['UniErrorReporting']);
 		if ($erlev & $errno) {
@@ -165,7 +165,7 @@ function UniErrShutdownHandler() {
 function UniWriteErrLog($errno, $errstr, $errfile, $errline , $traces_to_ignore=3, $backTrace=null) {
 	$logger = new UniLogger();
 	if (!isset($GLOBALS['UniErrorReportingUsed'])) {
-		$logger->WriteLog("UniErrInfo: "."-------------------------------------------- new request #Ver:PRV081-29-gb89dde18:2020-04-17#");
+		$logger->WriteLog("UniErrInfo: "."-------------------------------------------- new request #Ver:PRV088-14-ge016fa1f:2021-08-25#");
 		$logger->writeLogNoNewLines("UniErrInfo: "."REQUEST ". $_SERVER['REMOTE_ADDR']." ".$_SERVER['REQUEST_URI']." PostData: ".var_export($_POST, true));
 		$GLOBALS['UniErrorReportingUsed'] = 1;
 	}
@@ -183,6 +183,12 @@ function errnoName($errno) {
 		}
 	}
 	return $errStr;
+}
+
+function my_dump($v) {
+	echo "<p><pre>";
+	var_export($v);
+	echo "</pre></p>";
 }
 
 if (!defined('E_RECOVERABLE_ERROR')) define('E_RECOVERABLE_ERROR', 4096);

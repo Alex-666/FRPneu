@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 
 //error_reporting(E_ALL);  //dbg
@@ -34,6 +34,7 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 	public $uniModulProperties = array(); // asoc pole vlastnosti/pozadavku UniModulu
 	public $version;
 	public $versionDate;
+	public $versionStr;
 	var $configAcke;
 	var $activationKeyOk;
 
@@ -41,7 +42,8 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 	public function __construct($name, $configSetting, $subMethod) {
 		$this->name = $name;
 		$this->subMethod = $subMethod;
-		preg_match("/^#Ver:(.+):(.+)#/", "#Ver:PRV081-29-gb89dde18:2020-04-17#", $verpars);
+		if (!$this->versionStr) $this->versionStr = "#Ver:PRV088-14-ge016fa1f:2021-08-25#";
+		preg_match("/^#Ver:(.+):(.+)#/", $this->versionStr, $verpars);
 		$this->version = isset($verpars[1]) ? $verpars[1] : 'DEVV';
 		$this->versionDate = isset($verpars[2]) ? $verpars[2] : 'DEVT';
 		$this->logger = new UniLogger();
@@ -81,37 +83,9 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 	abstract public function queryPrePayGWInfo($orderToPayInfo);
 	abstract public function gatewayOrderRedirectAction($orderToPayInfo);
 	abstract public function gatewayReceiveReply($language='en');
-	public function gatewayReceivePreliminaryReply() {  //pro ziskani gwOrdNumber nebo shopPairingInfo pro dohled�n� nap�. instance pro v�ceinstan�n� shopy u metod kde nelze programov� volit replyUrl a notifyUrl
-		user_error('Not implemented');
-	}
+
 	public function gatewayReceiveNotification() {
 		user_error('Not implemented');
-	}
-	public function gatewayReceivePreliminaryNotification() {
-		user_error('Not implemented');
-	}
-
-
-	public function gatewayReceiveReply_pub() {
-		$orderReplyStatus = gatewayReceiveReply();
-
-		// zjisti zda $orderReplyStatus->shopPairingInfo
-		/*
-		ulozime stav do db ke gw orderu
-		reportujeme gw order nasledovne
-			pending + fail -> rep-fail
-
-			sucess + fail -> CHYBA!!!!   nevime jak to rict eshopu
-			* + fail -> nic
-			* + pending -> pending
-			* + success -> success
-		a pak zkompletujeme vysledek za cely pairing-info
-			(init->fail) a (ex success) -> eshop beze zmeny, ale ukazat success
-			(init->success) 	-> eshop success
-
-			rep-fail a
-		kdyz vysledel je
-		*/
 	}
 
 
@@ -162,6 +136,7 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 		$transactionRecord->transactionPK = $ar0['transactionPK'];
 		$transactionRecord->uniModulName = $ar0['uniModulName'];
 		$transactionRecord->gwOrderNumber = $ar0['gwOrderNumber'];
+		$transactionRecord->gwPairingInfo = $ar0['gwPairingInfo'];
 		$transactionRecord->shopOrderNumber = $ar0['shopOrderNumber'];
 		$transactionRecord->shopPairingInfo = $ar0['shopPairingInfo'];
 		$transactionRecord->uniAdapterData = unserialize($ar0['uniAdapterData']);
@@ -202,10 +177,10 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 
 	protected function updateOrderReplyStatusGwOrdNumInDb($orderReplyStatus, $transactionPK = null) {
 		if ($transactionPK !== null) {
-			$sql = "update unimodul_transactions set DateModified = FROM_UNIXTIME(".time()."), orderStatus=".toSql($orderReplyStatus->orderStatus).", gwOrderNumber=".toSql($orderReplyStatus->gwOrderNumber)." where transactionPK = ".toSql($transactionPK);
+			$sql = "update unimodul_transactions set DateModified = FROM_UNIXTIME(".time()."), orderStatus=".toSql($orderReplyStatus->orderStatus).", gwOrderNumber=".toSql($orderReplyStatus->gwOrderNumber).", gwPairingInfo=".toSql($orderReplyStatus->gwPairingInfo)." where transactionPK = ".toSql($transactionPK);
 			$this->dbConn->sqlExecute($sql);
 		} else if ($orderReplyStatus->gwOrderNumber != null) {
-			$sql = "update unimodul_transactions set DateModified = FROM_UNIXTIME(".time()."), orderStatus=".toSql($orderReplyStatus->orderStatus)." where gwOrderNumber = ".toSql($orderReplyStatus->gwOrderNumber)." and uniModulName=".toSql($this->name);
+			$sql = "update unimodul_transactions set DateModified = FROM_UNIXTIME(".time()."), orderStatus=".toSql($orderReplyStatus->orderStatus).", gwPairingInfo=".toSql($orderReplyStatus->gwPairingInfo)." where gwOrderNumber = ".toSql($orderReplyStatus->gwOrderNumber)." and uniModulName=".toSql($this->name);
 			$this->dbConn->sqlExecute($sql);
 		} else {
 			user_error("updateOrderReplyStatusGwOrdNumInDb chybi transactionId i orderReplyStatus->gwOrderNumber");
@@ -245,19 +220,6 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 		$this->dbConn->sqlExecute($sql);
 	}
 
-
-	// update stavu pri offline zjistovani stavu transakce z cronu
-	protected function updateGwPairingInfo($orderReplyStatus, $transactionPK = null) {
-		if ($transactionPK !== null) {
-			$sql = "update unimodul_transactions set DateModified = FROM_UNIXTIME(".time()."), orderStatus=".toSql($orderReplyStatus->orderStatus).", gwOrderNumber=".toSql($orderReplyStatus->gwOrderNumber)." where uniModulName=".toSql($this->name)." and  transactionPK = ".toSql($transactionPK);
-			$this->dbConn->sqlExecute($sql);
-		} else if ($orderReplyStatus->gwOrderNumber != null) {
-			$sql = "update unimodul_transactions set DateModified = FROM_UNIXTIME(".time()."), orderStatus=".toSql($orderReplyStatus->orderStatus)." where uniModulName=".toSql($this->name)." and  gwOrderNumber = ".toSql($orderReplyStatus->gwOrderNumber);
-			$this->dbConn->sqlExecute($sql);
-		} else {
-			user_error("updateOrderReplyStatusGwOrdNumInDb chybi transactionId i orderReplyStatus->gwOrderNumber");
-		}
-	}
 
 	// zjisteni pending transakci pri offline zjistovani stavu transakce z cronu
 	protected function getAllPendingOrderTransactionRecords($statuses = null, $since = null) {
@@ -556,7 +518,7 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 		}
 
 		// prevod do CZK
-		if ($convertToCzk && $orderToPayInfo->currency != 'CZK') {
+		if ($convertToCzk && $orderToPayInfo->currency != 'CZK' && isset($orderToPayInfo->currencyRates['CZK'])) {
 			$fxrate = $orderToPayInfo->currencyRates['CZK'] / $orderToPayInfo->currencyRates[$orderToPayInfo->currency];
 			array_walk($rozdeleni, function(&$v, $k) use ($fxrate) {$v = $v * $fxrate;});
 			array_walk($rozdeleniTax, function(&$v, $k) use ($fxrate) {$v = $v * $fxrate;});
@@ -612,6 +574,15 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 		}
 		return $eetCastky;
 	}
+
+	// vraci poznamku pro pridani k objednavce nebo null
+	public function shopOrderStatusChanged($shopOrderNumber, $shopPairingInfo, $newShopOrderStatus) {
+	}
+
+	public function getOrderAdminDetailHtml($shopOrderNumber, $shopPairingInfo) {
+		return null;
+	}
+
 
 }
 $vrfacke = "is_null";

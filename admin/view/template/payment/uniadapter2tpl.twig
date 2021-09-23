@@ -34,7 +34,7 @@
 
 					{# dynamicka konfiguracni pole #}
 					{% for configField in configInfo.configFields %}
-						{% if configField.type != ConfigFieldType.subMethodsSelection %}
+						{% if configField.type in [ConfigFieldType.text, ConfigFieldType.choice, ConfigFieldType.orderStatus] %}
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{ configField.label }}</label>
 								<div class="col-sm-10">

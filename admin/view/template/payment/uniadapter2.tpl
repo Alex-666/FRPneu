@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 ?>
 
 <?php echo $header; ?><?php echo $column_left; ?>
@@ -36,7 +36,7 @@
 		// dynamicka konfiguracni pole
 		foreach ($configInfo->configFields as $configField) {
 			//var_dump($configField);
-			if ($configField->type != ConfigFieldType::$subMethodsSelection) {
+			if (in_array($configField->type, array(ConfigFieldType::$text, ConfigFieldType::$choice, ConfigFieldType::$orderStatus))) {
 				?>
           <div class="form-group">
             <label class="col-sm-2 control-label"><?php echo $configField->label; ?></label>
@@ -71,18 +71,18 @@
 					</select>
 					<?php
 				  }	  ?>
-				  
+
             </div>
           </div>
 			<?php
 			}
-			
+
 		}
-		
+
 		?>
 
 
-		  
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-geo-zone"><?php echo $entry_geo_zone; ?></label>
             <div class="col-sm-10">
@@ -114,15 +114,15 @@
             </div>
           </div>
 
-		  
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-sort-order"><?php echo $entry_sort_order; ?></label>
             <div class="col-sm-10">
               <input type="text" name="uniadapter_sort_order" value="<?php echo $uniadapter_sort_order; ?>" placeholder="<?php echo $uniadapter_sort_order; ?>" id="input-sort-order" class="form-control" />
             </div>
-          </div>		
+          </div>
 
-		 
+
     </form>
   </div>
 </div>

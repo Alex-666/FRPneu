@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 
 require_once(DIR_APPLICATION."../UniModul/UniModul.php");
@@ -17,7 +17,7 @@ class ModelPaymentUniAdapter extends Model {
 		BeginUniErr();
 		$this->lowCaseBinderName = strtolower($uniModulName).'binder'.strtolower($subMethod);
 		$uniFact = new UniModulFactory();
-		$this->uniModul = $uniFact->createUniModul($uniModulName,null, $subMethod); // config je null, ale snad to pro ï¿½ï¿½ely tohoto pï¿½iblblï¿½ho modelu nenï¿½ potï¿½eba, pokud by to bylo potï¿½eba tak asi pï¿½ekopï¿½rovat z controlleru
+		$this->uniModul = $uniFact->createUniModul($uniModulName,null, $subMethod); // config je null, ale snad to pro úèely tohoto pøiblblého modelu není potøeba, pokud by to bylo potøeba tak asi pøekopírovat z controlleru
 		EndUniErr();
 	}
 
@@ -63,7 +63,7 @@ class ModelPaymentUniAdapter extends Model {
 					'code'       => $this->lowCaseBinderName,  //pro ver 1.5
 					'title'      => $logoimgel . $prePayGWInfo->paymentMethodName,
 					'terms'      => '',
-					'sort_order' => $this->config->get('payment_'.$this->lowCaseBinderName.'_sort_order')
+					'sort_order' => $this->config->get($this->lowCaseBinderName.'_sort_order')
 				);
 			}
     	}

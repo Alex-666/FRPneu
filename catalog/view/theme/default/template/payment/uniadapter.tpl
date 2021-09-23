@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 ?>
 
 <form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post" id="checkout_pti">

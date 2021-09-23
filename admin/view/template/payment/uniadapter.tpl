@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 ?>
 
 <?php echo $header; ?>
@@ -41,7 +41,7 @@
 		// dynamicka konfiguracni pole
 		foreach ($configInfo->configFields as $configField) {
 			//var_dump($configField);
-			if ($configField->type != ConfigFieldType::$subMethodsSelection) {
+			if (in_array($configField->type, array(ConfigFieldType::$text, ConfigFieldType::$choice, ConfigFieldType::$orderStatus))) {
 				?>
 				<tr>
 				  <td><?php echo $configField->label ?></td>
@@ -75,16 +75,16 @@
 					</select></td>
 					<?php
 				  }	  ?>
-				  
+
 				</tr>
 			<?php
 			}
-			
+
 		}
-		
+
 		?>
-		
-		
+
+
         <tr>
           <td><?php echo $entry_geo_zone; ?></td>
           <td><select name="uniadapter_geo_zone_id">

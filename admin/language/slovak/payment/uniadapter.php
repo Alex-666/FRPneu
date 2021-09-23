@@ -1,19 +1,17 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 
 // Heading
 $_['heading_title']      = 'UniAdapter';
 
-// Text 
+// Text
 $_['text_payment']       = 'Platba';
 $_['text_success']       = 'Úspěch: Upravil jste dataily účtu UniAdapter!';
-$_['text_uniadapter']   		 = '<a onclick="window.open(\'http://www.platiti.cz\');">www.platiti.cz</a>';
 $_['text_authorization'] = 'Jen autorizovat';
 $_['text_sale']          = 'Převést ihned';
-$_['text_key_directory']      = 'Klíč musí být nakopírován do adresáře /uniadapter/certs';
 
 // Entry
 $_['merchant_number_czk']  = 'Číslo obchodníka pro CZK:';

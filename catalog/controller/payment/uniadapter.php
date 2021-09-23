@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 
 require_once(DIR_APPLICATION."../UniModul/UniModul.php");
@@ -110,6 +110,7 @@ class ControllerPaymentUniAdapter extends Controller {
 		$total_actcur = $this->currency->format($total_baseCur, $this->session->data['currency'], '', false);   // prevede do aktualni meny
 
 		$orderToPayInfo = new OrderToPayInfo();
+		$orderToPayInfo->subMethod = $this->uniModul->subMethod;
 		$orderToPayInfo->language = UniOCHelper::getLanguageWoCulture($this);
 		$orderToPayInfo->currency = $this->session->data['currency'];
 		$orderToPayInfo->currencyRates = $this->getCurrencyRates();
@@ -170,6 +171,7 @@ class ControllerPaymentUniAdapter extends Controller {
 
 
 		$orderToPayInfo = new OrderToPayInfo();
+		$orderToPayInfo->subMethod = $this->uniModul->subMethod;
 		$orderToPayInfo->shopOrderNumber = $this->session->data['order_id'];
 		$orderToPayInfo->shopPairingInfo = $this->session->data['order_id'];
 		$orderToPayInfo->amount = $order_total;
@@ -288,10 +290,11 @@ class ControllerPaymentUniAdapter extends Controller {
 			$frontend_redir = $redirectAction->redirectUrl==null && $redirectAction->redirectForm==null;
 			$this->processReply($redirectAction->orderReplyStatus, $frontend_redir);
 		}
-		if ($redirectAction->redirectUrl != null) {
+		if ($redirectAction->inlineForm) {
+			$this->showInFrontEnd($redirectAction->inlineForm);
+		} else if ($redirectAction->redirectUrl != null) {
 			ResetUniErr();
 			UniOCHelper::redirect($this, $redirectAction->redirectUrl);
-
 		} else if ($redirectAction->redirectForm != null) {
 			$this->uniModul->formRedirect($redirectAction->redirectForm);
 		}

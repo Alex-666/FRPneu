@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 if (!function_exists ('uniadapterSetTexts')) { // kvuli Language editor od VAN studia
 	function uniadapterSetTexts(&$_, $uniModulName, $language, $subMethod) {
@@ -14,7 +14,6 @@ if (!function_exists ('uniadapterSetTexts')) { // kvuli Language editor od VAN s
 		} else {
 			$_['heading_title']      = $binderName. ': ' . $uniModul->dictionary->get('submethod_name_'.$subMethod, $language);
 		}
-		$_['text_'.$binderName] = '<a onclick="window.open(\'http://www.platiti.cz\');">www.platiti.cz</a>';
 	}
 }
 

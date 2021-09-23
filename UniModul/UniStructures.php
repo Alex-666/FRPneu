@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 
 class CheckNonexistentFields {
@@ -34,7 +34,7 @@ class OrderToPayInfo extends CheckNonexistentFieldsLogOnly {
 	var $uniModulDirUrl;  // url adresare UniModul v rootu eshopu,    TODO: Nove uz by se melo brat jen z $this->baseConfig->uniModulDirUrl
 	var $currencyRates; //array(ISO=>rate)
 	var $subMethod; // nazev vybrane submetody, prazdne pro defaultni metodu
-	var $adapterProperties; // asoc pole vlastnosti/pozadavku Adapteru
+	var $adapterProperties; // Deprecated - aktualne se nevyuziva, asoc pole vlastnosti/pozadavku Adapteru
 	var $recurrenceType; // RecurrenceType
 	var $recurrenceParentShopOrderNumber; // pro recurrenceType::child je to prislusny ShopOrderNumber s recurrenceType::parent
 	var $recurrenceDateTo; // YYYY-MM-DD
@@ -75,6 +75,7 @@ class TransactionRecord extends CheckNonexistentFieldsLogOnly {
 	var $transactionPK;
 	var $uniModulName;
 	var $gwOrderNumber;
+	var $gwPairingInfo; // druhe cislo transakce na platebni brane, typicky to, co je znamo az po vytvoreni transakce branou
 	var $shopOrderNumber;
 	var $shopPairingInfo;
 	var $uniAdapterData;
@@ -109,6 +110,7 @@ class ConfigFieldType extends CheckNonexistentFieldsLogOnly {
 	static $choice = 2;
 	static $orderStatus = 3;
 	static $subMethodsSelection = 4;
+	static $orderStatusMultiple = 5;
 }
 
 class RecurrenceType extends CheckNonexistentFieldsLogOnly {
@@ -147,6 +149,7 @@ class OrderReplyStatus extends CheckNonexistentFieldsLogOnly {
 	var $shopOrderNumber;  // melo by stacit jen to pairing info, asi toto odstranit
 	var $shopPairingInfo;
 	var $gwOrderNumber;
+	var $gwPairingInfo; // druhe cislo transakce na platebni brane, typicky to, co je znamo az po vytvoreni transakce branou
 	var $orderStatus; //typ OrderStatus
 	var $resultText; // pouziva se pri neuspechu pro predani detailni chybove hlasky
 	var $successHtml; // pouziva se pri ok nebo pendingu pro zobrazeni instrukci k offile platbe, zobrazi se na strane s podekovanim za platbu

@@ -1,7 +1,7 @@
 <?php
 // Autor (c) Miroslav Novak, www.platiti.cz
 // Pouzivani bez souhlasu autora neni povoleno
-// #Ver:PRV081-29-gb89dde18:2020-04-17#
+// #Ver:PRV088-14-ge016fa1f:2021-08-25#
 
 
 interface IDatabaseConnection {
@@ -20,6 +20,9 @@ class MysqliConnection implements IDatabaseConnection {
 			$host = $matches[1]; $port = $matches[2];
 			$this->mysqli = new mysqli($host, $login, $password, $dbname, $port);
 		} elseif (preg_match('#^.*:(/.*)$#', $server, $matches)) {
+			$socket = $matches[1];
+			$this->mysqli = new mysqli('', $login, $password, $dbname, ini_get("mysqli.default_port"), $socket);
+		} elseif (preg_match('#^(/.*)$#', $server, $matches)) {
 			$socket = $matches[1];
 			$this->mysqli = new mysqli('', $login, $password, $dbname, ini_get("mysqli.default_port"), $socket);
 		} else {
