@@ -394,10 +394,10 @@
                     <input type="hidden" name="tab" value="auto">
                     {% if limit %}<input type="hidden" name="limit" value="{{ limit }}">{% endif %}
                     <div class="row">
-                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                        <div class="xs-100 sm-50 md-50 lg-25 xl-25">
                             <div class="form-group">
                                 <label for="input-vendor">
-                                    <select name="vendor" id="input-vendor" class="form-control">
+                                    <select name="vendor" id="input-vendor" class="form-control open-auto-popup" data-auto-popup="vendor">
                                         <option value="">{{ entry_vendor }}</option>
                                         {% for param in auto_vendor_choices %}
                                             {% if param.vendor == auto_vendor %}
@@ -411,11 +411,11 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                        <div class="xs-100 sm-50 md-50 lg-25 xl-25">
                             <div class="form-group">
                                 <label for="input-model">
-                                    <select name="model" id="input-model"
-                                            class="form-control"{% if not auto_vendor %} disabled="disabled"{% endif %}>
+                                    <select name="model" id="input-model" data-auto-popup="model"
+                                            class="form-control open-auto-popup"{% if not auto_vendor %} disabled="disabled"{% endif %}>
                                         <option value="">{{ entry_model }}</option>
                                         {% for param in auto_model_choices %}
                                             {% if param.model == auto_model %}
@@ -429,11 +429,11 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                        <div class="xs-100 sm-50 md-50 lg-25 xl-25">
                             <div class="form-group">
                                 <label for="input-year">
-                                    <select name="year" id="input-year"
-                                            class="form-control"{% if not auto_model %} disabled="disabled"{% endif %}>
+                                    <select name="year" id="input-year" data-auto-popup="year"
+                                            class="form-control open-auto-popup"{% if not auto_model %} disabled="disabled"{% endif %}>
                                         <option value="">{{ entry_year }}</option>
                                         {% for param in auto_year_choices %}
                                             {% if param.year == auto_year %}
@@ -447,11 +447,11 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="xs-45 sm-50 md-50 lg-25 xl-25">
+                        <div class="xs-100 sm-50 md-50 lg-25 xl-25">
                             <div class="form-group">
                                 <label for="input-mod">
-                                    <select name="mod" id="input-mod"
-                                            class="form-control"{% if not auto_year %} disabled="disabled"{% endif %}>
+                                    <select name="mod" id="input-mod" data-auto-popup="mod"
+                                            class="form-control open-auto-popup"{% if not auto_year %} disabled="disabled"{% endif %}>
                                         <option value="">{{ entry_mod }}</option>
                                         {% for param in auto_mod_choices %}
                                             {% if param.modification == auto_mod %}
@@ -466,8 +466,8 @@
                             </div>
                         </div>
                         <div class="xs-100 sm-50 md-50 lg-25 xl-25 btns">
-                            <input type="submit" class="button{% if not auto_mod %} disabled"{% endif %}"
-                            value="{{ btn_find }}"{% if not auto_mod %} disabled="disabled"{% endif %}>
+                            <input type="submit" class="button{% if not auto_year %} disabled"{% endif %}"
+                            value="{{ btn_find }}"{% if not auto_year %} disabled="disabled"{% endif %}>
                         </div>
                     </div>
                 </form>

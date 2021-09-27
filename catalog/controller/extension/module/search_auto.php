@@ -206,8 +206,22 @@ class ControllerExtensionModuleSearchAuto extends Controller
         $data['action'] = $this->url->link('extension/module/search_auto/search');
 
         $this->document->addScript('catalog/view/theme/default/js/search_auto.js');
+        $this->document->addStyle('catalog/view/theme/default/css/auto-popup.css');
         return $this->load->view('extension/module/search_auto', $data);
 
+    }
+
+    public function vendorsimages()
+    {
+        $this->load->model('extension/module/search_auto');
+        $vendors = $this->model_extension_module_search_auto->getVendors();
+
+        foreach ($vendors as &$vendor) {
+            $vendor = 'image/vendors/' . $vendor['vendor'] . '.png';
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($vendors);die;
     }
 
     public function ajax()
@@ -497,7 +511,37 @@ class ControllerExtensionModuleSearchAuto extends Controller
 
                 }
 
+
+          if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        
                 $data['products'][] = array(
+                    'avail_product_quantity'      => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'model' => $result['model'],
                     'thumb' => $image,
@@ -628,11 +672,11 @@ class ControllerExtensionModuleSearchAuto extends Controller
             $pagination->total = $product_total;
             $pagination->page = $params['page'];
             $pagination->limit = $params['limit'];
-			
-			if (isset($this->request->get['lazy'])) {
-				$data['lazy'] = "yes"; 
+            
+            if (isset($this->request->get['lazy'])) {
+                $data['lazy'] = "yes"; 
             }
-			
+            
             $pagination->url = $this->url->link('extension/module/search_auto/search', $url . '&page={page}');
 
             $data['pagination'] = $pagination->render();
@@ -721,7 +765,8 @@ class ControllerExtensionModuleSearchAuto extends Controller
                                             'e' => $autoData[$i][$n][2],
                                             'n' => "{$autoData[$i][$n][0]} x {$autoData[$i][$n][1]} {$auto['pcd']} D{$auto['dia']} ET {$autoData[$i][$n][2]}",
                                             //'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&width={$autoData[$i][$n][0]}&diameter={$autoData[$i][$n][1]}&dia={$auto['dia']}&et={$autoData[$i][$n][2]}"),
-                                            'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&width={$autoData[$i][$n][0]}&diameter={$autoData[$i][$n][1]}&pcd={$auto['pcd']}&dia={$auto['dia']}"),
+                                            //'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&width={$autoData[$i][$n][0]}&diameter={$autoData[$i][$n][1]}&pcd={$auto['pcd']}&dia={$auto['dia']}"),
+                                            'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&diameter={$autoData[$i][$n][1]}&pcd={$auto['pcd']}&dia={$auto['dia']}"),
                                             'type' => isset($data['data']['disc'][$autoData[$i][$n][1]]) ? $type[1] : $type[($countN > 2) ? $n : 0]
                                         );
                                     }
@@ -850,7 +895,37 @@ class ControllerExtensionModuleSearchAuto extends Controller
                 }
 
 
+
+          if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        
                 $data['products'][] = array(
+                    'avail_product_quantity'     => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'model' => $result['model'],
                     'thumb' => $image,

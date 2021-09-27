@@ -206,8 +206,22 @@ class ControllerExtensionModuleSearchAuto extends Controller
         $data['action'] = $this->url->link('extension/module/search_auto/search');
 
         $this->document->addScript('catalog/view/theme/default/js/search_auto.js');
+        $this->document->addStyle('catalog/view/theme/default/css/auto-popup.css?v=2');
         return $this->load->view('extension/module/search_auto', $data);
 
+    }
+
+    public function vendorsimages()
+    {
+        $this->load->model('extension/module/search_auto');
+        $vendors = $this->model_extension_module_search_auto->getVendors();
+
+        foreach ($vendors as &$vendor) {
+            $vendor = 'image/vendors/' . $vendor['vendor'] . '.png';
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($vendors);die;
     }
 
     public function ajax()
@@ -527,7 +541,7 @@ class ControllerExtensionModuleSearchAuto extends Controller
            }
         
                 $data['products'][] = array(
- 'avail_product_quantity'	  => $avail_product_quantity,
+                    'avail_product_quantity'	  => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'model' => $result['model'],
                     'thumb' => $image,
@@ -751,7 +765,8 @@ class ControllerExtensionModuleSearchAuto extends Controller
                                             'e' => $autoData[$i][$n][2],
                                             'n' => "{$autoData[$i][$n][0]} x {$autoData[$i][$n][1]} {$auto['pcd']} D{$auto['dia']} ET {$autoData[$i][$n][2]}",
                                             //'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&width={$autoData[$i][$n][0]}&diameter={$autoData[$i][$n][1]}&dia={$auto['dia']}&et={$autoData[$i][$n][2]}"),
-                                            'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&width={$autoData[$i][$n][0]}&diameter={$autoData[$i][$n][1]}&pcd={$auto['pcd']}&dia={$auto['dia']}"),
+                                            //'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&width={$autoData[$i][$n][0]}&diameter={$autoData[$i][$n][1]}&pcd={$auto['pcd']}&dia={$auto['dia']}"),
+                                            'url' => $this->url->link('extension/module/search_auto/search', "tab=disc&diameter={$autoData[$i][$n][1]}&pcd={$auto['pcd']}&dia={$auto['dia']}"),
                                             'type' => isset($data['data']['disc'][$autoData[$i][$n][1]]) ? $type[1] : $type[($countN > 2) ? $n : 0]
                                         );
                                     }
@@ -910,7 +925,7 @@ class ControllerExtensionModuleSearchAuto extends Controller
            }
         
                 $data['products'][] = array(
- 'avail_product_quantity'	  => $avail_product_quantity,
+                    'avail_product_quantity'	  => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'model' => $result['model'],
                     'thumb' => $image,

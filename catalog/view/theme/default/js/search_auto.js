@@ -1,5 +1,10 @@
 window.SearchAuto = {
-    xhr: null
+    xhr: null,
+    top: 0,
+    popup: {
+        select: null,
+        el: null
+    },
 };
 
 function checkAjax() {
@@ -58,7 +63,38 @@ function clear(data) {
     return str.replace(/[^a-z0-9-\.]/gi, '-').replace(/-{2,}/g, '-').replace(/^-+|-+$/g, '');
 }
 
+function resizeAutoPopup() {
+    if (SearchAuto.popup.select == null) return;
+
+    var top = SearchAuto.popup.select.offset().top + SearchAuto.popup.select.innerHeight() + 17;
+    var left = SearchAuto.popup.select.closest('form').find('select').first().offset().left;
+    var width = SearchAuto.popup.select.closest('form').innerWidth() - 30;
+    var corner_left = SearchAuto.popup.select.offset().left - SearchAuto.popup.select.closest('form').offset().left - 2;
+    var corner_width = SearchAuto.popup.select.innerWidth();
+
+    $('.auto-popup-corner').css({left: corner_left, width: corner_width});
+    $('.auto-popup').css({top, left, width});
+}
+
 $(document).ready(function() {
+    $.get(location.protocol + '//' + location.host + '/index.php?route=extension/module/search_auto/vendorsimages', function(images) {
+        $(images).each(function(index, src) {
+            $("<img/>").attr('src', src);
+        });
+    });
+
+    var $popup = $('<div/>').addClass('auto-popup');
+    var $corner = $('<div/>').addClass('auto-popup-corner');
+    $popup.append($corner);
+    var $itemsWrap = $('<div/>').addClass('auto-popup-items-wrap');
+    var $items = $('<div/>').addClass('auto-popup-items');
+    $itemsWrap.append($items);
+    $popup.append($itemsWrap);
+    var $backdrop = $('<div/>').addClass('auto-popup-backdrop');
+
+    $("body").append($popup);
+    $("body").append($backdrop);
+
     $(".search-auto select[name='vendor']").bind('change', function() {
         checkAjax();
 
@@ -113,5 +149,130 @@ $(document).ready(function() {
             $parent.find('.button').attr('disabled', true).addClass('disabled');
         }
     });
+
+    $(".search-auto select.open-auto-popup").bind('mousedown', function(e) {
+        e.preventDefault();
+        
+        var $this = $(this);
+
+        if ($this.hasClass('load-auto-popup')) return;
+
+        if ($this.hasClass('has-open-auto-popup')) {
+            $('.has-open-auto-popup').removeClass('has-open-auto-popup');
+            $('.auto-popup').hide();
+            return;
+        }
+
+        $('.has-open-auto-popup').removeClass('has-open-auto-popup');
+
+        var type = $this.data('auto-popup');
+        var $options = $this.find('option');
+
+        if ($options.length == 1 && $options.first().val() == '') return;
+
+        $this.addClass('load-auto-popup');
+
+        SearchAuto.popup.select = $this;
+        resizeAutoPopup();
+
+        $items.html('');
+
+        $options.each(function(index, option) {
+            var val = $(option).val();
+
+            if (!val) return;
+
+            switch (type) {
+                case 'vendor':
+                    var vendor = val.trim();
+                    var image = 'image/vendors/' + vendor.replace(' ', '_').toUpperCase() + '.png';
+
+                    $items.append(
+                        $('<div/>').addClass('auto-popup-item').attr('data-auto-popup-item', type).attr('data-auto-popup-value', vendor).append(
+                            $('<img/>').addClass('auto-popup-item--image').attr('src', image).attr('width', 25).attr('height', 25)
+                        ).append(
+                            $('<div/>').addClass('auto-popup-item--title').html(vendor)
+                        )
+                    );
+                break;
+
+                case 'model':
+                    var model = val;
+                    var vendor = $('#input-vendor').val().trim();
+                    var image = 'image/vendors/' + vendor.replace(' ', '_').toUpperCase() + '.png';
+
+                    $items.append(
+                        $('<div/>').addClass('auto-popup-item').attr('data-auto-popup-item', type).attr('data-auto-popup-value', model).append(
+                            $('<img/>').addClass('auto-popup-item--image').attr('src', image).attr('width', 25).attr('height', 25)
+                        ).append(
+                            $('<div/>').addClass('auto-popup-item--title').html(model)
+                        )
+                    );
+                break;
+
+                default:
+                    var title = val;
+
+                    $items.append(
+                        $('<div/>').addClass('auto-popup-item').attr('data-auto-popup-item', type).attr('data-auto-popup-value', title).append(
+                            $('<div/>').addClass('auto-popup-item--title auto-popup-item--title-year').html(title)
+                        )
+                    );
+                break;
+            }
+
+        }).promise().done(function() {
+            $this.removeClass('load-auto-popup');
+            $this.addClass('has-open-auto-popup');
+
+            if ($this.closest('.search-auto').innerWidth() < 800) {
+                $('.auto-popup').addClass('mid');
+            }
+
+            if ($this.closest('.search-auto').innerWidth() < 400) {
+                $('.auto-popup').addClass('small');
+            }
+
+            $('.auto-popup').show();
+            $('.auto-popup-backdrop').show();
+
+            $('.auto-popup-items-wrap').scrollTop(0);
+
+            SearchAuto.top = $(document).scrollTop();
+        });
+
+    });
+
+    $(document).on('click', '.auto-popup-backdrop', function() {
+        $('.auto-popup').hide();
+        $('.auto-popup-backdrop').hide();
+    });
+
+    $(document).on('click', '[data-auto-popup-item]', function() {
+        var $this = $(this);
+
+        var type = $this.data('auto-popup-item');
+        var value = $this.data('auto-popup-value');
+        var $input = $('#input-' + type);
+
+        $input.find('option[value="' + value + '"]').attr('selected', 'true').text(value);
+        $input.val(value);
+
+        setTimeout(function() {
+            $input.trigger('change');
+        }, 100);
+
+        $('.has-open-auto-popup').removeClass('has-open-auto-popup');
+        $('.auto-popup').hide();
+        $('.auto-popup-backdrop').hide();
+
+        $(document).scrollTop(SearchAuto.top);
+    });
+
+    if ($('.search-auto').length) {
+        $(window).resize(function() {
+            resizeAutoPopup();
+        });
+    }
 
 });
