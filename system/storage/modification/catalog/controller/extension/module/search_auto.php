@@ -206,7 +206,7 @@ class ControllerExtensionModuleSearchAuto extends Controller
         $data['action'] = $this->url->link('extension/module/search_auto/search');
 
         $this->document->addScript('catalog/view/theme/default/js/search_auto.js');
-        $this->document->addStyle('catalog/view/theme/default/css/auto-popup.css?v=2');
+        $this->document->addStyle('catalog/view/theme/default/css/auto-popup.css');
         return $this->load->view('extension/module/search_auto', $data);
 
     }
@@ -540,8 +540,38 @@ class ControllerExtensionModuleSearchAuto extends Controller
                $avail_product_quantity = false;
            }
         
+
+          if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        
                 $data['products'][] = array(
-                    'avail_product_quantity'	  => $avail_product_quantity,
+ 'avail_product_quantity'	  => $avail_product_quantity,
+                    'avail_product_quantity'      => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'model' => $result['model'],
                     'thumb' => $image,
@@ -672,11 +702,11 @@ class ControllerExtensionModuleSearchAuto extends Controller
             $pagination->total = $product_total;
             $pagination->page = $params['page'];
             $pagination->limit = $params['limit'];
-			
-			if (isset($this->request->get['lazy'])) {
-				$data['lazy'] = "yes"; 
+            
+            if (isset($this->request->get['lazy'])) {
+                $data['lazy'] = "yes"; 
             }
-			
+            
             $pagination->url = $this->url->link('extension/module/search_auto/search', $url . '&page={page}');
 
             $data['pagination'] = $pagination->render();
@@ -924,8 +954,38 @@ class ControllerExtensionModuleSearchAuto extends Controller
                $avail_product_quantity = false;
            }
         
+
+          if(!empty($result['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $result['quantity'],
+                'stock_status_id' => $result['stock_status_id'],
+                'product_id' => $result['product_id'],
+                );
+            } else if(!empty($product_info['stock_status_id'])){
+             $AvailArray = Array(
+                'quantity' => $product_info['quantity'],
+                'stock_status_id' => $product_info['stock_status_id'],
+                'product_id' => $product_info['product_id'],
+                );
+            } else if(!empty($product['stock_status_id'])){
+            $AvailArray = Array(
+                'quantity' => $product['quantity'],
+                'stock_status_id' => $product['stock_status_id'],
+                'product_id' => $product['product_id'],
+                );
+            } else {
+            $AvailArray = false;
+            }
+
+           if($AvailArray) {
+                $avail_product_quantity =  $this->load->controller('extension/module/avail/GetProductStatus',$AvailArray);
+           }  else {
+               $avail_product_quantity = false;
+           }
+        
                 $data['products'][] = array(
-                    'avail_product_quantity'	  => $avail_product_quantity,
+ 'avail_product_quantity'	  => $avail_product_quantity,
+                    'avail_product_quantity'     => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'model' => $result['model'],
                     'thumb' => $image,

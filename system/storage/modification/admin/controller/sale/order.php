@@ -742,6 +742,17 @@ class ControllerSaleOrder extends Controller {
 	}
 
 	public function info() {
+
+	    // remarketing all in one
+	    $data['remarketing_data'] = [];
+		if (isset($this->request->get['order_id'])) {
+			$order_id = $this->request->get['order_id'];
+			$remarketing_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "remarketing_orders` WHERE order_id = '" . (int)$order_id . "'");
+			if($remarketing_query->num_rows) { 
+				$data['remarketing_data'] = $remarketing_query->rows[0];
+			}
+		} 
+		
 		$this->load->model('sale/order');
 
 		if (isset($this->request->get['order_id'])) {

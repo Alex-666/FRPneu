@@ -431,7 +431,7 @@ class ControllerCatalogProduct extends Controller {
 		$data['sort_name'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=pd.name' . $url, true);
 		$data['sort_model'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.model' . $url, true);
 		$data['sort_price'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.price' . $url, true);
-        $data['sort_marze'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.marze' . $url, true);
+        $data['sort_marze'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=sq.marze' . $url, true);
         $data['sort_quantity'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.quantity' . $url, true);
 		$data['sort_status'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.status' . $url, true);
 		$data['sort_order'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . '&sort=p.sort_order' . $url, true);

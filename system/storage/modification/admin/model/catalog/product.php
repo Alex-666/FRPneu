@@ -381,7 +381,7 @@ public function addProduct($data) {
 	}
 
 	public function getProducts($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+        $sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN shopsync_qty sq ON (p.product_id = sq.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -409,7 +409,7 @@ public function addProduct($data) {
 			'pd.name',
 			'p.model',
 			'p.price',
-            'p.marze',
+            'sq.marze',
             'p.quantity',
 			'p.status',
 			'p.sort_order'
@@ -438,7 +438,6 @@ public function addProduct($data) {
 
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-
 		$query = $this->db->query($sql);
 
 		return $query->rows;

@@ -88,6 +88,9 @@ class ControllerCheckoutSuccess extends Controller {
             }
             
 
+			$this->session->data['remarketing_order_id'] = $this->session->data['order_id'];
+	  
+
                 $data['products'] = $this->cart->getProducts();
                 $data['order_id'] = $this->session->data['order_id'];
             
@@ -102,7 +105,7 @@ $this->session->data['success_order_id'] = $this->session->data['order_id'];
 			unset($this->session->data['payment_methods']);
 			unset($this->session->data['guest']);
 			unset($this->session->data['comment']);
-			unset($this->session->data['order_id']);
+			//unset($this->session->data['order_id']);
 			unset($this->session->data['coupon']);
 			unset($this->session->data['reward']);
 			unset($this->session->data['voucher']);

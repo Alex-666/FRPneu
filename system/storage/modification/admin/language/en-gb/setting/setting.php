@@ -2,6 +2,9 @@
 // Heading
 $_['heading_title']                  = 'Settings';
 
+
+				$_['text_feedback']              = 'Block with feedback';
+            
 // Text
 $_['text_stores']                    = 'Stores';
 $_['text_success']                   = 'Success: You have modified settings!';

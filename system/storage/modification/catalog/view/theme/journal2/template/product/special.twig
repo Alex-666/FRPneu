@@ -125,4 +125,106 @@
     <script>Journal.enableCountdown();</script>
   {% endif %}
 </div>
+
+	  {# // remarketing #}
+{% if remarketing_google_json %}
+	<script>
+	if (typeof sendGoogleRemarketing !== 'undefined') {
+		sendGoogleRemarketing({{ remarketing_google_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_target_code %}
+	{{ remarketing_target_code }}
+	{% endif %}
+	
+	{% if remarketing_vk_code %}
+	{{ remarketing_vk_code }}
+	{% endif %}
+	
+	{% if tiktok_remarketing_code %}
+	{{ tiktok_remarketing_code }}
+	{% endif %}
+	
+	{% if facebook_remarketing_code %}
+	{{ facebook_remarketing_code }}
+	{% endif %}
+	
+	{% if ecommerce_status and ecommerce_product_json %}
+	<script>
+	{% if remarketing_ecommerce_status %}
+	window.dataLayer = window.dataLayer || [];
+	dataLayer.push({{ ecommerce_product_json|json_encode() }});
+	{% endif %}
+	{% if measurement_status %}
+	if (typeof sendEcommerceDetails !== 'undefined') {
+		sendEcommerceDetails({{ ecommerce_product_json|json_encode() }}, true);
+	}
+	{% endif %}
+	</script>
+	{% endif %}
+	{% if ecommerce_ga4_status and ecommerce_ga4_product_json %}
+	<script>
+	if (typeof sendEcommerceGa4Details !== 'undefined') {
+		sendEcommerceGa4Details({{ ecommerce_ga4_product_json|json_encode() }}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_ecommerce_json %}
+	<script>
+	window.ecommerce_products = window.ecommerce_products || {};
+	ecommerce_product_data = {{ remarketing_ecommerce_json|json_encode() }};
+
+	if (typeof sendEcommerceImpressions !== 'undefined') {
+		sendEcommerceImpressions(ecommerce_product_data, {% if measurement_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_products = $.extend(ecommerce_products, ecommerce_product_data);
+	  </script>
+	 {% endif %}
+	{% if remarketing_ecommerce_ga4_json %}
+	<script>
+	window.ecommerce_ga4_products = window.ecommerce_ga4_products || {};
+	ecommerce_ga4_product_data = {{ remarketing_ecommerce_ga4_json|json_encode() }};
+
+	if (typeof sendEcommerceGa4Impressions !== 'undefined') {
+		sendEcommerceGa4Impressions(ecommerce_ga4_product_data, {% if view_search_results %}true{% else %}false{% endif %}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_ga4_products = $.extend(ecommerce_ga4_products, ecommerce_ga4_product_data);
+	  </script>
+	 {% endif %}
+	 
+	 
+	 {% if facebook_remarketing_status and facebook_data_json %}
+	<script>
+	if (typeof sendFacebookDetails !== 'undefined') {
+		sendFacebookDetails({{ facebook_data_json|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	 {% if facebook_remarketing_status and facebook_data_json_category %}
+	<script>
+	if (typeof sendFacebookCategoryDetails !== 'undefined') {
+		sendFacebookCategoryDetails({{ facebook_data_json_category|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_json %}
+	<script>
+	if (typeof sendEsputnikDetails !== 'undefined') {
+		sendEsputnikDetails({{ esputnik_data_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_category_json %}
+	<script>
+	if (typeof sendEsputnikCategoryDetails !== 'undefined') {
+		sendEsputnikCategoryDetails({{ esputnik_data_category_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	  
 {{ footer }}

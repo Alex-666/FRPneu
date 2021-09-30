@@ -895,6 +895,22 @@ class ModelCatalogProduct extends Model {
 		return $query->row;
 	}
 
+
+		public function getRemarketingCategories($product_id) {
+			$category_data = '';
+			
+			$category_query = $this->db->query("SELECT DISTINCT cd.name FROM `" . DB_PREFIX . "product_to_category` pc LEFT JOIN `" . DB_PREFIX . "category_description` cd ON pc.category_id = cd.category_id LEFT JOIN `" . DB_PREFIX . "category_path` cp ON pc.category_id = cp.category_id WHERE pc.product_id = '" . (int)$product_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY cp.level ASC LIMIT 5");
+			
+			foreach ($category_query->rows as $category) {
+				$category_data .= $category['name'] . '/';
+			}
+			
+			$category_data = rtrim($category_data, '/');
+			
+			return $category_data;
+		}
+		
+	  
 	public function getProfiles($product_id) {
 		$query = $this->db->query("SELECT rd.* FROM " . DB_PREFIX . "product_recurring pr JOIN " . DB_PREFIX . "recurring_description rd ON (rd.language_id = " . (int)$this->config->get('config_language_id') . " AND rd.recurring_id = pr.recurring_id) JOIN " . DB_PREFIX . "recurring r ON r.recurring_id = rd.recurring_id WHERE pr.product_id = " . (int)$product_id . " AND status = '1' AND pr.customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "' ORDER BY sort_order ASC");
 

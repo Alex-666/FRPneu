@@ -205,6 +205,109 @@ class ControllerAccountWishList extends Controller {
             }
         }
 
+
+			// remarketing all in one
+			$this->load->model('tool/remarketing');
+			if ($this->config->get('remarketing_status') && $product_info && !$this->model_tool_remarketing->isBot()) {
+				$categories = $this->model_catalog_product->getRemarketingCategories($product_info['product_id']);
+				$json['remarketing'] = [];
+				$json['remarketing']['facebook_product_id'] = $this->config->get('remarketing_facebook_id') == 'id' ? $product_info['product_id'] : $product_info['model'];
+				$json['remarketing']['vk_product_id'] = $this->config->get('remarketing_vk_id') == 'id' ? $product_info['product_id'] : $product_info['model'];
+				$json['remarketing']['vk_identifier'] = $this->config->get('remarketing_vk_identifier');
+				$json['remarketing']['facebook_status'] = $this->config->get('remarketing_facebook_status');
+				$json['remarketing']['facebook_pixel_status'] = $this->config->get('remarketing_facebook_pixel_status');
+				$json['remarketing']['vk_status'] = $this->config->get('remarketing_vk_status');
+				$current_price = $product_info['special'] ? $product_info['special'] : $product_info['price'];
+				$json['remarketing']['price'] = $this->currency->format($current_price, $this->session->data['currency'], '', false);
+				$json['remarketing']['google_price'] = $this->currency->format($current_price, $this->config->get('remarketing_google_currency'), '', false);
+				$json['remarketing']['facebook_price'] = $this->currency->format($current_price, $this->config->get('remarketing_facebook_currency'), '', false);
+				$json['remarketing']['ecommerce_price'] = $this->currency->format($current_price, $this->config->get('remarketing_ecommerce_currency'), '', false);
+				$json['remarketing']['brand'] = addslashes($product_info['manufacturer']);
+				$json['remarketing']['name'] = addslashes($product_info['name']);
+				$json['remarketing']['category'] = addslashes($categories);
+				$json['remarketing']['currency'] = $this->session->data['currency'];
+				$json['remarketing']['quantity'] = 1;
+				$json['remarketing']['google_currency'] = $this->config->get('remarketing_google_currency');
+				$json['remarketing']['facebook_currency'] = $this->config->get('remarketing_facebook_currency');
+				$json['remarketing']['ecommerce_currency'] = $this->config->get('remarketing_ecommerce_currency');
+				$fb_time = time();
+				$json['remarketing']['time'] = $fb_time;
+				$json['remarketing']['ecommerce_ga4_status'] = $this->config->get('remarketing_ecommerce_ga4_status');
+				$json['remarketing']['ecommerce_ga4_identifier'] = $this->config->get('remarketing_ecommerce_ga4_identifier');
+				$json['remarketing']['ecommerce_ga4_product_id'] = $this->config->get('remarketing_ecommerce_ga4_id') == 'id' ? $product_info['product_id'] : $product_info['model'];
+				
+				$json['remarketing']['facebook_pixel_event'] = [
+					'content_name' => $json['remarketing']['name'],
+					'content_ids' => [$json['remarketing']['facebook_product_id']],
+					'content_type' => 'product',
+					'content_category' => $json['remarketing']['category'],
+					'value'   => $json['remarketing']['facebook_price'],
+					'currency'   => $this->config->get('remarketing_facebook_currency')
+				];
+				$ecommerce_ga4_product = [
+					'item_name' => $json['remarketing']['name'],
+					'index' => 1,
+					'price' => $json['remarketing']['ecommerce_price'],
+					'quantity' => $json['remarketing']['quantity']
+				];
+				if (!empty($json['remarketing']['brand'])) $ecommerce_ga4_product['item_brand'] = $json['remarketing']['brand'];
+				if (!empty($json['remarketing']['category'])) $ecommerce_ga4_product['item_category'] = $json['remarketing']['category'];
+				$json['remarketing']['ecommerce_ga4_event'] = [
+					'send_to' => $this->config->get('remarketing_ecommerce_ga4_identifier'),
+					'currency' => $json['remarketing']['ecommerce_currency'],
+					'items' => [$ecommerce_ga4_product]
+				];
+
+				if ($this->config->get('remarketing_facebook_status') && $this->config->get('remarketing_facebook_server_side') && $this->config->get('remarketing_facebook_token')) {
+					$facebook_data['event_name'] = 'AddToWishlist';
+					$facebook_data['custom_data'] = [
+						'value' => $json['remarketing']['facebook_price'],
+						'currency' => $json['remarketing']['facebook_currency'],
+						'content_ids' => [
+							$json['remarketing']['facebook_product_id']
+						],
+						'content_name' => addslashes($product_info['name']),
+						'content_category' => $categories,
+						'content_type' => 'product',
+						'opt_out' => false
+					];
+					$facebook_data['time'] = $fb_time;
+					
+					$this->model_tool_remarketing->sendFacebook($facebook_data);
+				}
+			}
+			
+			if ($this->config->get('remarketing_ecommerce_ga4_measurement_status')) {
+				if (!empty($this->session->data['uuid'])) {
+				$uuid = $this->session->data['uuid'];		
+				
+				$item = [
+					// Google refuses id 'item_id' => ($this->config->get('remarketing_ecommerce_ga4_measurement_id') == 'id') ? $product_info['product_id'] : $product_info['model'],
+					'item_name' => $product_info['name'],
+					'affiliation' => $this->config->get('config_name'),
+					'price' => $json['remarketing']['ecommerce_price'],
+					'currency' => $this->config->get('remarketing_ecommerce_currency'),
+					'quantity' => 1,
+				];
+				if(!empty($json['remarketing']['brand'])) $item['item_brand'] = addslashes($json['remarketing']['brand']);
+				if(!empty($categories)) $item['item_category'] = $item['item_list_name'] = addslashes($categories);
+				
+				$ecommerce_data = [
+					'client_id' => $uuid,
+					'events' => [[
+						'name' => 'add_to_wishlist',
+						'params' => [
+							'currency' => $this->config->get('remarketing_ecommerce_currency'),
+							'items' => [$item],
+							'value' => $json['remarketing']['ecommerce_price']
+						]],
+					],
+				]; 
+				
+				$this->model_tool_remarketing->sendEcommerceGa4($ecommerce_data);
+				}
+			}
+	
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
     }

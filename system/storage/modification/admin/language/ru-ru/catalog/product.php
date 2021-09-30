@@ -27,6 +27,8 @@ $_['column_sklad_tursko']    = 'sklad tursko';
 $_['column_sklad_brno']      = 'sklad brno';
 $_['column_status']          = 'Статус';
 $_['column_action']          = 'Действие';
+$_['column_marze']           = 'Маржа';
+
 
 // Entry
 $_['entry_name']             = 'Название товара';

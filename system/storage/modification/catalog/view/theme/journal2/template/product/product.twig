@@ -92,7 +92,7 @@
                                                     {% endif %}
                                                     {% for image in images %}
                                                         <a class="swiper-slide" {% if journal2.settings.get('product_page_gallery_carousel') %} style="width: {{ 100 / journal2.settings.get('product_page_additional_width', 5) }}%" {% endif %}
-                                                                {% if image.video and video_status %}data-type="video" href="{{ image.video }}"{% else %}data-type="thumbnail" href="{{ image.popup }}"{% endif %}
+                                                                {% if image.video and video_status %}data-type="video" href="{{ image.video }}"{% else %}data-type="thumbnail" {% if image.video and video_status %}data-type="video" href="{{ image.video }}"{% else %}data-type="thumbnail" href="{{ image.popup }}"{% endif %}{% endif %}
                                                            title="{{ heading_title }}"><img
                                                                     src="{{ image.thumb }}" title="{{ heading_title }}"
                                                                     alt="{{ heading_title }}" itemprop="image"/></a>
@@ -108,7 +108,6 @@
 
                                 </div>
                             {% endif %}
-
                         </div>
                         {% if journal2.settings.get('product_page_gallery_carousel') %}
                             <script>
@@ -153,7 +152,7 @@
                             {% endif %}
                             {% for image in images %}
                                 <a {% if image.video and video_status %}data-type="video" href="{{ image.video }}"
-                                   {% else %}data-type="thumbnail" href="{{ image.popup }}"{% endif %}
+                                   {% else %}data-type="thumbnail" {% if image.video and video_status %}data-type="video" href="{{ image.video }}"{% else %}data-type="thumbnail" href="{{ image.popup }}"{% endif %}{% endif %}
                                    data-original="{{ image.original ? image.original : image.popup }}"
                                    title="{{ heading_title }}" class="swipebox"><img src="{{ image.thumb }}"
                                                                                      title="{{ heading_title }}"
@@ -311,7 +310,8 @@
                                     <script>Journal.countdown($('.right .countdown'), '{{ date_end }}');</script>
                                 {% endif %}
                                 {{ installmentembedhtml }}
-                                {% if options %}
+{{installmentembedhtml}}
+				                                {% if options %}
                                     <div class="options {{ journal2.settings.get('product_page_options_push_classes') }}">
                                         <h3>{{ text_option }}</h3>
                                         {% for option in options %}
@@ -581,7 +581,6 @@
                                                             var someDiv = document.getElementById('cart-mobile');
                                                             var distanceToTop = someDiv.getBoundingClientRect().top;
 
-                                                            console.log(distanceToTop);
                                                             var flag = true;
                                                             $(window).scroll(function () {
                                                                 if (distanceToTop <= 0 && flag) {
@@ -944,7 +943,7 @@
                                 <div class="tab-pane tab-content {% if is_active %} active {% set is_active = false %}{% endif %}"
                                      id="tab-certification">
                                     <div class="stitek">
-                                        <img src="/image/catalog/clanky/{{ manufacturer }}.jpg"/>
+                                        <img src="/image/catalog/clanky/{{ manufacturer }}.jpg">
                                     </div>
                                 </div>
                             {% endif %}
@@ -1348,7 +1347,8 @@
                                 <script>Journal.countdown($('.right .countdown'), '{{ date_end }}');</script>
                             {% endif %}
                             {{ installmentembedhtml }}
-                            {% if options %}
+{{installmentembedhtml}}
+				                            {% if options %}
                                 <div class="options {{ journal2.settings.get('product_page_options_push_classes') }}">
                                     <h3>{{ text_option }}</h3>
                                     {% for option in options %}
@@ -1650,18 +1650,9 @@
                                     {{ text_recycling_used_tires }}
                                 </div>
                             </div>
-
-
                         </div>
-
-
                     </div>
                 </div>
-                <!--
-                <div id="test_filter_auto" style='width:100%;'>
-                    {# {{ search_auto }} #}
-                 </div>
-                 -->
             </div>
 
             {#
@@ -1678,13 +1669,6 @@
               </p>
             {% endif %}
             #}
-
-
-
-
-
-
-
 
             {{ content_bottom }}</div>
     </div>
@@ -1916,85 +1900,180 @@
     });
 
     $(document).ready(function () {
-
-        {% if video_status %}
-        $('.abrakadabra').magnificPopup({
-            {% else %}
-            $('.thumbnails').magnificPopup({
-            {% endif %}
-
+        
+                {% if video_status %}
+                  $('.abrakadabra').magnificPopup({
+                {% else %}
+                  $('.thumbnails').magnificPopup({
+                {% endif %}
+            
             type: 'image',
             delegate: 'a',
             gallery: {
                 enabled: true
             }
         });
-    })
-        ;
+    });
     //--></script>
 
-{% if video_status %}
-    <script><!--
-        $(document).ready(function () {
-            var video_autoplay = 'autoplay={{ video_autoplay }}';
-            var video_loop = '&loop={{ video_loop }}';
-            var video_branding = '&modestbranding={{ video_branding }}';
-            var video_rel = '&rel={{ video_rel }}';
-            var video_fs = '&fs={{ video_fs }}';
+	  {# // remarketing #}
+{% if remarketing_google_json %}
+	<script>
+	if (typeof sendGoogleRemarketing !== 'undefined') {
+		sendGoogleRemarketing({{ remarketing_google_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_target_code %}
+	{{ remarketing_target_code }}
+	{% endif %}
+	
+	{% if remarketing_vk_code %}
+	{{ remarketing_vk_code }}
+	{% endif %}
+	
+	{% if tiktok_remarketing_code %}
+	{{ tiktok_remarketing_code }}
+	{% endif %}
+	
+	{% if facebook_remarketing_code %}
+	{{ facebook_remarketing_code }}
+	{% endif %}
+	
+	{% if ecommerce_status and ecommerce_product_json %}
+	<script>
+	{% if remarketing_ecommerce_status %}
+	window.dataLayer = window.dataLayer || [];
+	dataLayer.push({{ ecommerce_product_json|json_encode() }});
+	{% endif %}
+	{% if measurement_status %}
+	if (typeof sendEcommerceDetails !== 'undefined') {
+		sendEcommerceDetails({{ ecommerce_product_json|json_encode() }}, true);
+	}
+	{% endif %}
+	</script>
+	{% endif %}
+	{% if ecommerce_ga4_status and ecommerce_ga4_product_json %}
+	<script>
+	if (typeof sendEcommerceGa4Details !== 'undefined') {
+		sendEcommerceGa4Details({{ ecommerce_ga4_product_json|json_encode() }}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_ecommerce_json %}
+	<script>
+	window.ecommerce_products = window.ecommerce_products || {};
+	ecommerce_product_data = {{ remarketing_ecommerce_json|json_encode() }};
 
-            var youtube_src = '//www.youtube.com/embed/%id%?' + video_autoplay + video_loop + video_branding + video_rel + video_fs;
-            var vimeo_src = '//player.vimeo.com/video/%id%?' + video_autoplay + video_loop;
+	if (typeof sendEcommerceImpressions !== 'undefined') {
+		sendEcommerceImpressions(ecommerce_product_data, {% if measurement_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_products = $.extend(ecommerce_products, ecommerce_product_data);
+	  </script>
+	 {% endif %}
+	{% if remarketing_ecommerce_ga4_json %}
+	<script>
+	window.ecommerce_ga4_products = window.ecommerce_ga4_products || {};
+	ecommerce_ga4_product_data = {{ remarketing_ecommerce_ga4_json|json_encode() }};
 
-            $('a[data-type="video"]').each(function (index, element) {
-                $(this).css({
-                    'display': 'block',
-                    'background-repeat': 'no-repeat',
-                    'background-position': 'center center',
-                    'background-size': '85%',
-                    'background-image': 'url("/image/play_button/{{ video_btn }}.png")'
-                }).find('img').css({opacity: 0.4});
-            });
+	if (typeof sendEcommerceGa4Impressions !== 'undefined') {
+		sendEcommerceGa4Impressions(ecommerce_ga4_product_data, {% if view_search_results %}true{% else %}false{% endif %}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_ga4_products = $.extend(ecommerce_ga4_products, ecommerce_ga4_product_data);
+	  </script>
+	 {% endif %}
+	 
+	 
+	 {% if facebook_remarketing_status and facebook_data_json %}
+	<script>
+	if (typeof sendFacebookDetails !== 'undefined') {
+		sendFacebookDetails({{ facebook_data_json|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	 {% if facebook_remarketing_status and facebook_data_json_category %}
+	<script>
+	if (typeof sendFacebookCategoryDetails !== 'undefined') {
+		sendFacebookCategoryDetails({{ facebook_data_json_category|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_json %}
+	<script>
+	if (typeof sendEsputnikDetails !== 'undefined') {
+		sendEsputnikDetails({{ esputnik_data_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_category_json %}
+	<script>
+	if (typeof sendEsputnikCategoryDetails !== 'undefined') {
+		sendEsputnikCategoryDetails({{ esputnik_data_category_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	  
 
-            $('.thumbnails').magnificPopup({
-                delegate: 'a',
-                type: 'image',
-                gallery: {enabled: true},
-                mainClass: 'mfp-with-zoom mfp-img-mobile',
-                callbacks: {
-                    elementParse: function (item) {
-                        var element = item.el.context.dataset.type;
-                        if (element == 'video') {
-                            item.type = 'iframe';
-                        } else {
-                            item.type = 'image';
-                        }
-                    }
-                },
-                iframe: {
-                    patterns: {
-                        youtube: {
-                            index: 'youtube.com/',
-                            id: function (url) {
-                                var m = url.match(/[\\?\\&]v=([^\\?\\&]+)/);
-                                if (!m || !m[1]) return null;
-                                return m[1];
+                {% if video_status %}
+                  <script><!--
+                    $(document).ready(function() {
+                        var video_autoplay = 'autoplay={{ video_autoplay }}';      
+                        var video_loop = '&loop={{ video_loop }}';      
+                        var video_branding = '&modestbranding={{ video_branding }}';      
+                        var video_rel = '&rel={{ video_rel }}';      
+                        var video_fs = '&fs={{ video_fs }}';      
+                           
+                        var youtube_src = '//www.youtube.com/embed/%id%?' + video_autoplay + video_loop + video_branding + video_rel + video_fs;
+                        var vimeo_src = '//player.vimeo.com/video/%id%?' + video_autoplay + video_loop;
+
+                        $('a[data-type="video"]').each(function(index,element) {
+                            $(this).css({'display':'block','background-repeat':'no-repeat','background-position':'center center', 'background-size': '85%', 'background-image': 'url("/image/play_button/{{ video_btn }}.png")'}).find('img').css({ opacity: 0.4 });
+                        });
+
+                        $('.thumbnails').magnificPopup({
+                            delegate: 'a',
+                            type: 'image',
+                            gallery:{enabled:true},
+                            mainClass: 'mfp-with-zoom mfp-img-mobile',
+                            callbacks: {
+                                elementParse: function(item) {
+                                    var element = item.el.context.dataset.type;
+                                    if(element == 'video' ) {
+                                        item.type = 'iframe';
+                                    } else {
+                                        item.type = 'image';
+                                    }
+                                }
                             },
-                            src: youtube_src
-                        },
-                        vimeo: {
-                            index: 'vimeo.com/',
-                            id: function (url) {
-                                var m = url.match(/(https?:\/\/)?(www.)?(player.)?vimeo.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/);
-                                if (!m || !m[5]) return null;
-                                return m[5];
+                            iframe: {
+                                patterns: {
+                                    youtube: {
+                                        index: 'youtube.com/', 
+                                        id: function(url) {        
+                                            var m = url.match(/[\\?\\&]v=([^\\?\\&]+)/);
+                                            if ( !m || !m[1] ) return null;
+                                            return m[1];
+                                        },
+                                        src: youtube_src
+                                    },
+                                    vimeo: {
+                                        index: 'vimeo.com/', 
+                                        id: function(url) {        
+                                            var m = url.match(/(https?:\/\/)?(www.)?(player.)?vimeo.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/);
+                                            if ( !m || !m[5] ) return null;
+                                            return m[5];
+                                        },
+                                        src: vimeo_src
+                                    },
+                                }
                             },
-                            src: vimeo_src
-                        },
-                    }
-                },
-            });
-        });
-        //--></script>
-{% endif %}
+                        }); 
+                      }); 
+                  //--></script>      
+                {% endif %}
             
 {{ footer }}

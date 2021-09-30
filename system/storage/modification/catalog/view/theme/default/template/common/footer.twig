@@ -83,4 +83,135 @@ Please donate via PayPal to donate@opencart.com
         </div>
         </form>
 		</div>
+
+{# // remarketing #}
+{% if remarketing_status %}
+{% if remarketing_footer %}
+{{ remarketing_footer }}
+{% endif %}
+{% if facebook_depth %}
+<script>
+ function getCurrentPosition() {
+    return window.pageYOffset ||
+        (document.documentElement || document.body.parentNode || document.body).scrollTop;
+}
+
+function getScrollableHeight() {
+    var d = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+    )
+    var w = window.innerHeight ||
+        (document.documentElement || document.body).clientHeight;
+    if (d > w) {
+        return d - w;
+    }
+    return 0; // not scrollable
+}
+
+var checkPoints = [{{ facebook_depth_params }}];
+var reached = 0;
+var scrollableHeight = getScrollableHeight();
+
+window.addEventListener('resize', function () {
+    scrollableHeight = getScrollableHeight();
+});
+window.addEventListener('scroll', function () {
+    var current;
+    if (scrollableHeight == 0) {
+        current = 100;
+    } else {
+        var current = getCurrentPosition() / scrollableHeight * 100;
+    }
+    if (current > reached) {
+        reached = current;
+        // checkpoint and send events
+        while (checkPoints.length > 0) {
+            var c = checkPoints[0];
+            if (c <= reached) {
+                checkPoints.shift();
+                fbq('trackCustom', 'ViewContentCheckPoint', {
+                    depth: c,
+                });
+            } else {
+                break;
+            }
+        }
+    }
+}, false);  
+ </script>
+{% endif %}
+	  <script>
+	  {% if ecommerce_status and ecommerce_selector %}
+	   $(document).on('click touchstart', '{{ ecommerce_selector }}', function() {
+	    if (typeof ecommerce_product_data !== 'undefined') {
+		product_id = $(this).find('.remarketing_cart_button').attr('data-product_id');
+		if (product_id) {
+			$(ecommerce_product_data).each(function(key, data) {
+			if (data['id'] == product_id) {
+				if (typeof ecommerce_product_data[key] !== 'undefined') {
+					if (typeof sendEcommerceClick !== 'undefined') {
+						sendEcommerceClick(ecommerce_product_data[key]);
+					}
+				}
+			} 
+		})
+		}
+		}
+	  });
+	  {% endif %}
+	  {% if ecommerce_ga4_status and ecommerce_ga4_selector %}
+	   $(document).on('click', '{{ ecommerce_ga4_selector }}', function() {
+	    if (typeof ecommerce_ga4_product_data !== 'undefined') {
+		item_id = $(this).find('.remarketing_cart_button').attr('data-product_id');
+		$(ecommerce_ga4_product_data).each(function(key, data) {
+		if (data['item_id'] == item_id) {
+			if (typeof ecommerce_ga4_product_data[key] !== 'undefined') {
+				if (typeof sendEcommerceGa4Click !== 'undefined') {
+					sendEcommerceGa4Click(ecommerce_ga4_product_data[key]);
+				}
+			}
+		} 
+		})
+		}
+	  });
+	  {% endif %}
+	  {% if ecommerce_measurement_status and ecommerce_measurement_selector %}
+	  $(document).on('click touchstart', '{{ ecommerce_measurement_selector }}', function() {
+	    if (typeof ecommerce_product_data !== 'undefined') {
+		product_id = $(this).find('.remarketing_cart_button').attr('data-product_id');
+		if (product_id) {
+			$(ecommerce_product_data).each(function(key, data) {
+			if (data['id'] == product_id) {
+				if (typeof ecommerce_product_data[key] !== 'undefined') {
+					if (typeof sendEcommerceMeasurementClick !== 'undefined') {
+						sendEcommerceMeasurementClick(ecommerce_product_data[key]);
+					}
+				}
+			} 
+		})
+		}
+		}
+	  });
+	   {% endif %}
+	 {% if ecommerce_ga4_measurement_status and ecommerce_ga4_measurement_selector %}
+	   $(document).on('click touchstart', '{{ ecommerce_ga4_measurement_selector }}', function() {
+	    if (typeof ecommerce_ga4_product_data !== 'undefined') {
+		item_id = $(this).find('.remarketing_cart_button').attr('data-product_id');
+		$(ecommerce_ga4_product_data).each(function(key, data) {
+		if (data['item_id'] == item_id) {
+			if (typeof ecommerce_ga4_product_data[key] !== 'undefined') {
+				if (typeof sendEcommerceGa4MeasurementClick !== 'undefined') {
+					sendEcommerceGa4MeasurementClick(ecommerce_ga4_product_data[key]);
+				}
+			}
+		} 
+		})
+		}
+	  });
+	  {% endif %}
+     </script>
+	{% endif %}
+
 </body></html>

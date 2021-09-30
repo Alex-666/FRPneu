@@ -38,6 +38,25 @@
               <td>{{ shipping_method }}</td>
             </tr>
             {% endif %}
+
+			{# // remarketing #}
+            <tr>
+               <td></td>
+               <td><a class="btn btn-primary" target="_blank" href="/index.php?route=common/remarketing/sendSuccessManual&order_id={{ order_id }}"><i class="fa fa-rocket fa-fw"></i> Remarketing Success Page</a></td>
+            </tr>
+			{% if remarketing_data %}
+            <tr>
+               <td></td>
+               <td><a class="btn btn-primary" onclick="$('.remarketing-data').show();"><i class="fa fa-rocket fa-fw"></i> Remarketing Show Data</a>
+			   <div class="remarketing-data" style="display:none">
+			   {% for key, val in remarketing_data %}
+			   {% if val != '' and key != 'order_data' %} {{ key }} : {{ val }} <br>{% endif %}
+			   {% endfor %}
+			   </div>
+			   </td>
+            </tr>
+			{% endif %}
+			
               </tbody>
             
           </table>

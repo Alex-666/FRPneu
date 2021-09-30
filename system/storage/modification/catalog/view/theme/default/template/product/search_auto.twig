@@ -1,0 +1,205 @@
+{{ header }}
+<div id="container" class="container j-container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ breadcrumb.href }}" itemprop="url"><span itemprop="title">{{ breadcrumb.text }}</span></a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}{{ column_right }}
+    {% if column_left and column_right %}
+      {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+      {% set class = 'col-sm-9' %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">
+      <h1 class="heading-title">{{ heading_title }}</h1>
+      {{ content_top }}
+<div id="content" style="padding-left: 0px;">
+    <div class="box-heading">{{ vendor }} -> {{ model }} -> {{ year }} -> {{ mod }}</div>
+    <div class="result-auto">
+        {% if auto.pcd or auto.dia or auto.nut %}
+            <ul class="general">
+                <h3>{{ text_disc_params }}</h3><br />
+                {% if auto.pcd %}
+                <li><b>{{ text_pcd }}:</b>&nbsp;{{ auto.pcd }}</li>
+                {% endif %}
+                {% if auto.dia %}
+                <li><b>{{ text_dia }}:</b>&nbsp;{{ auto.dia }} {{ text_mm }}</li>
+                {% endif %}
+                {% if auto.nut %}
+                <li><b>{{ text_nut }}:</b>&nbsp;{{ auto.nut }}</li>
+                {% endif %}
+            </ul>
+        {% endif %}
+
+        {% if data.disc %}
+        <table class="disc">
+            <tr>
+                <td></td>
+                <td class="table-title" colspan="2"><h3>{{ text_recom_discs }}</h3></td>
+            </tr>
+            {% for r, items in data.disc %}
+            <tr class="diameter">
+                <td class="caption"><h2>R{{ r }}</h2></td>
+                <td>{{text_front_axle }}</td>
+                <td>{{text_rear_axle }}</td>
+            </tr>
+                {% for item in items %}
+                <tr class="item">
+                    <td class="type">{{ item.type }}</td>
+                    {% if item.0  %}
+                    <td class="size front"><a target="_blank" href="{{ item.0.url }}">{{ item.0.n }}</a></td>
+                    <td class="size rear"><a target="_blank" href="{{ item.1.url }}">{{ item.1.n }}</a></td>
+                    {% else %}
+                    <td class="size front-rear" colspan="2"><a target="_blank" href="{{ item.url }}">{{ item.n }}</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if data.tire %}
+        <table class="tire">
+            <tr>
+                <td></td>
+                <td class="table-title" colspan="2"><h3>{{ text_recom_tires }}</h3></td>
+            </tr>
+            {% for r, items in data.tire %}
+            <tr class="diameter">
+                <td class="caption"><h2>R{{ r }}</h2></td>
+                <td>{{text_front_axle }}</td>
+                <td>{{text_rear_axle }}</td>
+            </tr>
+                {% for item in items %}
+                <tr class="item">
+                    <td class="type">{{ item.type }}</td>
+                    {% if item.0 %}
+                    <td class="size front"><a target="_blank" href="{{ item.0.url }}">{{ item.0.n }}</a></td>
+                    <td class="size rear"><a target="_blank" href="{{ item.1.url }}">{{ item.1.n }}</a></td>
+                    {% else %}
+                    <td class="size front-rear" colspan="2"><a target="_blank" href="{{ item.url }}">{{ item.n }}</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        {% endif %}
+        <div class="text-hint">{{ text_hint }}</div>
+    </div>
+
+
+      {% if not data.disc and not data.tire %}
+        <p>{{ text_empty }}</p>
+        <div class="buttons">
+          <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary button">{{ button_continue }}</a></div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+	  {# // remarketing #}
+{% if remarketing_google_json %}
+	<script>
+	if (typeof sendGoogleRemarketing !== 'undefined') {
+		sendGoogleRemarketing({{ remarketing_google_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_target_code %}
+	{{ remarketing_target_code }}
+	{% endif %}
+	
+	{% if remarketing_vk_code %}
+	{{ remarketing_vk_code }}
+	{% endif %}
+	
+	{% if tiktok_remarketing_code %}
+	{{ tiktok_remarketing_code }}
+	{% endif %}
+	
+	{% if facebook_remarketing_code %}
+	{{ facebook_remarketing_code }}
+	{% endif %}
+	
+	{% if ecommerce_status and ecommerce_product_json %}
+	<script>
+	{% if remarketing_ecommerce_status %}
+	window.dataLayer = window.dataLayer || [];
+	dataLayer.push({{ ecommerce_product_json|json_encode() }});
+	{% endif %}
+	{% if measurement_status %}
+	if (typeof sendEcommerceDetails !== 'undefined') {
+		sendEcommerceDetails({{ ecommerce_product_json|json_encode() }}, true);
+	}
+	{% endif %}
+	</script>
+	{% endif %}
+	{% if ecommerce_ga4_status and ecommerce_ga4_product_json %}
+	<script>
+	if (typeof sendEcommerceGa4Details !== 'undefined') {
+		sendEcommerceGa4Details({{ ecommerce_ga4_product_json|json_encode() }}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_ecommerce_json %}
+	<script>
+	window.ecommerce_products = window.ecommerce_products || {};
+	ecommerce_product_data = {{ remarketing_ecommerce_json|json_encode() }};
+
+	if (typeof sendEcommerceImpressions !== 'undefined') {
+		sendEcommerceImpressions(ecommerce_product_data, {% if measurement_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_products = $.extend(ecommerce_products, ecommerce_product_data);
+	  </script>
+	 {% endif %}
+	{% if remarketing_ecommerce_ga4_json %}
+	<script>
+	window.ecommerce_ga4_products = window.ecommerce_ga4_products || {};
+	ecommerce_ga4_product_data = {{ remarketing_ecommerce_ga4_json|json_encode() }};
+
+	if (typeof sendEcommerceGa4Impressions !== 'undefined') {
+		sendEcommerceGa4Impressions(ecommerce_ga4_product_data, {% if view_search_results %}true{% else %}false{% endif %}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_ga4_products = $.extend(ecommerce_ga4_products, ecommerce_ga4_product_data);
+	  </script>
+	 {% endif %}
+	 
+	 
+	 {% if facebook_remarketing_status and facebook_data_json %}
+	<script>
+	if (typeof sendFacebookDetails !== 'undefined') {
+		sendFacebookDetails({{ facebook_data_json|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	 {% if facebook_remarketing_status and facebook_data_json_category %}
+	<script>
+	if (typeof sendFacebookCategoryDetails !== 'undefined') {
+		sendFacebookCategoryDetails({{ facebook_data_json_category|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_json %}
+	<script>
+	if (typeof sendEsputnikDetails !== 'undefined') {
+		sendEsputnikDetails({{ esputnik_data_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_category_json %}
+	<script>
+	if (typeof sendEsputnikCategoryDetails !== 'undefined') {
+		sendEsputnikCategoryDetails({{ esputnik_data_category_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	  
+{{ footer }}

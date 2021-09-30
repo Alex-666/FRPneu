@@ -37,16 +37,55 @@
 {{ analytic }}
 {% endfor %}
 
+{% if remarketing_head %}
+{{ remarketing_head }} {# // remarketing #}
+{% endif %}
+			
+
         {{ load_format_pagination }}
       
 </head>
 <body>
+
+{% if remarketing_body %}
+{{ remarketing_body }}
+{% endif %}
+
+{% if google_identifier %}
+<input type="hidden" value="{{ google_identifier }}" class="google_identifier" />
+{% endif %}
+
+{% if ecommerce_ga4_identifier %}
+<input type="hidden" value="{{ ecommerce_ga4_identifier }}" class="ecommerce_ga4_identifier" />
+{% endif %}
+
+{% if remarketing_currency %}
+<input type="hidden" value="{{ remarketing_currency }}" class="currency_remarketing_code" />
+{% endif %}
+
+{% if google_currency %}
+<input type="hidden" value="{{ google_currency }}" class="currency_google_code" />
+{% endif %}
+
+{% if facebook_currency %}
+<input type="hidden" value="{{ facebook_currency }}" class="currency_facebook_code" />
+{% endif %}
+
+{% if ecommerce_currency %}
+<input type="hidden" value="{{ ecommerce_currency }}" class="currency_ecommerce_code" />
+{% endif %}
+			
 <nav id="top">
   <div class="container">{{ currency }}
     {{ language }}
     <div id="top-links" class="nav pull-right">
       <ul class="list-inline">
         <li><a href="{{ contact }}"><i class="fa fa-phone"></i></a> <span class="hidden-xs hidden-sm hidden-md">{{ telephone }}</span></li>
+
+                {% if callback_active == 1 %}
+                <li><a href="#modalFeedbackHeader" id="button_feedback" data-toggle="modal"><i class="fa fa-volume-control-phone"></i> <span class="hidden-xs hidden-sm hidden-md">{{ text_button_callback }}</span></a></li>
+                {% endif %}
+            
         <li class="dropdown"><a href="{{ account }}" title="{{ text_account }}" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm hidden-md">{{ text_account }}</span> <span class="caret"></span></a>
           <ul class="dropdown-menu dropdown-menu-right">
             {% if logged %}
@@ -68,6 +107,63 @@
     </div>
   </div>
 </nav>
+
+                {% if callback_active == 1 %}
+                <div class="modal fade" id="modalFeedbackHeader" tabindex="-1" role="dialog" aria-labelledby="modalFeedbackHeaderLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-body">
+                        <div style="display:inline-block; width: 100%; text-align:right;">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form class="form-horizontal" id="form-feedback-header">
+                          <div class="form-group required">
+                            <div class="col-sm-12">
+                              <label class="control-label" for="input-name">{{ entry_name }}</label>
+                              <input type="text" name="name" value="{{ name_callback }}" id="input-name" class="form-control" />
+                            </div>
+                            <div class="col-sm-12">
+                              <label class="control-label" for="input-phone">{{ entry_phone }}</label>
+                              <input type="text" name="phone" value="{{ phone_callback }}" id="input-phone" class="form-control" />
+                            </div>
+                          </div>
+                        </form>
+                        <button type="button" id="button_send_feedback_header" data-loading-text="{{ text_loading }}"  class="btn btn-primary">{{ text_send }}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <script>
+                  $('#button_send_feedback_header').on('click', function () {
+                    $.ajax({
+                      url: 'index.php?route=common/header/write',
+                      type: 'post',
+                      dataType: 'json',
+                      data: $("#form-feedback-header").serialize(),
+                      beforeSend: function () {
+                        $('#button_send_feedback_header').button('loading');
+                      },
+                      complete: function () {
+                        $('#button_send_feedback_header').button('reset');
+                      },
+                      success: function (json) {
+                        $('.alert-success, .alert-danger').remove();
+                        if (json['error']) {
+                          $('#form-feedback-header').after('<div class="alert alert-danger" style="margin:20px 0;"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+                        }
+                        if (json['success']) {
+                          $('#form-feedback-header').after('<div class="alert alert-success" style="margin:20px 0;"><i class="fa fa-check-circle"></i> ' + json['success'] + '</div>');
+                          $('input[name=\'name\']').val('');
+                          $('input[name=\'phone\']').val('');
+                        }
+                      }
+                    });
+                  });
+                </script>
+                {% endif %}
+            
 <header>
   <div class="container">
     <div class="row">

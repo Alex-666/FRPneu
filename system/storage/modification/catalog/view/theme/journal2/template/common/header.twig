@@ -107,13 +107,12 @@
 
     <!-- Facebook  -->
 
-    {% if store_id == "0" %}
+    {% if store_id == 0 %}
         <meta name="facebook-domain-verification" content="2tcu2phariqqex7pbpsnqam9pj56y0" />
     {% endif %}
     {% if  store_id == 1 %}
-    <meta name="facebook-domain-verification" content="d1aemmv3zzu50s7ay6ijcihoc4qjpj" />
+        <meta name="facebook-domain-verification" content="d1aemmv3zzu50s7ay6ijcihoc4qjpj" />
     {% endif %}
-
 
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
@@ -155,10 +154,44 @@
     <link href="catalog/view/javascript/bal_style.css" rel="stylesheet" type="text/css"/>
     {{ load_format_pagination }}
 
+{% if remarketing_head %}
+{{ remarketing_head }} {# // remarketing #}
+{% endif %}
+			
+
         {{ load_format_pagination }}
       
 </head>
 <body>
+
+{% if remarketing_body %}
+{{ remarketing_body }}
+{% endif %}
+
+{% if google_identifier %}
+<input type="hidden" value="{{ google_identifier }}" class="google_identifier" />
+{% endif %}
+
+{% if ecommerce_ga4_identifier %}
+<input type="hidden" value="{{ ecommerce_ga4_identifier }}" class="ecommerce_ga4_identifier" />
+{% endif %}
+
+{% if remarketing_currency %}
+<input type="hidden" value="{{ remarketing_currency }}" class="currency_remarketing_code" />
+{% endif %}
+
+{% if google_currency %}
+<input type="hidden" value="{{ google_currency }}" class="currency_google_code" />
+{% endif %}
+
+{% if facebook_currency %}
+<input type="hidden" value="{{ facebook_currency }}" class="currency_facebook_code" />
+{% endif %}
+
+{% if ecommerce_currency %}
+<input type="hidden" value="{{ ecommerce_currency }}" class="currency_ecommerce_code" />
+{% endif %}
+			
 
 <!-- Google Tag Manager (noscript) -->
 <noscript>

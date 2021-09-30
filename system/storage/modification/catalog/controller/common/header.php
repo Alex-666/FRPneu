@@ -1,4 +1,40 @@
 <?php
+
+    global $aFolder;
+    global $modulesPath;
+
+    
+    
+    if (!defined('HTTP_ADMIN')) {
+        $root_dir = DIR_APPLICATION.'../';
+        $folder_contents = scandir($root_dir);
+                if (!(in_array('admin', $folder_contents) && file_exists($root_dir.'admin/config.php'))) {
+                        foreach ($folder_contents as $value) {
+                                if (is_dir($root_dir.$value) && $value != '.' && $value != '..'){
+                                        if (file_exists($root_dir.$value.'/config.php')) {
+                                                $admin_folder_name = $value;
+                                                continue;
+                                        }
+                                }
+                        }
+                }
+        if (isset($admin_folder_name)) {
+                define('HTTP_ADMIN',$admin_folder_name);
+        } else {
+                define('HTTP_ADMIN','admin');
+        }
+    }
+    
+    $aFolder = preg_replace('/.*\/([^\/].*)\//is','$1',HTTP_ADMIN);
+    
+    if (version_compare(VERSION,'2.3','>=')) { //newer than 2.2.x
+        $modulesPath = 'extension/module';
+    } else {
+        $modulesPath = 'module';
+    }
+
+    include (preg_match("/components\/com_(ayelshop|aceshop|mijoshop)\/opencart\//ims",__FILE__,$matches)?'components/com_'.$matches[1].'/opencart/':'').$aFolder.'/controller/'.$modulesPath.'/magictoolbox-module.inc';
+    
 class ControllerCommonHeader extends Controller {
 
         // start: OCdevWizard
@@ -248,6 +284,32 @@ class ControllerCommonHeader extends Controller {
         /** Load Pagination Format **/
         $data['load_format_pagination'] = $this->load->controller('common/load_format_pagination');
       
+
+		// remarketing all in one
+		$this->load->model('tool/remarketing');
+		if ($this->config->get('remarketing_status')) {
+			$data['remarketing_head'] = $this->load->controller('common/remarketing/header');
+		}
+		if ($this->config->get('remarketing_status') && !$this->model_tool_remarketing->isBot()) {
+            $data['remarketing_body'] = $this->load->controller('common/remarketing/body');
+			$data['google_status'] = $this->config->get('remarketing_google_status');
+			$data['google_code'] = $this->config->get('remarketing_google_identifier');
+			$data['facebook_status'] = $this->config->get('remarketing_facebook_status');
+			$data['ecommerce_selector'] = $this->config->get('remarketing_ecommerce_selector');
+			$data['google_currency'] = $this->config->get('remarketing_google_currency');	
+			$data['facebook_currency'] = $this->config->get('remarketing_facebook_currency');	
+			$data['ecommerce_currency'] = $this->config->get('remarketing_ecommerce_currency');	
+			$data['remarketing_currency'] = $this->session->data['currency'];	
+			$data['google_identifier'] = $this->config->get('remarketing_google_identifier');
+			$data['ecommerce_ga4_identifier'] = $this->config->get('remarketing_ecommerce_ga4_identifier');
+			$data['ecommerce_measurement_selector'] = $this->config->get('remarketing_ecommerce_measurement_selector');
+			
+			$this->model_tool_remarketing->getCid();  
+			$this->model_tool_remarketing->trackUtm();  
+ 			
+			$this->document->addScript('catalog/view/javascript/sp_remarketing.js');
+		}
+			
 		$data['load_format_pagination'] = $this->load->controller('common/load_format_pagination');
 		$data['base'] = $server;
 		$data['description'] = $this->document->getDescription();
@@ -322,47 +384,10 @@ class ControllerCommonHeader extends Controller {
         }
         $data['store_id'] = (int)$this->config->get('config_store_id');
 
-        return $this->load->view('common/header', $data);
+        
+                            $contents =  $this->load->view('common/header', $data);
+
+    return setModuleHeaders($contents, $this);
+    
 	}
-
-                public function write() {
-                    $this->load->language('extension/module/feedback');
-
-                    if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-                        $data['error_name'] =  $this->language->get('error_name');
-                        $data['error_phone'] =  $this->language->get('error_phone');
-                        $data['text_success'] = $this->language->get('text_success');
-                        
-                        if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 25)) {
-                            $json['error'] = $data['error_name'];
-                        }
-
-                        if ((utf8_strlen($this->request->post['phone']) < 3) || (utf8_strlen($this->request->post['phone']) > 25)) {
-                            $json['error'] = $data['error_phone'];
-                        }
-                        
-                        if (!isset($json['error'])) {
-                            $json['success'] = $data['text_success'];
-                            
-                            $mail = new Mail($this->config->get('config_mail_engine'));
-                            $mail->parameter = $this->config->get('config_mail_parameter');
-                            $mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
-                            $mail->smtp_username = $this->config->get('config_mail_smtp_username');
-                            $mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
-                            $mail->smtp_port = $this->config->get('config_mail_smtp_port');
-                            $mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
-                
-                            $mail->setTo($this->config->get('config_email'));
-                            $mail->setFrom($this->config->get('config_email'));
-                            $mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
-                            $mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject_callback'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
-                            $mail->setText($this->request->post['name'] . ' ' . $this->request->post['phone']);
-                            $mail->send();
-                        }
-                    }
-
-                    $this->response->addHeader('Content-Type: application/json');
-                    $this->response->setOutput(json_encode($json));
-                }
-            
 }

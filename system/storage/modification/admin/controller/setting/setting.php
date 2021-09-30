@@ -665,6 +665,12 @@ if (isset($this->request->post['config_product_count'])) {
 
 		$data['captcha_pages'] = array();
 
+				$data['captcha_pages'][] = array(
+			    'text'  => $this->language->get('text_feedback'),
+			    'value' => 'feedback'
+		        );
+            
+
 		$data['captcha_pages'][] = array(
 			'text'  => $this->language->get('text_register'),
 			'value' => 'register'

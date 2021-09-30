@@ -1,5 +1,42 @@
 <?php
 
+                        
+    global $aFolder;
+    global $modulesPath;
+    
+    
+    
+    if (!defined('HTTP_ADMIN')) {
+        $root_dir = DIR_APPLICATION.'../';
+        $folder_contents = scandir($root_dir);
+                if (!(in_array('admin', $folder_contents) && file_exists($root_dir.'admin/config.php'))) {
+                        foreach ($folder_contents as $value) {
+                                if (is_dir($root_dir.$value) && $value != '.' && $value != '..'){
+                                        if (file_exists($root_dir.$value.'/config.php')) {
+                                                $admin_folder_name = $value;
+                                                continue;
+                                        }
+                                }
+                        }
+                }
+        if (isset($admin_folder_name)) {
+                define('HTTP_ADMIN',$admin_folder_name);
+        } else {
+                define('HTTP_ADMIN','admin');
+        }
+        
+    }
+    
+    $aFolder = preg_replace('/.*\/([^\/].*)\//is','$1',HTTP_ADMIN);
+    
+    if (version_compare(VERSION,'2.3','>=')) { //newer than 2.2.x
+        $modulesPath = 'extension/module';
+    } else {
+        $modulesPath = 'module';
+    }
+
+    include (preg_match("/components\/com_(ayelshop|aceshop|mijoshop)\/opencart\//ims",__FILE__,$matches)?'components/com_'.$matches[1].'/opencart/':'').$aFolder.'/controller/'.$modulesPath.'/magictoolbox-module.inc';
+
 class ControllerProductProduct extends Controller
 {
     private $error = array();
@@ -7,6 +44,7 @@ class ControllerProductProduct extends Controller
     public function index()
     {
         $this->load->language('product/product');
+$this->load->model('setting/setting');
 $this->load->model('setting/setting');
 
         $data['breadcrumbs'] = array();
@@ -185,7 +223,7 @@ $this->load->model('setting/setting');
         $this->load->model('catalog/product');
 
                 $this->load->model('journal2/product');
-
+            
 
         $product_info = $this->model_catalog_product->getProduct($product_id);
 $data['avail_status'] = $this->config->get('avail_status');
@@ -204,7 +242,7 @@ $data['avail_status'] = $this->config->get('avail_status');
 										$data['avail_options_status'] = $this->config->get('avail_options_status')?$this->config->get('avail_options_status'):'0';//avail
 										$data['change_buttom'] = $this->config->get('avail_status')?$this->config->get('avail_status'):'0';
 										$data['avail_default'] = $this->config->get('avail_default');
-
+			
 
         if ($product_info) {
 
@@ -218,6 +256,7 @@ $data['avail_status'] = $this->config->get('avail_status');
                     $data['video_btn'] = $this->config->get('video_btn');
                     $data['video_image'] = '/image/'.$this->config->get('video_image');
                 }
+            
             $url = '';
 
             if (isset($this->request->get['path'])) {
@@ -317,7 +356,7 @@ $data['avail_status'] = $this->config->get('avail_status');
                     }
                 }
 			}
-
+            
             $data['manufacturers'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);
             $data['model'] = $product_info['model'];
             $data['ean'] = $product_info["ean"];
@@ -427,7 +466,7 @@ $data['avail_status'] = $this->config->get('avail_status');
                     $data['stock_status'] = 'instock';
                 }
                 $data['labels'] = $this->model_journal2_product->getLabels($product_info['product_id']);
-
+            
                 if ($product_info['quantity'] <= 0) {
                     $data['stock'] = $product_info['stock_status'];
                 }
@@ -448,8 +487,34 @@ $data['avail_status'] = $this->config->get('avail_status');
 
             if ($product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
                 $data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
+
+                        $data['selector'] = $this->model_tool_image->resize($product_info['image'], $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_additional_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_additional_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_additional_height'));
+                        $data['medium'] = $this->model_tool_image->resize($product_info['image'], $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_thumb_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_thumb_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_thumb_height'));
+                        if (isset($data['popup'])) {
+                            $product_info['popup'] = $data['popup'];
+                        } else if (isset($data['popup_fixed'])) {
+                            $product_info['popup'] = $data['popup_fixed'];
+                        } else {
+                            $product_info['popup'] = $data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get($this->config->get('config_theme') . '_image_popup_width'), $this->config->get($this->config->get('config_theme') . '_image_popup_height'));
+                        }
+                        $product_info['medium'] = $data['medium'];
+                        $product_info['selector'] = $data['selector'];
+                        if(isset($data['popup'])) $data['popup'] = $data['popup'].'" id="mainimage';
             } else {
                 $data['popup'] = '';
+
+                        $data['selector'] = $this->model_tool_image->resize($product_info['image'], $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_additional_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_additional_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_additional_height'));
+                        $data['medium'] = $this->model_tool_image->resize($product_info['image'], $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_thumb_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_thumb_width'), $this->config->get((null !== $this->config->get('theme_'.$this->config->get('config_theme') . '_image_thumb_width') ? 'theme_' : '') . $this->config->get('config_theme') . '_image_thumb_height'));
+                        if (isset($data['popup'])) {
+                            $product_info['popup'] = $data['popup'];
+                        } else if (isset($data['popup_fixed'])) {
+                            $product_info['popup'] = $data['popup_fixed'];
+                        } else {
+                            $product_info['popup'] = $data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get($this->config->get('config_theme') . '_image_popup_width'), $this->config->get($this->config->get('config_theme') . '_image_popup_height'));
+                        }
+                        $product_info['medium'] = $data['medium'];
+                        $product_info['selector'] = $data['selector'];
+                        if(isset($data['popup'])) $data['popup'] = $data['popup'].'" id="mainimage';
             }
 
             if ($product_info['image'] && file_exists(DIR_IMAGE . $product_info['image'])) {
@@ -464,8 +529,8 @@ $data['avail_status'] = $this->config->get('avail_status');
 
             foreach ($results as $result) {
                 $data['images'][] = array(
-                    'video' => $result['video'],
-                    'popup' => ($this->config->get('video_status') && $result['video'] && !$result['image']) ? $this->model_tool_image->resize($this->config->get('video_image'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height')) : $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
+'video' => $result['video'],
+                    'popup' => $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height')),
                     'thumb' => ($this->config->get('video_status') && $result['video'] && !$result['image']) ? $this->model_tool_image->resize($this->config->get('video_image'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height')) : $this->model_tool_image->resize($result['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_additional_height'))
                 );
             }
@@ -476,6 +541,13 @@ $data['avail_status'] = $this->config->get('avail_status');
                 $data['price'] = false;
             }
 
+
+                        $product_info['thumb'] = $data['thumb'];
+                        if (!isset($product_info['images'])) {
+                            $product_info['images'] = $results;
+                        }
+                        $product_info['images_original'] = $data['images'];
+                        
             if ((float)$product_info['special']) {
 
                 if (strpos($this->config->get('config_template'), 'journal2') === 0 && $this->journal2->settings->get('show_countdown_product_page', 'on') == 'on') {
@@ -486,7 +558,7 @@ $data['avail_status'] = $this->config->get('avail_status');
                     }
                     $data['date_end'] = $date_end;
                 }
-
+            
                 $data['special'] = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
             } else {
                 $data['special'] = false;
@@ -512,7 +584,7 @@ $data['avail_status'] = $this->config->get('avail_status');
             $data['options'] = array();
 
                 $extra = 0;
-
+            
 
             foreach ($this->model_catalog_product->getProductOptions($this->request->get['product_id']) as $option) {
                 $product_option_value_data = array();
@@ -547,7 +619,7 @@ $data['avail_status'] = $this->config->get('avail_status');
                     }
 
                 }else{
-
+            
 
                 foreach ($option['product_option_value'] as $option_value) {
                     if (!$option_value['subtract'] || ($this->config->get('module_avail_status')?$option_value['quantity'] >= 0 : $option_value['quantity'] > 0 )) {
@@ -592,7 +664,7 @@ $data['avail_status'] = $this->config->get('avail_status');
             } else {
                 $data['tax'] = false;
             }
-
+            
             if ($product_info['minimum']) {
                 $data['minimum'] = $product_info['minimum'];
             } else {
@@ -655,7 +727,6 @@ $data['avail_status'] = $this->config->get('avail_status');
 
                 }
             }
-
 
             $data['products'] = array();
 
@@ -722,7 +793,7 @@ $data['avail_status'] = $this->config->get('avail_status');
            }  else {
                $avail_product_quantity = false;
            }
-
+        
 
                 $date_end = false;
                 if (strpos($this->config->get('config_template'), 'journal2') === 0 && $special && $this->journal2->settings->get('show_countdown', 'never') !== 'never') {
@@ -732,7 +803,7 @@ $data['avail_status'] = $this->config->get('avail_status');
                         $date_end = false;
                     }
                 }
-
+            
 
                 $additional_images = $this->model_catalog_product->getProductImages($result['product_id']);
 
@@ -741,8 +812,18 @@ $data['avail_status'] = $this->config->get('avail_status');
                 if (count($additional_images) > 0) {
                     $image2 = $this->model_tool_image->resize($additional_images[0]['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
                 }
-
+            
                 $data['products'][] = array(
+
+	 'manufacturer'    => !empty($result['manufacturer']) ? $result['manufacturer'] : '',
+	 'brand'           => !empty($result['manufacturer']) ? $result['manufacturer'] : '',
+	 'product_id'      => $result['product_id'],
+	 'model'           => $result['model'],
+	 'clear_price'     => $this->currency->format($result['special'] ? $result['special'] : $result['price'], $this->session->data['currency'], '', false),
+	 'google_price'    => $this->currency->format($result['special'] ? $result['special'] : $result['price'], $this->config->get('remarketing_google_currency'), '', false),
+	 'facebook_price'  => $this->currency->format($result['special'] ? $result['special'] : $result['price'], $this->config->get('remarketing_facebook_currency'), '', false),
+	 'ecommerce_price' => $this->currency->format($result['special'] ? $result['special'] : $result['price'], $this->config->get('remarketing_ecommerce_currency'), '', false),
+	  
  'avail_product_quantity'	  => $avail_product_quantity,
                     'product_id' => $result['product_id'],
                     'thumb' => $image,
@@ -772,6 +853,197 @@ $data['avail_status'] = $this->config->get('avail_status');
 
             $data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
+
+	    // remarketing all in one
+		$data['facebook_remarketing_code'] = '';
+		$data['google_remarketing_code'] = '';
+		$data['remarketing_vk_code'] = '';
+		$data['tiktok_remarketing_code'] = '';
+		$data['facebook_remarketing_status'] = false;
+		$data['google_remarketing_status'] = false;
+		$this->load->model('tool/remarketing');
+		
+		if ($this->config->get('remarketing_status') && !$this->model_tool_remarketing->isBot()) {
+			$current_price = $product_info['special'] ? $product_info['special'] : $product_info['price'];
+			$product_price = $this->currency->format($current_price, $this->session->data['currency'], '', false);
+			$google_price = $this->currency->format($current_price, $this->config->get('remarketing_google_currency'), '', false);
+			$facebook_price = $this->currency->format($current_price, $this->config->get('remarketing_facebook_currency'), '', false);
+			$ecommerce_price = $this->currency->format($current_price, $this->config->get('remarketing_ecommerce_currency'), '', false);
+			
+			$fb_time = time();
+			
+			if ($this->config->get('remarketing_facebook_status') && $this->config->get('remarketing_facebook_identifier') && $this->config->get('remarketing_facebook_pixel_status')) {
+				$data['facebook_remarketing_status'] = true;
+				$data['facebook_remarketing_code'] .= '<script>' . "\n";
+				$data['facebook_remarketing_code'] .= "$(document).ready(function() {" . "\n";
+				$data['facebook_remarketing_code'] .= "if (typeof fbq != 'undefined') {"."\n";
+				$data['facebook_remarketing_code'] .= "fbq('track', 'ViewContent', {" . "\n";
+				$data['facebook_remarketing_code'] .= "content_name: '" . addslashes($product_info['name']) . "'," . "\n";
+				if (!empty($category_info['name'])) $data['facebook_remarketing_code'] .= "content_category: '" . addslashes($category_info['name']) . "'," . "\n";
+				$data['facebook_remarketing_code'] .= "content_ids: ['" . ($this->config->get('remarketing_facebook_id') == 'id' ? $product_info['product_id'] : $product_info['model']) . "']," . "\n";
+				$data['facebook_remarketing_code'] .= "content_type: 'product'," . "\n";
+				$data['facebook_remarketing_code'] .= 'value: ' . $facebook_price . ',' . "\n";
+				$data['facebook_remarketing_code'] .= "currency: '" . $this->config->get('remarketing_facebook_currency') . "'" . "\n";
+				$data['facebook_remarketing_code'] .= '}, {eventID: ' . $fb_time . '})}});' . "\n</script>\n";	
+				$data['facebook_price'] = $facebook_price;
+				$data['facebook_currency'] = $this->config->get('remarketing_facebook_currency');
+				$data['facebook_name'] = addslashes($product_info['name']);
+				$data['facebook_id'] = ($this->config->get('remarketing_facebook_id') == 'id') ? $product_info['product_id'] : $product_info['model'];
+			}
+			
+			if ($this->config->get('remarketing_tiktok_status')) { 
+				$data['tiktok_remarketing_status'] = true;
+				$data['tiktok_remarketing_code'] .= '<script>' . "\n";
+				$data['tiktok_remarketing_code'] .= "$(document).ready(function() {" . "\n";
+				$data['tiktok_remarketing_code'] .= "if (typeof ttq != 'undefined') {"."\n";
+				$data['tiktok_remarketing_code'] .= "ttq.track('ViewContent', {" . "\n"; 
+				$data['tiktok_remarketing_code'] .= "content_name: '" . addslashes($product_info['name']) . "'," . "\n";
+				if (!empty($category_info['name'])) $data['tiktok_remarketing_code'] .= "content_category: '" . addslashes($category_info['name']) . "'," . "\n";
+				$data['tiktok_remarketing_code'] .= "content_id: '" . $product_info['product_id'] . "'," . "\n";
+				$data['tiktok_remarketing_code'] .= "content_type: 'product'," . "\n";
+				$data['tiktok_remarketing_code'] .= 'value: ' . $product_price . ',' . "\n";
+				$data['tiktok_remarketing_code'] .= "currency: '" . $this->session->data['currency'] ."'" . "\n";
+				$data['tiktok_remarketing_code'] .= '})}});' . "\n</script>\n";	
+				$data['tiktok_price'] = $product_price;
+				$data['tiktok_currency'] = $this->session->data['currency'];
+				$data['tiktok_name'] = addslashes($product_info['name']);
+				$data['tiktok_id'] = $product_info['product_id'];
+			}
+			
+			if ($this->config->get('remarketing_facebook_status') && $this->config->get('remarketing_facebook_server_side') && $this->config->get('remarketing_facebook_token')) {
+				$data['facebook_remarketing_status'] = true; 
+				$data['facebook_data_json']['products'] = [
+					'value'            => $facebook_price,
+					'currency'         => $this->config->get('remarketing_facebook_currency'),
+					'content_ids'      => [$product_info['product_id']],
+					'content_type'     => 'product',
+					'content_name'     => addslashes($product_info['name']),
+					'content_category' => !empty($category_info['name']) ? addslashes($category_info['name']) : '',
+					'opt_out'          => false
+				];
+	
+				$data['facebook_data_json']['time'] = $fb_time;
+			}
+			
+			if ($this->config->get('remarketing_vk_status') && $this->config->get('remarketing_vk_identifier')) {	
+				$related = [];
+				if (isset($data['products']) && !empty($data['products']) && is_array($data['products'])) {
+					foreach ($data['products'] as $product) {
+						$related[] = $this->config->get('remarketing_vk_id') == 'id' ? $product['product_id'] : $product['model'];
+					}
+				}
+				$eventParams = [];
+				$eventParams['currency_code'] = $this->session->data['currency'];
+				$eventParams['products'] = [];
+				$eventParams['products'][] = [
+					'id' =>  $this->config->get('remarketing_vk_id') == 'id' ? $product_info['product_id'] : $product_info['model'],
+					'price' => $product_price,
+					'products_recommended_ids' => (!empty($related) ? implode(',', $related) : '')
+				]; 
+				
+				$data['remarketing_vk_code'] .= '<script>' . "\n";
+				$data['remarketing_vk_code'] .= "$(document).ready(function() { setTimeout(function() { if (typeof VK != 'undefined') {" . "\n";
+				$data['remarketing_vk_code'] .= "VK.Retargeting.ProductEvent(" . $this->config->get('remarketing_vk_identifier') . ", 'view_product', " . json_encode($eventParams) . ");" . "\n";
+				$data['remarketing_vk_code'] .= '}}, 1000)})' . "\n";
+				$data['remarketing_vk_code'] .= '</script>' . "\n";
+			}
+			
+			if ($this->config->get('remarketing_google_status') && $this->config->get('remarketing_google_identifier')) {
+				$data['google_remarketing_status'] = true;
+				
+				$data['google_price'] = $google_price;
+				$data['google_code'] = $this->config->get('remarketing_google_identifier');
+				$data['google_id'] = ($this->config->get('remarketing_google_id') == 'id') ? $product_info['product_id'] : $product_info['model'];
+			}	
+		
+			if (($this->config->get('remarketing_ecommerce_status') || $this->config->get('remarketing_ecommerce_measurement_status'))) {
+				$data['ecommerce_product_json'] = [];
+				$data['measurement_status'] = false;
+				$data['remarketing_ecommerce_status'] = $this->config->get('remarketing_ecommerce_status');
+				$data['ecommerce_status'] = true;
+				
+				$product_impressions = [];
+				$i = 1;
+				if (isset($data['products']) && is_array($data['products'])) {
+					foreach ($data['products'] as $product) {
+						if (!empty($product['name'])) {
+							$product_impressions[] = [
+								'name'     => addslashes($product['name']),
+								'id'       => ($this->config->get('remarketing_ecommerce_id') == 'id') ? $product['product_id'] : $product['model'],
+								'price'    => $this->currency->format($product['special'] ? $product['special'] : $product['price'], $this->config->get('remarketing_ecommerce_currency'), '', false),
+								'brand'    => !empty($product['manufacturer']) ? addslashes($product['manufacturer']) : '',
+								'category' => $this->model_catalog_product->getRemarketingCategories($product['product_id']),
+								'position' => $i
+							];
+						$i++;
+						}
+					}
+				}
+				$data['ecommerce_product_json'] = [
+					'ecommerce' => [
+						'currencyCode' => $this->config->get('remarketing_ecommerce_currency'),
+						'detail' => [
+							'actionField' => [
+									'list' => addslashes($data['heading_title'])
+							],
+							'products' => [[
+								'name'     => addslashes($product_info['name']),
+								'id'       => ($this->config->get('remarketing_ecommerce_id') == 'id') ? $product_info['product_id'] : $product_info['model'],
+								'price'    => $ecommerce_price,
+								'brand'    => addslashes($product_info['manufacturer']),
+								'category' => !empty($category_info['name']) ? addslashes($category_info['name']) : ''
+							]],
+						],
+					],
+					'event'                        => 'gtm-ee-event',
+					'gtm-ee-event-category'        => 'Enhanced Ecommerce',
+					'gtm-ee-event-action'          => 'Product Details',
+					'gtm-ee-event-non-interaction' => 'True'
+				];
+				
+				if (!empty($product_impressions)) {
+					$data['ecommerce_product_json']['ecommerce']['impressions'] = $product_impressions;
+				}
+				
+				
+				if ($this->config->get('remarketing_ecommerce_measurement_status')) {
+					$data['measurement_status'] = true;
+				}
+			}
+			
+			if (($this->config->get('remarketing_ecommerce_ga4_status') || $this->config->get('remarketing_ecommerce_ga4_measurement_status')) && isset($data['products'])) {
+				$data['ecommerce_ga4_product_json'] = [];
+				$data['ecommerce_ga4_status'] = true;
+				$data['measurement_ga4_status'] = $this->config->get('remarketing_ecommerce_ga4_measurement_status');
+				
+				$item = [
+					'item_name'      => addslashes($product_info['name']),
+					// Google refuses id 'item_id'        => ($this->config->get('remarketing_ecommerce_ga4_id') == 'id') ? $product_info['product_id'] : $product_info['model'],
+					'price'          => $ecommerce_price,
+					'index'          => 1,
+					'quantity'       => 1
+				];
+				if(!empty($product_info['manufacturer'])) $item['item_brand'] = addslashes($product_info['manufacturer']);
+				if(!empty($category_info['name'])) $item['item_category'] = $item['item_list_name'] = addslashes($category_info['name']);
+
+				$data['ecommerce_ga4_product_json'] = [ 
+						'send_to' => $this->config->get('remarketing_ecommerce_ga4_identifier'),
+						'currency' => $this->config->get('remarketing_ecommerce_currency'),
+						'items' => [$item],
+				];
+			}
+			
+			if ($this->config->get('remarketing_esputnik_status') && $this->customer->isLogged()) {
+				$data['esputnik_remarketing_status'] = true;
+				$data['esputnik_data_json'] = [
+					'productId' => addslashes($product_info['name']),
+					'quantity' => $product_info['quantity'],
+					'price' => $product_price,
+					'isInStock' => $product_info['quantity'] > 0 ? '1' : '0'
+				];
+			} 
+		}
+	
             $this->model_catalog_product->updateViewed($this->request->get['product_id']);
 
             $data['column_left'] = $this->load->controller('common/column_left');
@@ -781,15 +1053,7 @@ $data['avail_status'] = $this->config->get('avail_status');
             $data['footer'] = $this->load->controller('common/footer');
             $data['header'] = $this->load->controller('common/header');
 
-
-
-			$GLOBALS['installmentembedhtml'] = array();
-			$arr = array($product_info);
-			$this->event->trigger('uniadapter/installmentembedhtml', $arr);
-			$data['installmentembedhtml'] = implode('<br/>', $GLOBALS['installmentembedhtml']);
-
-
-            $this->response->setOutput($this->load->view('product/product', $data));
+            $this->response->setOutput(magicRender($this->load->view('product/product', $data),$this,'product',$product_info));
         } else {
             $url = '';
 
@@ -987,7 +1251,7 @@ $data['avail_status'] = $this->config->get('avail_status');
 										$data['avail_options_status'] = $this->config->get('avail_options_status')?$this->config->get('avail_options_status'):'0';//avail
 										$data['change_buttom'] = $this->config->get('avail_status')?$this->config->get('avail_status'):'0';
 										$data['avail_default'] = $this->config->get('avail_default');
-
+			
 
         $recurring_info = $this->model_catalog_product->getProfile($product_id, $recurring_id);
 
@@ -1044,4 +1308,5 @@ $data['avail_status'] = $this->config->get('avail_status');
         fclose($fp);
 
     }
+
 }

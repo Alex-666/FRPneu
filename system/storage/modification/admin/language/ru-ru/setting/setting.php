@@ -2,6 +2,9 @@
 // Heading
 $_['heading_title']                  = 'Настройки';
 
+
+                $_['text_feedback']              = 'Блок с обратной связью';
+            
 // Text
 $_['text_stores']                    = 'Магазины';
 $_['text_success']                   = 'Настройки успешно изменены!';

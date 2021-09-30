@@ -1,0 +1,145 @@
+{{ header }}
+<div id="container" class="container j-container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+      <li itemscope itemtype="http://data-vocabulary.org/Breadcrumb"><a href="{{ breadcrumb.href }}" itemprop="url"><span itemprop="title">{{ breadcrumb.text }}</span></a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}{{ column_right }}
+    {% if column_left and column_right %}
+      {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+      {% set class = 'col-sm-9' %}
+    {% else %}
+      {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">
+      <h1 class="heading-title">{{ heading_title }}</h1>
+      {{ content_top }}
+      {% if categories %}
+        <p><strong>{{ text_index }}</strong> {% for category in categories %}
+            &nbsp;&nbsp;&nbsp;<a href="index.php?route=product/manufacturer#{{ category.name }}">{{ category.name }}</a> {% endfor %} </p>
+        {% for category in categories %}
+          <div class="manufacturer-list">
+            <h2 id="{{ category.name }}" class="manufacturer-heading">{{ category.name }}</h2>
+            {% if category.manufacturer %}
+              {% for manufacturers in category.manufacturer|batch(4) %}
+                <div class="row manufacturer-content"> {% for manufacturer in manufacturers %}
+                    <div class="col-sm-3"><a href="{{ manufacturer.href }}">{{ manufacturer.name }}</a></div>
+                  {% endfor %} </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>{{ text_empty }}</p>
+        <div class="buttons clearfix">
+          <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        </div>
+      {% endif %}
+      {{ content_bottom }}</div>
+  </div>
+</div>
+
+	  {# // remarketing #}
+{% if remarketing_google_json %}
+	<script>
+	if (typeof sendGoogleRemarketing !== 'undefined') {
+		sendGoogleRemarketing({{ remarketing_google_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_target_code %}
+	{{ remarketing_target_code }}
+	{% endif %}
+	
+	{% if remarketing_vk_code %}
+	{{ remarketing_vk_code }}
+	{% endif %}
+	
+	{% if tiktok_remarketing_code %}
+	{{ tiktok_remarketing_code }}
+	{% endif %}
+	
+	{% if facebook_remarketing_code %}
+	{{ facebook_remarketing_code }}
+	{% endif %}
+	
+	{% if ecommerce_status and ecommerce_product_json %}
+	<script>
+	{% if remarketing_ecommerce_status %}
+	window.dataLayer = window.dataLayer || [];
+	dataLayer.push({{ ecommerce_product_json|json_encode() }});
+	{% endif %}
+	{% if measurement_status %}
+	if (typeof sendEcommerceDetails !== 'undefined') {
+		sendEcommerceDetails({{ ecommerce_product_json|json_encode() }}, true);
+	}
+	{% endif %}
+	</script>
+	{% endif %}
+	{% if ecommerce_ga4_status and ecommerce_ga4_product_json %}
+	<script>
+	if (typeof sendEcommerceGa4Details !== 'undefined') {
+		sendEcommerceGa4Details({{ ecommerce_ga4_product_json|json_encode() }}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	</script>
+	{% endif %}
+	
+	{% if remarketing_ecommerce_json %}
+	<script>
+	window.ecommerce_products = window.ecommerce_products || {};
+	ecommerce_product_data = {{ remarketing_ecommerce_json|json_encode() }};
+
+	if (typeof sendEcommerceImpressions !== 'undefined') {
+		sendEcommerceImpressions(ecommerce_product_data, {% if measurement_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_products = $.extend(ecommerce_products, ecommerce_product_data);
+	  </script>
+	 {% endif %}
+	{% if remarketing_ecommerce_ga4_json %}
+	<script>
+	window.ecommerce_ga4_products = window.ecommerce_ga4_products || {};
+	ecommerce_ga4_product_data = {{ remarketing_ecommerce_ga4_json|json_encode() }};
+
+	if (typeof sendEcommerceGa4Impressions !== 'undefined') {
+		sendEcommerceGa4Impressions(ecommerce_ga4_product_data, {% if view_search_results %}true{% else %}false{% endif %}, {% if measurement_ga4_status %}true{% else %}false{% endif %});
+	}
+	
+	 ecommerce_ga4_products = $.extend(ecommerce_ga4_products, ecommerce_ga4_product_data);
+	  </script>
+	 {% endif %}
+	 
+	 
+	 {% if facebook_remarketing_status and facebook_data_json %}
+	<script>
+	if (typeof sendFacebookDetails !== 'undefined') {
+		sendFacebookDetails({{ facebook_data_json|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	 {% if facebook_remarketing_status and facebook_data_json_category %}
+	<script>
+	if (typeof sendFacebookCategoryDetails !== 'undefined') {
+		sendFacebookCategoryDetails({{ facebook_data_json_category|json_encode() }});
+	}
+	  </script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_json %}
+	<script>
+	if (typeof sendEsputnikDetails !== 'undefined') {
+		sendEsputnikDetails({{ esputnik_data_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	{% if esputnik_remarketing_status and esputnik_data_category_json %}
+	<script>
+	if (typeof sendEsputnikCategoryDetails !== 'undefined') {
+		sendEsputnikCategoryDetails({{ esputnik_data_category_json|json_encode() }});
+	}
+	</script>
+	{% endif %}
+	  
+{{ footer }}

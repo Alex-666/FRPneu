@@ -41,6 +41,32 @@ $data['avail_config_google_captcha_status'] = $this->config->get('avail_config_g
             $data['notification_all'] = true;
         }
 
+
+			// remarketing all in one 
+			
+			$this->load->model('tool/remarketing');
+			if ($this->config->get('remarketing_status') && !$this->model_tool_remarketing->isBot()) {
+				$data['remarketing_footer'] = $this->load->controller('common/remarketing/footer');
+				$data['google_currency'] = $this->config->get('remarketing_google_currency');	
+				$data['facebook_currency'] = $this->config->get('remarketing_facebook_currency');	
+				$data['ecommerce_currency'] = $this->config->get('remarketing_ecommerce_currency');	
+				$data['remarketing_currency'] = $this->session->data['currency'];	
+				$data['remarketing_status'] = $this->config->get('remarketing_status');	
+				$data['facebook_status'] = ($this->config->get('remarketing_facebook_status') && $this->config->get('remarketing_facebook_identifier'));	
+				$data['facebook_depth'] = ($this->config->get('remarketing_facebook_depth') && $this->config->get('remarketing_facebook_depth_params'));	
+				$data['facebook_depth_params'] = $this->config->get('remarketing_facebook_depth_params');	
+				$data['google_status'] = ($this->config->get('remarketing_google_status') && $this->config->get('remarketing_google_identifier'));
+				$data['google_identifier'] = $this->config->get('remarketing_google_identifier');
+				$data['ecommerce_status'] = $this->config->get('remarketing_ecommerce_status');
+				$data['ecommerce_ga4_status'] = $this->config->get('remarketing_ecommerce_ga4_status');
+				$data['ecommerce_selector'] = $this->config->get('remarketing_ecommerce_selector');
+				$data['ecommerce_ga4_selector'] = $this->config->get('remarketing_ecommerce_ga4_selector');
+				$data['ecommerce_measurement_status'] = $this->config->get('remarketing_ecommerce_measurement_status');
+				$data['ecommerce_measurement_selector'] = $this->config->get('remarketing_ecommerce_measurement_selector');
+				$data['ecommerce_ga4_measurement_status'] = $this->config->get('remarketing_ecommerce_ga4_measurement_status');
+				$data['ecommerce_ga4_measurement_selector'] = $this->config->get('remarketing_ecommerce_ga4_measurement_selector');
+			}
+			
 		// Whos Online
 		if ($this->config->get('config_customer_online')) {
 			$this->load->model('tool/online');
