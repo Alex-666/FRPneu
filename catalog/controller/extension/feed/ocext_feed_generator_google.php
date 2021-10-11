@@ -4,22 +4,22 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
 	private $currencies = array();
 	private $categories = array();
 	private $offers = array();
-        private $prices = array();
-        private $delivery_option = array();
+    private $prices = array();
+    private $delivery_option = array();
 	private $eol = "\n";
-        private $debug = 0;
-        private $general_setting = array();
-        private $content_language_id = array();
-        private $path_oc = 'extension/feed';
-        private $model_oc = 'extension_feed';
-        private $version_oc = '3.0';
-        private $count_skips = 0;
-        private $count_offers = 0;
-        private $total_memory = 0;
-        private $log_errors = array();
+    private $debug = 0;
+    private $general_setting = array();
+    private $content_language_id = array();
+    private $path_oc = 'extension/feed';
+    private $model_oc = 'extension_feed';
+    private $version_oc = '3.0';
+    private $count_skips = 0;
+    private $count_offers = 0;
+    private $total_memory = 0;
+    private $log_errors = array();
 
 
-         public function index() {
+    public function index() {
 
                 $error = array();
 
@@ -406,8 +406,6 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
 
             }
 
-
-
             if(isset($template_setting['price_from']) && $template_setting['price_from']!=='' && $template_setting['price_from']>$data['price']){
                 $skip_this_offer = TRUE;
             }
@@ -764,11 +762,39 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
                             if( $this->checkPMCids($product, $template_setting[$field_element_key],$data) ){
 
                                 $data['custom_elements'][$template_setting[$name_element_key]] = $this->getNameAttributeForType($product,$template_setting,$template_setting[$field_element_key]['field']['status'],$field_element_key);
-
                             }
 
                         }
 
+                    }
+
+                    $replace_param_name = array_search('replace_param', $template_setting);
+                    $replace_condition_name = array_search('replace_condition', $template_setting);
+
+                    if (!empty($replace_param_name) && !empty($replace_condition_name)) {
+                        $replace_param_field = str_replace('name', 'field', $replace_param_name);
+                        $replace_condition_field = str_replace('name', 'field', $replace_condition_name);
+                        $replace_field_name = $template_setting[$replace_param_field]['field']['text_field'];
+
+                        if (!empty($data['custom_elements'][$replace_field_name]) && isset($template_setting[$replace_condition_field]['field']['text_field'])) {
+                            $conditions = explode(',', $template_setting[$replace_condition_field]['field']['text_field']);
+
+                            $condition_arr = [];
+
+                            foreach ($conditions as $condition) {
+                                $final_condition = explode(':', trim($condition));
+                                if (isset($final_condition[0]) && isset($final_condition[1])) {
+                                    $condition_arr[$final_condition[0]] = $final_condition[1];
+                                }
+                            }
+                            
+                            if (!empty($condition_arr)) {
+                                $data['custom_elements'][$replace_field_name] = str_replace(array_keys($condition_arr), $condition_arr, $data['custom_elements'][$replace_field_name]);
+                            }
+                        }
+
+                        unset($data['custom_elements']['replace_param']);
+                        unset($data['custom_elements']['replace_condition']);
                     }
 
                 }
@@ -1982,6 +2008,7 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
             if( !$categories_and_products['offers'] && !$categories_and_products['cache'] && !$categories_and_products['categories'] ){
                 return FALSE;
             }else{
+                //die('<pre>'.print_r(json_decode(file_get_contents(DIR_SYSTEM . 'storage/cache/' . array_shift($categories_and_products['cache'])), true), true));
                 return $categories_and_products;
             }
         }
@@ -2089,7 +2116,7 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
                 'installment'=>0,
                 'loyalty_points'=>0,
                 'is_bundle'=>0,
-                'tax'=>0
+                'tax'=>0,
             );
 
             if(isset($data['sale_price']) && $data['sale_price']){
