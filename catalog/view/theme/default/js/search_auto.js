@@ -3,7 +3,7 @@ window.SearchAuto = {
     top: 0,
     popup: {
         select: null,
-        el: null
+        small: false
     },
 };
 
@@ -69,6 +69,11 @@ function resizeAutoPopup() {
     var top = SearchAuto.popup.select.offset().top + SearchAuto.popup.select.innerHeight() + 17;
     var left = SearchAuto.popup.select.closest('form').find('select').first().offset().left;
     var width = SearchAuto.popup.select.closest('form').innerWidth() - 30;
+
+    if (SearchAuto.popup.small) {
+        width = 200;
+    }
+
     var corner_left = SearchAuto.popup.select.offset().left - SearchAuto.popup.select.closest('form').offset().left - 2;
     var corner_width = SearchAuto.popup.select.innerWidth();
 
@@ -172,9 +177,6 @@ $(document).ready(function() {
 
         $this.addClass('load-auto-popup');
 
-        SearchAuto.popup.select = $this;
-        resizeAutoPopup();
-
         $items.html('');
 
         $options.each(function(index, option) {
@@ -232,6 +234,10 @@ $(document).ready(function() {
             if ($this.closest('.search-auto').innerWidth() < 400) {
                 $('.auto-popup').addClass('small');
             }
+
+            SearchAuto.popup.small = $this.closest('.search-auto').innerWidth() < 320;
+            SearchAuto.popup.select = $this;
+            resizeAutoPopup();
 
             $('.auto-popup').show();
             $('.auto-popup-backdrop').show();
