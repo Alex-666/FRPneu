@@ -295,7 +295,7 @@ class ControllerExtensionFeedCronmarketplace extends Controller
 
                     //Чешская цена.
                     $price = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), false, false, false));
-                    $price_3 = ceil($price * 1.02);
+                    $price_3 = ceil($price * 1.03);
                     //$this->tax->calculate($product['special'], $product['tax_class_id']);
                     $output .= '<PRICE>' . $price_3 . '</PRICE>' . "\n";
                     $output .= '<VAT>21</VAT>' . "\n";
@@ -304,7 +304,7 @@ class ControllerExtensionFeedCronmarketplace extends Controller
 
                     //$output .= '<PRICE_VAT>' . $this->currency->format($this->tax->calculate($product['special'], $product['tax_class_id']), 'EUR', null, false) . '</PRICE_VAT>';
                     $price_vengr = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 'HUF', false, false));
-                    $price_3_vengr = ceil($price_vengr * 1.05);
+                    $price_3_vengr = ceil($price_vengr * 1.06);
 
                     $output_vengr .= '<PRICE>' . $price_3_vengr . '</PRICE>' . "\n";
                     $output_vengr .= '<VAT>27</VAT>' . "\n";
@@ -314,7 +314,7 @@ class ControllerExtensionFeedCronmarketplace extends Controller
                     If ($categories[0]["category_id"] != '577') {
                         //$output .= '<PRICE_VAT>' . $this->currency->format($this->tax->calculate($product['special'], $product['tax_class_id']), 'EUR', null, false) . '</PRICE_VAT>';
                         $price_vengr = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 'EUR', false, false));
-                        $price_3_vengr = ceil($price_vengr * 1.02);
+                        $price_3_vengr = ceil($price_vengr * 1.03);
 
                         $output_slov .= '<PRICE>' . $price_3_vengr . '</PRICE>' . "\n";
                         $output_slov .= '<VAT>20</VAT>' . "\n";
