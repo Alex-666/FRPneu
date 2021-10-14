@@ -8,6 +8,7 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
   private $save_link = '';
   private $fields = 'link,brand,gtin';
   private $fields_arr = [];
+  private $headers_arr = [];
 
   public function index() {
 
@@ -22,13 +23,19 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
     }
 
     $fields = explode(',', $this->fields);
-    $updated_fields = [];
 
     foreach ($fields as $field) {
-      $updated_fields[] = trim('google_' . $field);
-    }
+      if (strpos($field, ':')) {
+        $names = explode(':', $field);
+        $name = isset($names[1]) ? $names[1] : $field;
+        $field = $names[0];
+        $this->headers_arr[] = $name;
+      } else {
+        $this->headers_arr[] = $field;
+      }
 
-    $this->fields_arr = $updated_fields;
+      $this->fields_arr[] = trim('google_' . $field);
+    }
 
     if (!empty($this->request->get['host'])) {
       $this->host = $this->request->get['host'];
@@ -84,7 +91,7 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
 
     $file = fopen($save_filepath, 'w');
 
-    if ( fputs($file, str_replace(',', ';', $this->fields) . PHP_EOL) === FALSE ) {
+    if ( fputcsv($file, $this->headers_arr, ';', '"') === FALSE ) {
       fclose($file);
       $this->error('File "' . $csv_filepath . '" cant be written.');
     }
