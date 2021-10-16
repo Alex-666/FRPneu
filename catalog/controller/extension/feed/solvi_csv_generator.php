@@ -6,6 +6,8 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
   private $save_folder = 'feed';
   private $save_filename = 'example';
   private $save_link = '';
+  private $delimiter = ',';
+  private $wrapper = '"';
   private $fields = 'link,brand,gtin';
   private $fields_arr = [];
   private $headers_arr = [];
@@ -55,6 +57,14 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
       $this->save_filename = $this->request->get['save_filename'];
     }
 
+    if (!empty($this->request->get['delimiter'])) {
+      $this->delimiter = $this->request->get['delimiter'];
+    }
+
+    if (!empty($this->request->get['wrapper'])) {
+      $this->wrapper = $this->request->get['wrapper'];
+    }
+
     $full_xml_path = $this->protocol . '://' . $this->host . '/' . $this->feed_filepath;
 
     $xml = @file_get_contents($full_xml_path);
@@ -91,7 +101,7 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
 
     $file = fopen($save_filepath, 'w');
 
-    if ( fputcsv($file, $this->headers_arr, ';', '"') === FALSE ) {
+    if ( fputcsv($file, $this->headers_arr, $this->delimiter, $this->wrapper) === FALSE ) {
       fclose($file);
       $this->error('File "' . $csv_filepath . '" cant be written.');
     }
@@ -109,7 +119,7 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
       if ($item->getName() == 'entry')
       {
         $put_arr = $this->getEntryXMLtoArray($item);
-        fputcsv($file, $put_arr, ';', '"');
+        fputcsv($file, $put_arr, $this->delimiter, $this->wrapper);
       }
     }
   }
@@ -134,21 +144,6 @@ class ControllerExtensionFeedSolviCsvGenerator extends Controller {
     }
 
     return $put_arr;
-  }
-
-  private function putEntryXMLtoCSVrow($simplexml, $file) {
-    $put_arr = [];
-
-    foreach ( $simplexml->children() as $item )
-    {
-      $hasChild = count($item->children()) > 0;
-
-      if( !$hasChild && in_array( trim($item->getName()), $this->fields_arr ) )
-      {
-        $put_arr[] = $item;
-        fputcsv($file, $put_arr, ',', '"');
-      }
-    }
   }
 
   private function error($text)
