@@ -761,6 +761,9 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
 
                             if( $this->checkPMCids($product, $template_setting[$field_element_key],$data) ){
 
+                                //Формируются custom_label
+                                //var_dump($template_setting[$field_element_key]['field']['status']);
+                                //die;
                                 $data['custom_elements'][$template_setting[$name_element_key]] = $this->getNameAttributeForType($product,$template_setting,$template_setting[$field_element_key]['field']['status'],$field_element_key);
                             }
 
@@ -787,9 +790,10 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
                                     $condition_arr[$final_condition[0]] = $final_condition[1];
                                 }
                             }
-                            
+
                             if (!empty($condition_arr)) {
                                 $data['custom_elements'][$replace_field_name] = str_replace(array_keys($condition_arr), $condition_arr, $data['custom_elements'][$replace_field_name]);
+
                             }
                         }
 
@@ -867,9 +871,9 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
         }
 
         public function getNameAttributeForType($product,$template_setting,$composite_types,$field_name,$product_field=FALSE) {
-
             $result = '';
             switch ($composite_types){
+
                 case 'attribute_id':
                     if(isset($template_setting[$field_name]['field'][$composite_types])){
 
@@ -987,6 +991,9 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
                     break;
                 default:
                 if(isset($product[$composite_types])){
+                    if ($composite_types == "marze"){
+                        $product[$composite_types] = round($product[$composite_types]/(100 + $product[$composite_types])*100, 2);
+                    }
                     $product[$composite_types] = $this->prepareField($product[$composite_types]);
                     if($product[$composite_types]){
                         $result = $product[$composite_types];

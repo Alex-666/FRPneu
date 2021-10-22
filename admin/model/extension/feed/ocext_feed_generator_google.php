@@ -286,6 +286,7 @@ class ModelExtensionFeedOcextFeedGeneratorGoogle extends Model {
     public function getContentParts($part_type='',$divide_on_option_option_id=FALSE) {
         $columns_product_description = $this->db->query('SHOW COLUMNS FROM `'.DB_PREFIX.'product_description` ');
         $columns_product = $this->db->query('SHOW COLUMNS FROM `'.DB_PREFIX.'product` ');
+        $columns_shopsync = $this->db->query('SHOW COLUMNS FROM `shopsync_qty` ');
         $content_parts['text_field'] = 'text_field';
         $content_parts['name'] = 'name';
         if($columns_product_description->rows){
@@ -308,8 +309,15 @@ class ModelExtensionFeedOcextFeedGeneratorGoogle extends Model {
         $product_fileds = array();
         if($columns_product->rows){
             foreach($columns_product->rows as $key=>$column){
-                if(!isset($unset_product_fields[$column['Field']])){
+                if(!isset($unset_product_fields[$column['Field']]) && $column['Field'] != 'marze'){
                     $product_fileds[$column['Field']] = $column['Field'];
+                }
+            }
+        }
+        if($columns_shopsync->rows){
+            foreach($columns_shopsync->rows as $key=>$column){
+                if(!isset($unset_product_fields[$column['Field']])){
+                    $shopsync_fileds[$column['Field']] = $column['Field'];
                 }
             }
         }
@@ -320,6 +328,7 @@ class ModelExtensionFeedOcextFeedGeneratorGoogle extends Model {
             $product_fileds['length_width_height'] = 'length_width_height';
         }
         $content_parts += $product_fileds;
+        $content_parts += $shopsync_fileds;
         $content_parts['category_id'] = 'category_id';
         $content_parts['option_id'] = 'option_id';
         $content_parts['attribute_id'] = 'attribute_id';
