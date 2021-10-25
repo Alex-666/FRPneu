@@ -1495,7 +1495,7 @@ PRODUCT LABELS
     padding-right: 5px;
 }
 
-#right-mobile .product-info .right .price .product-price {
+#right-mobile .product-options .price .product-price, #right-mobile .product-options .price-special .product-price {
     font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     font-style: normal;
