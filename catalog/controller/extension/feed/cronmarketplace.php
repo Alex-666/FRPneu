@@ -295,7 +295,7 @@ class ControllerExtensionFeedCronmarketplace extends Controller
 
                     //Чешская цена.
                     $price = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), false, false, false));
-                    $price_3 = ceil($price * 1.02;
+                    $price_3 = ceil($price * 1.02);
                     //$this->tax->calculate($product['special'], $product['tax_class_id']);
                     $output .= '<PRICE>' . $price_3 . '</PRICE>' . "\n";
                     $output .= '<VAT>21</VAT>' . "\n";

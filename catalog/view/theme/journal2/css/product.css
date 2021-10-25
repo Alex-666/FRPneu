@@ -1495,6 +1495,15 @@ PRODUCT LABELS
     padding-right: 5px;
 }
 
+#right-mobile .product-info .right .price .product-price {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 26px;
+    text-transform: none;
+    color: rgb(51, 55, 69);
+}
+
 #product .price .price-old,
 #product .price .product-price,
 #product .price .price-new {
