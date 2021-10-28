@@ -1025,6 +1025,34 @@ label[for="input-captcha"] + div {
 }
 
 @media only screen and (max-width: 760px) {
+    .popup {
+        background-color: #fff;
+        border: 3px solid #fff;
+        font-size: 16px;
+        display: inline-block;
+        left: 7%;
+        opacity: 1;
+        padding: 15px;
+        max-width: 300px;
+        width: 80%;
+        height: auto;
+        position: fixed;
+        text-align: justify;
+        top: 30%;
+        visibility: visible;
+        z-index: 999999;
+        /*-webkit-transform: translate(-50%, -50%);*/
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        /*transform: translate(-50%, -50%);*/
+        -webkit-transition: opacity .2s, top .2s;
+        -moz-transition: opacity .2s, top .3s;
+        -ms-transition: opacity .2s, top .2s;
+        -o-transition: opacity .2s, top .2s;
+        transition: opacity .2s, top .2s;
+    }
+
     #tabs li {
         min-width: 50%;
     }

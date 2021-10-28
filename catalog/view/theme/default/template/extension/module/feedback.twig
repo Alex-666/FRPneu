@@ -17,6 +17,10 @@
         <div class="feedback-body">
           <form class="form-horizontal" id="form-feedback">
             <div class="form-group required">
+              <div class="col-sm-12" style="display: none">
+                <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />
+              </div>
+
               <div class="col-sm-12">
                 <!--<label class="control-label" for="input-phone">{{ entry_phone }}</label>-->
                 <input type="tel" name="phone" value="{{ phone }}" id="input-phone" class="form-control" placeholder="{{ tel_placeholder }}" required />
