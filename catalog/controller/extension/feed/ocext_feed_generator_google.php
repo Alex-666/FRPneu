@@ -992,7 +992,7 @@ class ControllerExtensionFeedOcextFeedGeneratorGoogle extends Controller {
                 default:
                 if(isset($product[$composite_types])){
                     if ($composite_types == "marze"){
-                        $product[$composite_types] = round($product[$composite_types]/(100 + $product[$composite_types])*100, 2);
+                        $product[$composite_types] = ceil(($product[$composite_types]/(100 + $product[$composite_types])*100)/10) * 10;
                     }
                     $product[$composite_types] = $this->prepareField($product[$composite_types]);
                     if($product[$composite_types]){
