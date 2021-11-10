@@ -9,40 +9,42 @@ class ModelCatalogProduct extends Model {
         $attributes_all = $this->getProductAttributes($product_id);
         foreach ($attributes_all as $attributes) {
             foreach ($attributes as $attribute) {
-                foreach ($attribute as $attrib) {
-                    // Радиус для Шины и Диска
-                    if ($attrib["attribute_id"] == 8 or $attrib["attribute_id"] == 1) {
-                        $radius = $attrib["text"];
-                    }
-                    //Шины
-                    if ($attrib["attribute_id"] == 9) {
-                        $sezon = $attrib["text"];
-                    }
-                    if ($attrib["attribute_id"] == 7) {
-                        $profil = $attrib["text"];
-                    }
-                    if ($attrib["attribute_id"] == 6) {
-                        $shirina = $attrib["text"];
-                    }
-                    //Диски
-                    if ($attrib["attribute_id"] == 3) {
-                        $disk_shirina = $attrib["text"];
-                    }
-                    if ($attrib["attribute_id"] == 2) {
-                        $disk_otverst = $attrib["text"];
-                    }
-                    if ($attrib["attribute_id"] == 4) {
-                        $disk_central = $attrib["text"];
-                    }
-                    if ($attrib["attribute_id"] == 5) {
-                        $disk_et = $attrib["text"];
-                    }
-                    //Стекла
-                    if ($attrib["attribute_id"] == 23) {
-                        $steklo_marka = $attrib["text"];
-                    }
-                    if ($attrib["attribute_id"] == 24) {
-                        $steklo_model = $attrib["text"];
+                if (is_array($attribute) || is_object($attribute)) {
+                    foreach ($attribute as $attrib) {
+                        // Радиус для Шины и Диска
+                        if ($attrib["attribute_id"] == 8 or $attrib["attribute_id"] == 1) {
+                            $radius = $attrib["text"];
+                        }
+                        //Шины
+                        if ($attrib["attribute_id"] == 9) {
+                            $sezon = $attrib["text"];
+                        }
+                        if ($attrib["attribute_id"] == 7) {
+                            $profil = $attrib["text"];
+                        }
+                        if ($attrib["attribute_id"] == 6) {
+                            $shirina = $attrib["text"];
+                        }
+                        //Диски
+                        if ($attrib["attribute_id"] == 3) {
+                            $disk_shirina = $attrib["text"];
+                        }
+                        if ($attrib["attribute_id"] == 2) {
+                            $disk_otverst = $attrib["text"];
+                        }
+                        if ($attrib["attribute_id"] == 4) {
+                            $disk_central = $attrib["text"];
+                        }
+                        if ($attrib["attribute_id"] == 5) {
+                            $disk_et = $attrib["text"];
+                        }
+                        //Стекла
+                        if ($attrib["attribute_id"] == 23) {
+                            $steklo_marka = $attrib["text"];
+                        }
+                        if ($attrib["attribute_id"] == 24) {
+                            $steklo_model = $attrib["text"];
+                        }
                     }
                 }
             }
@@ -378,8 +380,8 @@ class ModelCatalogProduct extends Model {
 				'mpn'              => $query->row['mpn'],
 				'location'         => $query->row['location'],
 				'quantity'         => $query->row['quantity'],
-                'sklad_tursko'     => $sklads->row['tursko'],
-                'sklad_brno'       => $sklads->row['brno'],
+                'sklad_tursko'     => $sklads->row['tursko']??0,
+                'sklad_brno'       => $sklads->row['brno']??0,
                 'stock_status'     => $query->row['stock_status'],
 
             'stock_status_id'     => $query->row['stock_status_id'],

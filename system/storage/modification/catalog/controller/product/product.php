@@ -85,14 +85,14 @@ $this->load->model('setting/setting');
 
                 // Для Кнопки в Шинах не грузовых, Дисках и Стеклах
                 If (in_array($path_id, array("297", "303", "383")) ) {
-                    $data['pneu_not_nakladni'] = enable;
+                    $data['pneu_not_nakladni'] = "enable";
                 }
                 If ($path_id =="156" ) {
-                    $data['disky'] = enable;
+                    $data['disky'] = "enable";
 
                 }
                 If ($category_id =="1287") {
-                    $data['sklo'] = enable;
+                    $data['sklo'] = "enable";
                 }
             }
 

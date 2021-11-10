@@ -304,7 +304,7 @@ class ControllerExtensionFeedCronmarketplace extends Controller
 
                     //$output .= '<PRICE_VAT>' . $this->currency->format($this->tax->calculate($product['special'], $product['tax_class_id']), 'EUR', null, false) . '</PRICE_VAT>';
                     $price_vengr = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 'HUF', false, false));
-                    $price_3_vengr = ceil($price_vengr * 1.05);
+                    $price_3_vengr = ceil($price_vengr * 1.09);
 
                     $output_vengr .= '<PRICE>' . $price_3_vengr . '</PRICE>' . "\n";
                     $output_vengr .= '<VAT>27</VAT>' . "\n";
