@@ -50,18 +50,23 @@ class ControllerExtensionFeedJRZboziCz extends Controller {
       foreach ($products as $row) {
           $product_data = $this->getProduct($row['product_id']);
           $product_info = $this->model_catalog_product->getProduct($row['product_id']);
-          $attributes = $this->model_catalog_product->getProductAttributes($row['product_id']);
-
+          //$attributes = $this->model_catalog_product->getProductAttributes($row['product_id']);
+          if ($product_info["location"] == 'pneub2b') {
+              $marze = 20;
+          }else {
+              $marze = ceil(($product_data["marze"]/(100 + $product_data["marze"])*100)/10) * 10;
+          }
 
           fwrite($fp, " <SHOPITEM>\n");
           
           $product_id = $product_data['product_id'];
           $zbozi_id = 0; //$product_data['zbozi_id'];
 
-
+          /* Вроде как лишнее в коде.
           if(empty($product)) {
             $product = $product_data['name'];
           }
+          */
           
           $description = $this->description($product_data['description']);
           $name          = $product_data['name'];
@@ -200,11 +205,10 @@ class ControllerExtensionFeedJRZboziCz extends Controller {
                 $deep_count[$key] = substr_count($value, " | ");
               }                  
             }
-            
+
             $deepest_level = max($deep_count);
            
             fwrite($fp, "  <CATEGORYTEXT><![CDATA[".$cats[$deepest_level]."]]></CATEGORYTEXT>\n");
-            
           }
           //*/
           /*foreach ($attributes as $attrib) {
@@ -215,8 +219,8 @@ class ControllerExtensionFeedJRZboziCz extends Controller {
                   fwrite($fp, "</PARAM>\n");
               }
           }*/
-          
-          
+          fwrite($fp, "  <custom_label_0>" . $marze . "</custom_label_0>\n");
+
           fwrite($fp, "</SHOPITEM>\n");
       }
       
@@ -251,7 +255,7 @@ class ControllerExtensionFeedJRZboziCz extends Controller {
 
 			$customer_group_id = $this->config->get('config_customer_group_id');
       // p.zbozi_id,
-			$query = $this->db->query("SELECT DISTINCT pd.product_id, p.model, p.stock_status_id, p.upc, p.quantity, p.tax_class_id, pd.name AS name, pd.description, p.price, p.image, p.ean, m.name AS manufacturer, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$customer_group_id . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$customer_group_id . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "stock_status ss ON ( p.stock_status_id = ss.stock_status_id ) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
+			$query = $this->db->query("SELECT DISTINCT pd.product_id, p.model, p.stock_status_id, p.upc, p.quantity, p.tax_class_id, pd.name AS name, pd.description, p.price, p.image, p.ean, m.name AS manufacturer, (SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ps.customer_group_id = '" . (int)$customer_group_id . "' AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special, (SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id AND pd2.customer_group_id = '" . (int)$customer_group_id . "' AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount, sq.marze AS marze FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) LEFT JOIN " . DB_PREFIX . "manufacturer m ON (p.manufacturer_id = m.manufacturer_id) LEFT JOIN " . DB_PREFIX . "stock_status ss ON ( p.stock_status_id = ss.stock_status_id ) LEFT JOIN shopsync_qty sq ON (p.product_id = sq.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 
 			if ($query->num_rows) {
 				$query->row['price'] = ($query->row['discount'] ? $query->row['discount'] : $query->row['price']);

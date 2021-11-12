@@ -102,8 +102,15 @@ class ControllerExtensionModuleFeedback extends Controller
 
                 $mail->setTo($this->config->get('config_email'));
                 $mail->setFrom($this->config->get('config_email'));
-                $mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
-                $mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
+                If ($this->request->post['name'] == 'Not logged') {
+                    $mail->setSender('');
+                    $mail->setSubject($this->request->post['phone']);
+
+                }else {
+                    $mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
+                    $mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
+
+                }
                 if ($this->config->get('module_feedback_email') == 1) {
                     $mail->setReplyTo($this->request->post['email']);
                     $mail->setText($this->request->post['name'] . ' ' . $this->request->post['phone'] . "\n" . $this->request->post['email'] . "\n" . $this->request->post['enquiry']);
