@@ -408,7 +408,8 @@ BUTTON ICONS
 
 .button-cart-text {
   position: relative;
-  vertical-align: middle;}
+  vertical-align: middle;
+  padding-left: 4px;}
 
 /******************************
 TOOLTIPS
