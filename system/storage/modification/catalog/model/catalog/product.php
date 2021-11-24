@@ -10,43 +10,43 @@ class ModelCatalogProduct extends Model {
         foreach ($attributes_all as $attributes) {
             foreach ($attributes as $attribute) {
                 if (is_array($attribute) || is_object($attribute)) {
-                    foreach ($attribute as $attrib) {
-                        // Радиус для Шины и Диска
-                        if ($attrib["attribute_id"] == 8 or $attrib["attribute_id"] == 1) {
-                            $radius = $attrib["text"];
-                        }
-                        //Шины
-                        if ($attrib["attribute_id"] == 9) {
-                            $sezon = $attrib["text"];
-                        }
-                        if ($attrib["attribute_id"] == 7) {
-                            $profil = $attrib["text"];
-                        }
-                        if ($attrib["attribute_id"] == 6) {
-                            $shirina = $attrib["text"];
-                        }
-                        //Диски
-                        if ($attrib["attribute_id"] == 3) {
-                            $disk_shirina = $attrib["text"];
-                        }
-                        if ($attrib["attribute_id"] == 2) {
-                            $disk_otverst = $attrib["text"];
-                        }
-                        if ($attrib["attribute_id"] == 4) {
-                            $disk_central = $attrib["text"];
-                        }
-                        if ($attrib["attribute_id"] == 5) {
-                            $disk_et = $attrib["text"];
-                        }
-                        //Стекла
-                        if ($attrib["attribute_id"] == 23) {
-                            $steklo_marka = $attrib["text"];
-                        }
-                        if ($attrib["attribute_id"] == 24) {
-                            $steklo_model = $attrib["text"];
-                        }
+                foreach ($attribute as $attrib) {
+                    // Радиус для Шины и Диска
+                    if ($attrib["attribute_id"] == 8 or $attrib["attribute_id"] == 1) {
+                        $radius = $attrib["text"];
+                    }
+                    //Шины
+                    if ($attrib["attribute_id"] == 9) {
+                        $sezon = $attrib["text"];
+                    }
+                    if ($attrib["attribute_id"] == 7) {
+                        $profil = $attrib["text"];
+                    }
+                    if ($attrib["attribute_id"] == 6) {
+                        $shirina = $attrib["text"];
+                    }
+                    //Диски
+                    if ($attrib["attribute_id"] == 3) {
+                        $disk_shirina = $attrib["text"];
+                    }
+                    if ($attrib["attribute_id"] == 2) {
+                        $disk_otverst = $attrib["text"];
+                    }
+                    if ($attrib["attribute_id"] == 4) {
+                        $disk_central = $attrib["text"];
+                    }
+                    if ($attrib["attribute_id"] == 5) {
+                        $disk_et = $attrib["text"];
+                    }
+                    //Стекла
+                    if ($attrib["attribute_id"] == 23) {
+                        $steklo_marka = $attrib["text"];
+                    }
+                    if ($attrib["attribute_id"] == 24) {
+                        $steklo_model = $attrib["text"];
                     }
                 }
+				}
             }
         }
 

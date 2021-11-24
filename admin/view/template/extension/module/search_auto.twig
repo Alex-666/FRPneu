@@ -1,0 +1,450 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-module" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">
+    {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module" class="form-horizontal">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+          </div>
+          <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_status" id="input-status" class="form-control">
+                    {% if module_search_auto_status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                    {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_search_tire }}</h3>
+          </div>
+          <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-category">{{ entry_tire_category }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_category" id="input-tire-category" class="form-control" aria-describedby="help-tire-category">
+                    {% for category in categories %}
+                        {% if module_search_auto_tire_category == category.category_id %}
+                        <option value="{{ category.category_id }}" selected="selected">{{ category.name }}</option>
+                        {% else %}
+                        <option value="{{ category.category_id }}">{{ category.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-category" class="help-block">{{ help_tire_category }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-width">{{ entry_tire_width }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_width" id="input-tire-width" class="form-control" aria-describedby="help-tire-width">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_width == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-width" class="help-block">{{ help_tire_width }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-height">{{ entry_tire_height }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_height" id="input-tire-height" class="form-control" aria-describedby="help-tire-height">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_height == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-height" class="help-block">{{ help_tire_height }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-diameter">{{ entry_tire_diameter }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_diameter" id="input-tire-diameter" class="form-control" aria-describedby="help-tire-diameter">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_diameter == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-diameter" class="help-block">{{ help_tire_diameter }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-loadindex">{{ entry_tire_loadindex }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_loadindex" id="input-tire-loadindex" class="form-control" aria-describedby="help-tire-loadindex">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_loadindex == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-loadindex" class="help-block">{{ help_tire_loadindex }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-speedindex">{{ entry_tire_speedindex }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_speedindex" id="input-tire-speedindex" class="form-control" aria-describedby="help-tire-speedindex">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_speedindex == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-speedindex" class="help-block">{{ help_tire_speedindex }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-season">{{ entry_tire_season }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_season" id="input-tire-season" class="form-control" aria-describedby="help-tire-season">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_season == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-season" class="help-block">{{ help_tire_season }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-type">{{ entry_tire_type }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_type" id="input-tire-type" class="form-control" aria-describedby="help-tire-type">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_type == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-type" class="help-block">{{ help_tire_type }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-tire-model">{{ entry_tire_model }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_tire_model" id="input-tire-model" class="form-control" aria-describedby="help-tire-model">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_tire_model == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-tire-model" class="help-block">{{ help_tire_model }}</span>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_search_disc }}</h3>
+          </div>
+          <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-disc-category">{{ entry_disc_category }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_disc_category" id="input-disc-category" class="form-control" aria-describedby="help-disc-category">
+                    {% for category in categories %}
+                        {% if module_search_auto_disc_category == category.category_id %}
+                        <option value="{{ category.category_id }}" selected="selected">{{ category.name }}</option>
+                        {% else %}
+                        <option value="{{ category.category_id }}">{{ category.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-disc-category" class="help-block">{{ help_disc_category }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-disc-width">{{ entry_disc_width }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_disc_width" id="input-disc-width" class="form-control" aria-describedby="help-disc-width">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_disc_width == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-disc-width" class="help-block">{{ help_disc_width }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-disc-diameter">{{ entry_disc_diameter }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_disc_diameter" id="input-disc-diameter" class="form-control" aria-describedby="help-disc-diameter">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_disc_diameter == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-disc-diameter" class="help-block">{{ help_disc_diameter }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-disc-pcd">{{ entry_disc_pcd }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_disc_pcd" id="input-disc-pcd" class="form-control" aria-describedby="help-disc-pcd">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_disc_pcd == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-disc-pcd" class="help-block">{{ help_disc_pcd }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-disc-dia">{{ entry_disc_dia }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_disc_dia" id="input-disc-dia" class="form-control" aria-describedby="help-disc-dia">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_disc_dia == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-disc-dia" class="help-block">{{ help_disc_dia }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-disc-et">{{ entry_disc_et }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_disc_et" id="input-disc-et" class="form-control" aria-describedby="help-disc-et">
+                    {% for attr_group in attributes %}
+                        {% if attr_group.items %}
+                            <optgroup label="{{ attr_group.group_name }}">
+                                {% for attr in attr_group.items %}
+                                    {% if module_search_auto_disc_et == attr.attribute_id %}
+                                    <option value="{{ attr.attribute_id }}" selected="selected">{{ attr.attribute_name }}</option>
+                                    {% else %}
+                                    <option value="{{ attr.attribute_id }}">{{ attr.attribute_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </optgroup>
+                        {% endif %}
+                    {% endfor %}
+                  </select>
+                    <span id="help-disc-et" class="help-block">{{ help_disc_et }}</span>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_settings_search }}</h3>
+          </div>
+          <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-et-range">{{ entry_et_range }}</label>
+                <div class="col-sm-10">
+                    <input type="text" id="input-et-range" class="form-control" name="module_search_auto_et_range" value="{{ module_search_auto_et_range }}" size="3" aria-describedby="help-et-range">
+                    <span id="help-et-range" class="help-block">{{ help_et_range }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-width-range">{{ entry_width_range }}</label>
+                <div class="col-sm-10">
+                    <input type="text" id="input-width-range"  class="form-control" name="module_search_auto_width_range_minus" value="{{ module_search_auto_width_range_minus }}" size="3" aria-describedby="help-width-range">
+                    <input type="text" id="input-width-range2" class="form-control" name="module_search_auto_width_range_plus" value="{{ module_search_auto_width_range_plus }}" size="3">
+                    <span id="help-width-range" class="help-block">{{ help_width_range }}</span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-dia-range">{{ entry_dia_range }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_dia_range" id="input-dia-range" class="form-control" aria-describedby="help-dia-range">
+                    {% if module_search_auto_dia_range %}
+                    <option value="1" selected="selected">{{ text_yes }}</option>
+                    <option value="0">{{ text_no }}</option>
+                    {% else %}
+                    <option value="1">{{ text_yes }}</option>
+                    <option value="0" selected="selected">{{ text_no }}</option>
+                    {% endif %}
+                  </select>
+                    <span id="help-dia-range" class="help-block">{{ help_dia_range }}</span>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_settings_cache }}</h3>
+          </div>
+          <div class="panel-body">
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-cache-models">{{ entry_cache_models }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_cache_models" id="input-cache-models" class="form-control">
+                    {% if module_search_auto_cache_models %}
+                    <option value="1" selected="selected">{{ text_yes }}</option>
+                    <option value="0">{{ text_no }}</option>
+                    {% else %}
+                    <option value="1">{{ text_yes }}</option>
+                    <option value="0" selected="selected">{{ text_no }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-cache-years">{{ entry_cache_years }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_cache_years" id="input-cache-years" class="form-control">
+                    {% if module_search_auto_cache_years %}
+                    <option value="1" selected="selected">{{ text_yes }}</option>
+                    <option value="0">{{ text_no }}</option>
+                    {% else %}
+                    <option value="1">{{ text_yes }}</option>
+                    <option value="0" selected="selected">{{ text_no }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-cache-mods">{{ entry_cache_mods }}</label>
+                <div class="col-sm-10">
+                  <select name="module_search_auto_cache_mods" id="input-cache-mods" class="form-control">
+                    {% if module_search_auto_cache_mods %}
+                    <option value="1" selected="selected">{{ text_yes }}</option>
+                    <option value="0">{{ text_no }}</option>
+                    {% else %}
+                    <option value="1">{{ text_yes }}</option>
+                    <option value="0" selected="selected">{{ text_no }}</option>
+                    {% endif %}
+                  </select>
+                </div>
+              </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+{{ footer }}
