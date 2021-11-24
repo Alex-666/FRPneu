@@ -8,8 +8,8 @@
 
             require_once( constant( 'DIR_SYSTEM' ) . '../vendor/ecomail/autoload.php' );
 
-            $factory = new LNC\OpenCart\Factory();
-            $adapter = $factory->factoryAdapter( $this );
+            //$factory = new LNC\OpenCart\Factory();
+            //$adapter = $factory->factoryAdapter( $this );
 
             //$adapter->loadLanguage( 'module/ecomail' );
             /*
@@ -121,7 +121,12 @@
 
             $data['optionsListId'] = $this->model_ecomail_optionsListId->getOptions();
 
-            $adapter->defaultChildControllers( $data );
+            //$adapter->defaultChildControllers( $data );
+            $data['header'] = $this->load->controller('common/header');
+            $data['column_left'] = $this->load->controller('common/column_left');
+            $data['footer'] = $this->load->controller('common/footer');
+            $data['user_token'] = $this->session->data['user_token'];
+
 
             $html = <<<HTML
 <script type="text/javascript">
