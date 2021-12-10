@@ -263,7 +263,7 @@
 </div>
 
 <!--notification-->
-{% if notification_all and disable %}
+{% if notification_all %}
     <div id="notification">
         <div class="notification__container"></div>
         <style>
@@ -271,10 +271,10 @@
                 text-align: center;
                 position: fixed;
                 z-index: 9999;
-                top: 28px;
-                right: -95px;
+                top: 45%;
+                right: 25%;
                 width: calc(100% - 30px);
-                max-width: 350px;
+                max-width: 450px;
                 margin-bottom: -100px;
                 opacity: 0;
                 visibility: hidden;
@@ -311,7 +311,7 @@
             }
 
             .notification__container {
-                background-color: #005289a8;
+                background-color: #005289f2;
                 padding: 10px 15px;
                 color: #fff;
                 position: relative;
