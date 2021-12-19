@@ -35,10 +35,20 @@ $data['avail_config_google_captcha_status'] = $this->config->get('avail_config_g
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 		$data['text_policy_all'] = $this->language->get('text_policy_all');
+
         $data['notification_all'] = false;
+        $data['store_cz'] = false;
+        $data['store_sk'] = false;
+
         If ($this->config->get('config_store_id') == "0"){
             $data['text_notification_all'] = $this->language->get('text_notification_all');
             $data['notification_all'] = true;
+            $data['store_cz'] = true;
+
+        }
+        elseif ($this->config->get('config_store_id') == "1"){
+            $data['store_sk'] = true;
+
         }
 
 
