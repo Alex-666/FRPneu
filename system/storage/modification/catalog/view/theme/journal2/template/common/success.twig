@@ -49,6 +49,8 @@
     </script>
     <script type="text/javascript" src="https://www.seznam.cz/rs/static/rc.js" async></script>
 {% endif %}
+
+<!-- Heureka.cz -->
 {% if store_id == 0 %}
 {% if order_id  %}
 <script type="text/javascript">
@@ -71,12 +73,13 @@ var _hrq = _hrq || [];
 
 {% endif %}
 {% endif %}
+<!-- Heureka.sk -->
 
 {% if store_id == 1 %}
 {% if order_id  %}
 <script type="text/javascript">
 var _hrq = _hrq || [];
-    _hrq.push(['setKey', 'F9300CE0C1DD4A9A154D856EEDF09CE4']);
+    _hrq.push(['setKey', '7d779cf468882715210bda9f2dbc99d0']);
     _hrq.push(['setOrderId', '{{ order_id }}']);
     {% set totalPrice_tom = 0 %}
     {% for product in products %}
@@ -96,7 +99,6 @@ var _hrq = _hrq || [];
 {% endif %}
 
                 {% if gtag_event %}{{ gtag_event }}{% endif %}
-                
 
 {% if order_id  %}
     <script type="text/javascript">
@@ -119,9 +121,7 @@ var _hrq = _hrq || [];
             x.parentNode.insertBefore (s, x);
         }) ();
     </Script>
-{% endif %}
 <!-- Zbozi.cz -->
-{% if order_id  %}
 <script>
     (function(w,d,s,u,n,k,c,t){w.ZboziConversionObject=n;w[n]=w[n]||function(){
         (w[n].q=w[n].q||[]).push(arguments)};w[n].key=k;c=d.createElement(s);
