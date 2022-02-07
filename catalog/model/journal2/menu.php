@@ -51,22 +51,22 @@ class ModelJournal2Menu extends Model {
         switch ($link['menu_type']) {
             case 'category':
                 $category_info = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($link, 'menu_item.id', -1));
-                if (!$category_info) continue;
+                if (!$category_info) break;
                 $href = $this->url->link('product/category', 'path=' . $category_info['category_id']);
                 break;
             case 'product':
                 $product_info = $this->model_catalog_product->getProduct(Journal2Utils::getProperty($link, 'menu_item.id', -1));
-                if (!$product_info) continue;
+                if (!$product_info) break;
                 $href = $this->url->link('product/product', 'product_id=' . $product_info['product_id']);
                 break;
             case 'manufacturer':
                 $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer(Journal2Utils::getProperty($link, 'menu_item.id', -1));
-                if (!$manufacturer_info) continue;
+                if (!$manufacturer_info) break;
                 $href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_info['manufacturer_id']);
                 break;
             case 'information':
                 $information_info = $this->model_catalog_information->getInformation(Journal2Utils::getProperty($link, 'menu_item.id', -1));
-                if (!$information_info) continue;
+                if (!$information_info) break;
                 $href = $this->url->link('information/information', 'information_id=' .  $information_info['information_id']);
                 break;
             case 'popup':
@@ -91,12 +91,12 @@ class ModelJournal2Menu extends Model {
                 break;
             case 'blog_category':
                 $category_info = $this->model_journal2_blog->getCategory(Journal2Utils::getProperty($link, 'menu_item.id', -1));
-                if (!$category_info) continue;
+                if (!$category_info) break;
                 $href = $this->url->link('journal2/blog', 'journal_blog_category_id=' . $category_info['category_id']);
                 break;
             case 'blog_post':
                 $post_info = $this->model_journal2_blog->getPost(Journal2Utils::getProperty($link, 'menu_item.id', -1));
-                if (!$post_info) continue;
+                if (!$post_info) break;
                 $href = $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post_info['post_id']);
                 break;
             case 'custom':

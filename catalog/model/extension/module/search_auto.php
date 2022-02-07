@@ -337,7 +337,7 @@ class ModelExtensionModuleSearchAuto extends Model{
                             } else {
 
                                 $ET_deviation_db = $this->db->query("SELECT * FROM `oc_setting` WHERE (CONVERT(`key` USING utf8) LIKE 'module_search_auto_et_range')");
-                                $ET_deviation = $this->db->escape($value) - $ET_deviation_db->rows[0]["value"];
+                                $ET_deviation = (int)$this->db->escape($value) - (int)$ET_deviation_db->rows[0]["value"];
 
                                 if ($config_value == 5) {
                                     $sql .= " AND pa" . (int)$config_value . ".value <= '" . $this->db->escape($value) . "' and pa" . (int)$config_value . ".value > '" . $ET_deviation . "'";
@@ -625,7 +625,7 @@ class ModelExtensionModuleSearchAuto extends Model{
                         else
                         {
                             $ET_deviation_db = $this->db->query("SELECT * FROM `oc_setting` WHERE (CONVERT(`key` USING utf8) LIKE 'module_search_auto_et_range')");
-                            $ET_deviation = $this->db->escape($value) - $ET_deviation_db->rows[0]["value"];
+                            $ET_deviation = (int)$this->db->escape($value) - (int)$ET_deviation_db->rows[0]["value"];
 
                             if ($config_value == 5) {
                                 $sql .= " AND pa" . (int)$config_value . ".value <= '" . $this->db->escape($value) . "' and pa" . (int)$config_value . ".value > '" . $ET_deviation . "'";

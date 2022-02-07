@@ -275,18 +275,18 @@ class ControllerJournal2Menu extends Controller {
                                             break;
                                         case 'category':
                                             $category_info = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($column, 'category.data.id'));
-                                            if (!$category_info) continue;
+                                            if (!$category_info) break;
                                             $products = $this->model_journal2_product->getProductsByCategory($category_info['category_id'], $limit);
                                             break;
                                         case 'manufacturer':
                                             $manufacturer = $this->model_catalog_manufacturer->getManufacturer(Journal2Utils::getProperty($column, 'manufacturer.data.id'));
-                                            if (!$manufacturer) continue;
+                                            if (!$manufacturer) break;
                                             $products = $this->model_journal2_product->getProductsByManufacturer($manufacturer['manufacturer_id'], $limit);
                                             break;
                                         case 'custom':
                                             foreach (Journal2Utils::sortArray(Journal2Utils::getProperty($column, 'products', array())) as $product) {
                                                 $result = $this->model_catalog_product->getProduct(Journal2Utils::getProperty($product, 'data.id'));
-                                                if (!$result) continue;
+                                                if (!$result) break;
                                                 $products[] = $result;
                                             }
                                             break;
@@ -297,7 +297,7 @@ class ControllerJournal2Menu extends Controller {
                                             $random_products = $this->model_journal2_product->getRandomProducts($limit, $category_id);
                                             foreach ($random_products as $product) {
                                                 $result = $this->model_catalog_product->getProduct($product['product_id']);
-                                                if (!$result) continue;
+                                                if (!$result) break;
                                                 $products[] = $result;
                                             }
                                             break;
@@ -697,25 +697,25 @@ class ControllerJournal2Menu extends Controller {
             switch ($item['menu']['menu_type']) {
                 case 'category':
                     $category_info = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($item, 'menu.menu_item.id', -1));
-                    if (!$category_info) continue;
+                    if (!$category_info) break;
                     $name = $category_info['name'];
                     $href = $this->url->link('product/category', 'path=' . $category_info['category_id']);
                     break;
                 case 'product':
                     $product_info = $this->model_catalog_product->getProduct(Journal2Utils::getProperty($item, 'menu.menu_item.id', -1));
-                    if (!$product_info) continue;
+                    if (!$product_info) break;
                     $name = $product_info['name'];
                     $href = $this->url->link('product/product', 'product_id=' . $product_info['product_id']);
                     break;
                 case 'manufacturer':
                     $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer(Journal2Utils::getProperty($item, 'menu.menu_item.id', -1));
-                    if (!$manufacturer_info) continue;
+                    if (!$manufacturer_info) break;
                     $name = $manufacturer_info['name'];
                     $href = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_info['manufacturer_id']);
                     break;
                 case 'information':
                     $information_info = $this->model_catalog_information->getInformation(Journal2Utils::getProperty($item, 'menu.menu_item.id', -1));
-                    if (!$information_info) continue;
+                    if (!$information_info) break;
                     $name = $information_info['title'];
                     $href = $this->url->link('information/information', 'information_id=' .  $information_info['information_id']);
                     break;
@@ -751,13 +751,13 @@ class ControllerJournal2Menu extends Controller {
                     break;
                 case 'blog_category':
                     $category_info = $this->model_journal2_blog->getCategory(Journal2Utils::getProperty($item, 'menu.menu_item.id', -1));
-                    if (!$category_info) continue;
+                    if (!$category_info) break;
                     $name = $category_info['name'];
                     $href = $this->url->link('journal2/blog', 'journal_blog_category_id=' . $category_info['category_id']);
                     break;
                 case 'blog_post':
                     $post_info = $this->model_journal2_blog->getPost(Journal2Utils::getProperty($item, 'menu.menu_item.id', -1));
-                    if (!$post_info) continue;
+                    if (!$post_info) break;
                     $name = $post_info['name'];
                     $href = $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post_info['post_id']);
                     break;
@@ -824,7 +824,7 @@ class ControllerJournal2Menu extends Controller {
                             /* existing categories */
                             case 'existing':
                                 $parent_category = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($menu_item, 'categories.top.id'));
-                                if (!$parent_category) continue;
+                                if (!$parent_category) break;
                                 $menu['name'] = $parent_category['name'];
                                 $menu['href'] = $this->url->link('product/category', 'path=' . $parent_category['category_id']);
                                 switch ($links_type) {
@@ -958,7 +958,7 @@ class ControllerJournal2Menu extends Controller {
                             /* existing categories */
                             case 'existing':
                                 $parent_category = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($menu_item, 'categories.top.id'));
-                                if (!$parent_category) continue;
+                                if (!$parent_category) break;
                                 $menu['name'] = $parent_category['name'];
                                 $menu['href'] = $this->url->link('product/category', 'path=' . $parent_category['category_id']);
                                 $menu['subcategories'] = $this->generateMultiLevelCategoryMenu($parent_category['category_id']);
@@ -991,7 +991,7 @@ class ControllerJournal2Menu extends Controller {
                     /* products from category */
                     case 'category':
                         $parent_category = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($menu_item, 'products.category.id'));
-                        if (!$parent_category) continue;
+                        if (!$parent_category) break;
                         $menu['name'] = $parent_category['name'];
                         $menu['href'] = $this->url->link('product/category', 'path=' . $parent_category['category_id']);
                         $products = $this->model_journal2_product->getProductsByCategory($parent_category['category_id'], $items_limit ? $items_limit : 5);
@@ -1073,7 +1073,7 @@ class ControllerJournal2Menu extends Controller {
                     /* products from manufacturer */
                     case 'manufacturer':
                         $manufacturer = $this->model_catalog_manufacturer->getManufacturer(Journal2Utils::getProperty($menu_item, 'products.manufacturer.id'));
-                        if (!$manufacturer) continue;
+                        if (!$manufacturer) break;
                         $menu['name'] = $manufacturer['name'];
                         $menu['href'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer['manufacturer_id']);
                         $products = $this->model_journal2_product->getProductsByManufacturer($manufacturer['manufacturer_id']);
@@ -1193,28 +1193,28 @@ class ControllerJournal2Menu extends Controller {
                 switch (Journal2Utils::getProperty($menu_item, 'custom.top.menu_type')) {
                     case 'category':
                         $category_info = $this->model_catalog_category->getCategory(Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.id', -1));
-                        if (!$category_info) continue;
+                        if (!$category_info) break;
                         $menu['name'] = $category_info['name'];
                         $menu['href'] = $this->url->link('product/category', 'path=' . $category_info['category_id']);
                         $menu['subcategories'] = $this->generateMenu(Journal2Utils::getProperty($menu_item, 'custom.items', array()));
                         break;
                     case 'product':
                         $product_info = $this->model_catalog_product->getProduct(Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.id', -1));
-                        if (!$product_info) continue;
+                        if (!$product_info) break;
                         $menu['name'] = $product_info['name'];
                         $menu['href'] = $this->url->link('product/product', 'product_id=' . $product_info['product_id']);
                         $menu['subcategories'] = $this->generateMenu(Journal2Utils::getProperty($menu_item, 'custom.items', array()));
                         break;
                     case 'manufacturer':
                         $manufacturer_info = $this->model_catalog_manufacturer->getManufacturer(Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.id', -1));
-                        if (!$manufacturer_info) continue;
+                        if (!$manufacturer_info) break;
                         $menu['name'] = $manufacturer_info['name'];
                         $menu['href'] = $this->url->link('product/manufacturer/info', 'manufacturer_id=' . $manufacturer_info['manufacturer_id']);
                         $menu['subcategories'] = $this->generateMenu(Journal2Utils::getProperty($menu_item, 'custom.items', array()));
                         break;
                     case 'information':
                         $information_info = $this->model_catalog_information->getInformation(Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.id', -1));
-                        if (!$information_info) continue;
+                        if (!$information_info) break;
                         $menu['name'] = $information_info['title'];
                         $menu['href'] = $this->url->link('information/information', 'information_id=' . $information_info['information_id']);
                         $menu['subcategories'] = $this->generateMenu(Journal2Utils::getProperty($menu_item, 'custom.items', array()));
@@ -1247,14 +1247,14 @@ class ControllerJournal2Menu extends Controller {
                         break;
                     case 'blog_category':
                         $category_info = $this->model_journal2_blog->getCategory(Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.id', -1));
-                        if (!$category_info) continue;
+                        if (!$category_info) break;
                         $menu['name'] = $category_info['name'];
                         $menu['href'] = $this->url->link('journal2/blog', 'journal_blog_category_id=' . $category_info['category_id']);
                         $menu['subcategories'] = $this->generateMenu(Journal2Utils::getProperty($menu_item, 'custom.items', array()));
                         break;
                     case 'blog_post':
                         $post_info = $this->model_journal2_blog->getPost(Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.id', -1));
-                        if (!$post_info) continue;
+                        if (!$post_info) break;
                         $menu['name'] = $post_info['name'];
                         $menu['href'] = $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post_info['post_id']);
                         $menu['subcategories'] = $this->generateMenu(Journal2Utils::getProperty($menu_item, 'custom.items', array()));
