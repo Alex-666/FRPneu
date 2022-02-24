@@ -164,11 +164,16 @@ class ControllerPaymentUniAdapter extends Controller {
 			$currency = $order_info['currency'];
 			$value = $order_info['value'];
 		} else {
-			$currency = $order_info['currency_code'];
-			$value = $order_info['currency_value'];
+		    If ($order_info['currency_code'] == "EUR") {
+                $currency = "CZK";
+                $value =  "1.00000000";
+            }
+		    else {
+                $currency = $order_info['currency_code'];
+                $value = $order_info['currency_value'];
+            }
 		}
 		$order_total = $this->currency->format($order_info['total'], $currency, $value, FALSE);
-
 
 		$orderToPayInfo = new OrderToPayInfo();
 		$orderToPayInfo->subMethod = $this->uniModul->subMethod;

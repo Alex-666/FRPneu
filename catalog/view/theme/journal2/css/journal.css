@@ -1011,10 +1011,10 @@ Quick Checkout Stripe Payment CSS for OC 1.5.X AND 2.X
 /******************************
 
 *******************************/
-
+/*
 .simplecheckout-block-content label[for="gpwebpaygpebinder"]  {
     display: none !important
-}
+}*/
 
 #content div.row.pagination div.row.row-pagination-container {
   display: none;
