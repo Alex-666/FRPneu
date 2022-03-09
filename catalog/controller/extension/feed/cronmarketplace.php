@@ -299,6 +299,9 @@ class ControllerExtensionFeedCronmarketplace extends Controller
                     //$this->tax->calculate($product['special'], $product['tax_class_id']);
                     $output .= '<PRICE>' . $price_3 . '</PRICE>' . "\n";
                     $output .= '<VAT>21</VAT>' . "\n";
+                    $rrp = ceil($price_3 * 1.05);
+                    $output .= '<RRP>' . $rrp . '</RRP>';
+
 
                     // Для Венгерсокого отделения цена.
 
@@ -308,19 +311,26 @@ class ControllerExtensionFeedCronmarketplace extends Controller
 
                     $output_vengr .= '<PRICE>' . $price_3_vengr . '</PRICE>' . "\n";
                     $output_vengr .= '<VAT>27</VAT>' . "\n";
+                    $rrp_vengr = ceil($price_vengr * 1.05);
+                    $output_vengr .= '<RRP>' . $rrp_vengr . '</RRP>';
+
 
                     // Для Словацкого цена.
 
                     If ($categories[0]["category_id"] != '577') {
                         //$output .= '<PRICE_VAT>' . $this->currency->format($this->tax->calculate($product['special'], $product['tax_class_id']), 'EUR', null, false) . '</PRICE_VAT>';
-                        $price_vengr = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 'EUR', false, false));
-                        $price_3_vengr = ceil($price_vengr * 1.01);
+                        $price_slov = str_replace(' ', '', $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), 'EUR', false, false));
+                        $price_3_slov = ceil($price_slov * 1.01);
 
-                        $output_slov .= '<PRICE>' . $price_3_vengr . '</PRICE>' . "\n";
+                        $output_slov .= '<PRICE>' . $price_3_slov . '</PRICE>' . "\n";
                         $output_slov .= '<VAT>20</VAT>' . "\n";
+                        $rrp_slov = ceil($price_slov * 1.05);
+                        $output_slov .= '<RRP>' . $rrp_slov . '</RRP>';
+
                     }
 
 
+                    /*
                     //1
                     if ($product['product_id'] == '46228') {
                         $output .= '<RRP>1803</RRP>';
@@ -365,7 +375,7 @@ class ControllerExtensionFeedCronmarketplace extends Controller
                     if ($product['product_id'] == '56236') {
                         $output .= '<RRP>1745</RRP>';
                     }
-
+*/
                     if (in_array($category["parent_id"], array('297', '303', '383', '366', '1287'))) {
                         foreach ($attributes as $attrib) {
                             foreach ($attrib["attribute"] as $att) {

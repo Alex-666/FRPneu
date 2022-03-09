@@ -79,18 +79,18 @@ var _hrq = _hrq || [];
 {% if order_id  %}
 <script type="text/javascript">
 var _hrq = _hrq || [];
-    _hrq.push(['setKey', '7d779cf468882715210bda9f2dbc99d0']);
+    _hrq.push(['setKey', 'F9300CE0C1DD4A9A154D856EEDF09CE4']);
     _hrq.push(['setOrderId', '{{ order_id }}']);
     {% set totalPrice_tom = 0 %}
     {% for product in products %}
     {% set totalPrice_tom = totalPrice_tom + product.price * product.quantity %}
-    _hrq.push(['addProduct', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }}']);
+    _hrq.push(['addProduct', '{{ product.name }}', '{{ product.price }}', '{{ product.quantity }}', '{{ product.model }}']);
     {% endfor %}
     _hrq.push(['trackOrder']);
 
 (function() {
     var ho = document.createElement('script'); ho.type = 'text/javascript'; ho.async = true;
-    ho.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//im9.cz/js/ext/1-roi-async.js';
+    ho.src = 'https://im9.cz/sk/js/ext/2-roi-async.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ho, s);
 })();
 </script>
