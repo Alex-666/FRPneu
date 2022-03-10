@@ -75,7 +75,7 @@ $_['text_button_trusko']                          = 'Přezutí u Prahy';
 $_['text_button_brna']                           = 'Přezutí u Brna';
 $_['text_button_sklo']                            = 'Výměna skla';
 
-$_['text_year']                                   = 'Rok výroby (DOT) 2021/2020';
+$_['text_year']                                   = 'Rok výroby (DOT) 2022/2021';
 $_['text_includes_recycling']                     = 'V ceně pneu je zahrnutý recyklační poplatek';
 $_['text_recycling_used_tires']                   = '<a target="_blank" href="/výrobky-s-ukončenou-životností.html"><span>Likvidace použitých pneumatik zdarma zde</span></a>';
 

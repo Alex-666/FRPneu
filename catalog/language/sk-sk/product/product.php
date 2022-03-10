@@ -70,6 +70,6 @@ $_['more_than']                                   = 'Viac ako 20 ks';
 $_['pcs']                                         = ' ks';
 $_['sklad_cr']                                    = ' ks (sklad v ČR)';
 
-$_['text_year']                                   = 'Rok výroby (DOT) 2021/2020';
+$_['text_year']                                   = 'Rok výroby (DOT) 2022/2021';
 $_['text_includes_recycling']                     = 'V cene pneu je zahrnutý recyklačný poplatok';
 $_['text_recycling_used_tires']                   = '';
