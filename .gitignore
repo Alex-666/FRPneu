@@ -1,17 +1,20 @@
 .htaccess
 /config.php
 admin/config.php
-admin\controller\extension\module\modulecreator.php
-admin\language\en-gb\extension\module\modulecreator.php
-admin\language\ru-ru\extension\module\modulecreator.php
-admin\view\template\extension\module\modulecreator.twig
-UniModul\logs\UniModul.log
+admin/controller/extension/module/modulecreator.php
+admin/language/en-gb/extension/module/modulecreator.php
+admin/language/ru-ru/extension/module/modulecreator.php
+admin/view/template/extension/module/modulecreator.twig
+UniModul.log
 
 feeds/
 *.xml
 *.sql
 *.gz
 *.csv
+*.log
+
+shopsync_server_zbozi*.php
 
 !index.html
 catalog/view/theme/assets/js/
@@ -19,6 +22,7 @@ catalog/view/theme/assets/css/
 
 download/
 image/data/
+image/catalog/
 image/cache/
 system/cache/
 system/logs/
@@ -45,6 +49,10 @@ vqmod/mods.cache
 
 .idea/
 
+UniModul/
+eduard/
+__info.php
 yandex_4515812eb7dda84f.html
 robots.txt
 tmp/
+server_data
