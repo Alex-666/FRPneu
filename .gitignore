@@ -1,6 +1,11 @@
 .htaccess
 /config.php
 admin/config.php
+admin\controller\extension\module\modulecreator.php
+admin\language\en-gb\extension\module\modulecreator.php
+admin\language\ru-ru\extension\module\modulecreator.php
+admin\view\template\extension\module\modulecreator.twig
+UniModul\logs\UniModul.log
 
 feeds/
 *.xml
