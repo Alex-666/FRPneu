@@ -123,11 +123,24 @@ class ModelExtensionTotalCoupon extends Model {
 				foreach ($this->cart->getProducts() as $product) {
 					$discount = 0;
 
-					if (!$coupon_info['product']) {
-						$status = true;
-					} else {
-						$status = in_array($product['product_id'], $coupon_info['product']);
-					}
+                    if ($coupon_info['code'] == 'JARO5' ) {
+                        if ($product['location'] == 'pohoda') {
+                            if (!$coupon_info['product']) {
+                                $status = true;
+                            } else {
+                                $status = in_array($product['product_id'], $coupon_info['product']);
+                            }
+
+                        } else {
+                            $status = in_array($product['product_id'], $coupon_info['product']);
+                        }
+                    } else {
+                        if (!$coupon_info['product']) {
+                            $status = true;
+                        } else {
+                            $status = in_array($product['product_id'], $coupon_info['product']);
+                        }
+                    }
 
 					if ($status) {
 						if ($coupon_info['type'] == 'F') {

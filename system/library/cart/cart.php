@@ -317,6 +317,7 @@ class Cart
                     'name' => $product_query->row['name'],
                     'model' => $product_query->row['model'],
                     'shipping' => $product_query->row['shipping'],
+                    'location' => $product_query->row['location'],
                     'image' => $product_query->row['image'],
                     'option' => $option_data,
                     'download' => $download_data,
