@@ -14,4 +14,4 @@ $_['text_logout']        = 'Logout';
 $_['text_checkout']      = 'Checkout';
 $_['text_search']        = 'Search';
 $_['text_all']           = 'Show All';
-$_['hader_text_twelve']  = '<p class="first">Objednávky do 12:00 můžeme doručit ze skladu Tursko v Praze a okolí ten samý pracovní den!</p><p class="two">Platí v rámci Prahy a blízkého okolí Turska (PSČ 25... nebo 27...). Doplňkový poplatek - 99,- Kč ke stávající dopravě.</p>';
+$_['hader_text_twelve']  = '<p class="first">We can deliver orders up to 12 from the Tursko warehouse around Prague with a fee of  99 CZK on the same working day</p><p class="two">97% of the tires are manufactured in 20021/2022.</p>';
