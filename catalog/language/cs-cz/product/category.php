@@ -28,3 +28,7 @@ $_['sales']                                       = 'Výprodej';
 $_['more_than']                                   = 'více než 20 ks';
 $_['pcs']                                         = ' ks';
 $_['sklad_cr']                                    = ' ks (sklad v ČR)';
+
+$_['attribute_23']                                = 'Zadejte značku';
+$_['attribute_24']                                = 'Zadejte model';
+$_['attribute_25']                                = 'Zadejte rok';

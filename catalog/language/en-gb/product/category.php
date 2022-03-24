@@ -29,3 +29,7 @@ $_['sales']             = 'Sales';
 $_['more_than']                                   = 'More than 20 pcs';
 $_['pcs']                                         = ' pcs';
 $_['sklad_cr']                                    = ' pcs (warehouse in CZ)';
+
+$_['attribute_23']                                = 'Enter the brand';
+$_['attribute_24']                                = 'Enter the model';
+$_['attribute_25']                                = 'Enter the year';

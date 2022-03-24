@@ -486,4 +486,13 @@ width:100%;
 
 }
 
+.box-filter-attr {
+    margin: 2px;
+}
 
+.hidden {
+    display: none;
+}
+#column-top .sf-reset {
+	color: #f7bb2b
+}

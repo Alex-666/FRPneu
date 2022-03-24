@@ -1,12 +1,25 @@
 <div class="xs-100 sm-50 md-50 lg-33 xl-33 box sf-attribute sf-attribute-{{ attribute.attribute_id }} sf-{{ attribute.type }} {% if is_collapsed %} is-collapsed {% endif %}"
      data-id=" attribute-{{ attribute.attribute_id }}">
     <div class="box-heading">{{ attribute.attribute_name }}</div>
+    <div class="box-filter-attr">
+        {% set attribute_class = ' class="attribute_filter"' %}
+        {% if attribute.attribute_id == 23 %}
+            <input type="text" class="form-control filter-attr" placeholder="{{ attribute_23 }}">
+            {% set attribute_class = ' class="attribute_filter_1"' %}
+        {% endif %}
+        {% if attribute.attribute_id == 24 %}
+            <input type="text" class="form-control filter-attr" placeholder="{{ attribute_24 }}">
+        {% endif %}
+        {% if attribute.attribute_id == 25 %}
+            <input type="text" class="form-control filter-attr" placeholder="{{ attribute_25 }}">
+        {% endif %}
+    </div>
     <div class="box-content">
         <ul class="{% if not journal2.settings.get('filter_show_box') %} hide-checkbox {% endif %}">
             {% for value in attribute.values %}
                 <li><label><input data-keyword="{{ value.keyword }}" type="checkbox"
                                   name="attribute[{{ attribute.attribute_id }}]"
-                                  value="{{ value.text }}">{{ value.name }}</label></li>
+                                  value="{{ value.text }}"{{ attribute_class }}>{{ value.name }}</label></li>
             {% endfor %}
         </ul>
     </div>
