@@ -805,8 +805,15 @@
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
-                        <ul id="tabs" class="nav nav-tabs htabs">
+                        <p class="test">{{ main_category_id }}</p>
+                        <ul id="tabs" class="nav nav-tabs htabs test">
                             {% set is_active = true %}
+                            {% if main_category_id == 156 %}
+                                {% if description and not journal2.settings.get('hide_product_description') %}
+                                    <li {% if is_active %} class="active" {% set is_active = false %} {% endif %}><a
+                                                href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
+                                {% endif %}
+                            {% endif %}
                             {% if trida_uspory_paliva and trida_prilnavosti and uroven_hluku_db and uroven_hluku %}
                                 <li {% if is_active %} class="active" {% set is_active = false %} {% endif %}><a
                                             href="#tab-stitek" data-toggle="tab">Energetický štítek</a></li>
@@ -815,7 +822,7 @@
                                 <li {% if is_active %} class="active" {% set is_active = false %} {% endif %}><a
                                             href="#tab-specification" data-toggle="tab">{{ tab_attribute }}</a></li>
                             {% endif %}
-                            {% if description and not journal2.settings.get('hide_product_description') %}
+                            {% if description and not journal2.settings.get('hide_product_description') and main_category_id != 156 %}
                                 <li {% if is_active %} class="active" {% set is_active = false %} {% endif %}><a
                                             href="#tab-description" data-toggle="tab">{{ tab_description }}</a></li>
                             {% endif %}
@@ -836,6 +843,13 @@
                         </ul>
                         <div class="tabs-content">
                             {% set is_active = true %}
+
+                            {% if main_category_id == 156 %}
+                                {% if description and not journal2.settings.get('hide_product_description') %}
+                                    <div class="tab-pane tab-content {% if is_active %} active {% set is_active = false %}{% endif %}"
+                                         id="tab-description">{{ description }}</div>
+                                {% endif %}
+                            {% endif %}
 
                             {% set is_glass_group = false %}
 
