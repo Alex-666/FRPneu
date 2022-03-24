@@ -5,7 +5,7 @@ admin/controller/extension/module/modulecreator.php
 admin/language/en-gb/extension/module/modulecreator.php
 admin/language/ru-ru/extension/module/modulecreator.php
 admin/view/template/extension/module/modulecreator.twig
-UniModul.log
+#UniModul.log
 
 feeds/
 *.xml
@@ -24,6 +24,7 @@ download/
 image/data/
 image/catalog/
 image/cache/
+image/vendors/
 system/cache/
 system/logs/
 
@@ -56,4 +57,3 @@ yandex_4515812eb7dda84f.html
 robots.txt
 tmp/
 server_data
-UniModul/logs/UniModul.log
