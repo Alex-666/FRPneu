@@ -11,6 +11,11 @@ class SearchAvtoForm {
             self.fields[$this.attr('name')] = $this.find('option:first').text();
         });
 
+        this.form.find('input[name="runflat"]').click(function (){
+            self.form.addClass('form-disabled');
+            self.refresh();
+        });
+
         $(form_selector).on('change', 'select', function () {
             if($(this).val()){
                 self.last_selection = $(this).attr('name');
@@ -79,6 +84,8 @@ class SearchAvtoForm {
         this.form.find('select').each(function () {
             $(this).val('');
         });
+
+        this.form.find('input[name="runflat"]').prop('checked', false);
     }
 
 

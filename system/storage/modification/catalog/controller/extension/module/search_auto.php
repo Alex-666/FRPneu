@@ -29,7 +29,7 @@ class ControllerExtensionModuleSearchAuto extends Controller
         'text_empty'
     );
 
-    private $tire_params = array('width', 'height', 'diameter', 'season', 'type', 'loadindex', 'speedindex', 'manufacturer', 'model');
+    private $tire_params = array('width', 'height', 'diameter', 'season', 'type', 'loadindex', 'speedindex', 'manufacturer', 'model', 'runflat');
     private $disc_params = array('width', 'diameter', 'dia', 'pcd', 'et', 'manufacturer');
     private $auto_params = array('vendor', 'model', 'year', 'mod');
 

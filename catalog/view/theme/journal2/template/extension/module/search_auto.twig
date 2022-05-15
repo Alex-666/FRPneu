@@ -181,8 +181,11 @@
                             <div class="total_rslt"><span class="total_result"></span></div>
                             <div><input type="submit" class="button" value="{{ btn_find }}"></div>
                         </div>
-                        <div class="xs-50 sm-50 md-50 lg-25 xl-25 reset-btns">
-                            <div class="reset_btn">
+                        <div class="xs-50 sm-50 md-50 lg-25 xl-25 reset-btns runflat_and_reset_btn">
+                            <div class="checkbox">
+                                <label>RunFlat<input type="checkbox" name="runflat" value="Ano" {% if tire_runflat == "Ano" %} checked{% endif %}></label>
+                            </div>
+                            <div>
                                 <button class="reset_button">{{ btn_reset }}</button>
                             </div>
                         </div>
