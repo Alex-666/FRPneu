@@ -14,4 +14,4 @@ $_['text_logout']        = 'Logout';
 $_['text_checkout']      = 'Checkout';
 $_['text_search']        = 'Search';
 $_['text_all']           = 'Show All';
-$_['hader_text_twelve']  = '<p class="first">We can deliver orders up to 12 from the Tursko warehouse around Prague with a fee of  99 CZK on the same working day</p><p class="two">97% of the tires are manufactured in 20021/2022.</p>';
+$_['hader_text_twelve']  = '<p class="first">97% of the tires are manufactured in 20021/2022.</p><p class="two"></p>';
