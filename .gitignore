@@ -11,7 +11,10 @@ feeds/
 *.xml
 *.sql
 *.gz
+*.jpg
+*.png
 *.csv
+*.key
 *.log
 
 shopsync_server_zbozi*.php
@@ -25,6 +28,7 @@ image/data/
 image/catalog/
 image/cache/
 image/vendors/
+image/Label/
 system/cache/
 system/logs/
 
