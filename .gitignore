@@ -5,16 +5,14 @@ admin/controller/extension/module/modulecreator.php
 admin/language/en-gb/extension/module/modulecreator.php
 admin/language/ru-ru/extension/module/modulecreator.php
 admin/view/template/extension/module/modulecreator.twig
-#UniModul.log
 
-feeds/
 *.xml
 *.sql
 *.gz
 *.jpg
 *.png
 *.csv
-*.key
+#*.key
 *.log
 
 shopsync_server_zbozi*.php
@@ -45,9 +43,7 @@ system/storage/vendor/
 system/library/vendor/
 
 
-# vQmod log files
 vqmod/logs/*
-# vQmod cache files
 vqmod/vqcache/*
 vqmod/checked.cache
 vqmod/mods.cache
@@ -56,6 +52,7 @@ vqmod/mods.cache
 
 UniModul/certs/
 eduard/
+feeds/
 __info.php
 yandex_4515812eb7dda84f.html
 robots.txt
