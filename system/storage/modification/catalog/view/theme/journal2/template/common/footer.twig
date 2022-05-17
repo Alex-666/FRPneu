@@ -303,7 +303,7 @@
 </div>
 
 <!--notification-->
-{% if notification_all and disable %}
+{% if notification_all %}
     <div id="notification">
         <div class="notification__container"></div>
         <style>
@@ -312,7 +312,7 @@
                 position: fixed;
                 z-index: 9999;
                 top: 45%;
-                right: 25%;
+                left: 50%;
                 width: calc(100% - 30px);
                 max-width: 450px;
                 margin-bottom: -100px;
@@ -343,10 +343,10 @@
 
             #notification * {
                 color: #fff;
-                line-height: 18px;
+                line-height: 22px;
                 font-weight: 400;
                 font-family: Arial;
-                font-size: 14px;
+                font-size: 16px;
                 margin: 0;
             }
 
@@ -380,6 +380,7 @@
                 top: 50%;
                 margin-right: 50px;*/
                 margin-top: 15px;
+                margin-right: 5px;
                 text-decoration: none;
                 height: 28px;
                 line-height: 28px;
