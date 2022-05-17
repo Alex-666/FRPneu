@@ -523,12 +523,11 @@
                                         <div class="help-block" id="recurring-description"></div>
                                     </div>
                                 {% endif %}
-                                <div id="cart-mobile"
-                                     class="form-group cart {% if labels and labels.outofstock %} outofstock {% endif %}">
+                                <div id = "cart-mobile" class="form-group cart {% if labels and labels.outofstock %} outofstock {% endif %}">
                                     <div>
                                         {% if journal2.settings.get('hide_add_to_cart_button') %}
                                             {% for tab in journal2.settings.get('additional_product_enquiry', []) %}
-                                            <div>{{ tab.content }}</div>
+                                                <div>{{ tab.content }}</div>
                                             {% endfor %}
                                             <input type="hidden" name="product_id" value="{{ product_id }}"/>
                                         {% else %}
@@ -574,35 +573,35 @@
                                                 <span class="button-cart-text">{{ button_cart }}</span>
                                             </button>
                                             <script type="text/javascript">
-                                                window.onload = function () {
-                                                    window.addEventListener('scroll', function () {
+                                                window.onload = function() {
+                                                        window.addEventListener('scroll', function () {
 
-                                                        var distanceToTop;
-                                                        var someDiv = document.getElementById('cart-mobile');
-                                                        var distanceToTop = someDiv.getBoundingClientRect().top;
+                                                            var distanceToTop;
+                                                            var someDiv = document.getElementById('cart-mobile');
+                                                            var distanceToTop = someDiv.getBoundingClientRect().top;
 
-                                                        var flag = true;
-                                                        $(window).scroll(function () {
-                                                            if (distanceToTop <= 0 && flag) {
-                                                                flag = !flag;
-                                                                $('#button-cart-mobile').addClass('navbar-fixed-top');
-                                                                $('#button-cart-mobile').insertAfter('.journal-menu');
-                                                                $('#cart-mobile').css("padding-bottom", "90px");
-
-
-                                                            } else {
-                                                                flag = !flag;
-                                                                $('#button-cart-mobile').removeClass('navbar-fixed-top');
-                                                                $('#button-cart-mobile').insertAfter('#qty');
-                                                                $('#cart-mobile').css("padding-bottom", "20px");
+                                                            var flag = true;
+                                                            $(window).scroll(function () {
+                                                                if (distanceToTop <= 0 && flag) {
+                                                                    flag = !flag;
+                                                                    $('#button-cart-mobile').addClass('navbar-fixed-top');
+                                                                    $('#button-cart-mobile').insertAfter('.journal-menu');
+                                                                    $('#cart-mobile').css("padding-bottom", "90px");
 
 
-                                                            }
-                                                        }).trigger("scroll");
-                                                        var distanceToTop;
+                                                                } else {
+                                                                    flag = !flag;
+                                                                    $('#button-cart-mobile').removeClass('navbar-fixed-top');
+                                                                    $('#button-cart-mobile').insertAfter('#qty');
+                                                                    $('#cart-mobile').css("padding-bottom", "20px");
 
 
-                                                    });
+                                                                }
+                                                            }).trigger("scroll");
+                                                            var distanceToTop;
+
+
+                                                        });
 
                                                 }
                                             </script>
@@ -806,6 +805,7 @@
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
+                        <p class="test">{{ main_category_id }}</p>
                         <ul id="tabs" class="nav nav-tabs htabs test">
                             {% set is_active = true %}
                             {% if main_category_id == 156 %}
@@ -1922,18 +1922,3 @@
     });
     //--></script>
 {{ footer }}
-
-<P>Stylové a moderní alu kola <STRONG> FR design BK690/STRONG> přidají autu dynamičnost a sportovní vzhled. Na každý
-        disk se vztahuje záruka 24 měsíců. Disky jsou lakované a vhodné pro celoroční použití.</P>
-<P>Váha jednoho disku - <STRONG>8,9 kg </STRONG> a zátěž - <STRONG>650 Kg</STRONG>. Doporučená šířka pneumatik je
-    <STRONG>205 až 235mm</STRONG>. Doporučený rozměr pneu a alu kol pro Vaše auto také najdete na zadní stránce velkého
-    technického průkazu.</P>
-<P>Tento typ alu kol je vhodný pro následující automobily:</P>
-<P><STRONG>Volkswagen</STRONG> - Passat B5 B6 B7 B8, Arteon, Golf -V, VI, VII, VII Variant, VII Sportsvan, VII
-    Alltrack,Plus Caddy,-Life Maxi, Cross Touran, Touran, Beetle (2011-), EOS, Jetta, Sharan, Passat 96-, Passat CC,
-    Passat W8, Passat Alltrack, Phaeton, Scirocco, Tiguan, , T4 Caravelle, Sharan , T-Roc, Teramont</P>
-<P><STRONG>Škoda</STRONG> - Octavia II, 2, Octavia Scout (1Z), Octavia Rs, Octavia III,3, ,3,Scout, Octavia III,3, Rs,
-    Superb 1 .I, II,2, III,3, Yeti, Kodiaq ,Gt, Karoq, Kamiq</P>
-<P><STRONG>Audi</STRONG> - A3, S3, A4, S4, A5, A6, A7, A8, Q3,Q5, Q7, Q8 a Allroad</P>
-<P><STRONG>Mercedes Benz -</STRONG>&nbsp;A-Class, B-Class, C-Class, E-Class,CL-Class, V-Class, Vito, Vaneo, Viano, a
-    další...</P>
