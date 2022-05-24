@@ -124,6 +124,7 @@ $_['error_filetype']                              = 'Chybný typ souboru!';
 // Методы доставки
 $_['text_prcategory.prcategory']        = 'WeDo';
 $_['text_prcategorydpd.prcategorydpd']        = 'DPD';
+$_['text_prcategory123.prcategory123']        = '123';
 $_['text_pickup.pickup']                = 'Obchod Tursko';
 $_['text_pickupprague.pickupprague']    = '12:00 - v Praze';
 $_['text_pickuptwo.pickuptwo']          = 'Obchodě Brno';

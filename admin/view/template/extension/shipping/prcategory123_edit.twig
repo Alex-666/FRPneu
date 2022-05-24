@@ -1,0 +1,189 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="submit" form="form-prcategory123" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for  breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid"> {% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-prcategory123" class="form-horizontal">
+            {% if type == 'zone' %}
+                <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="country-id">{{ entry_country }}</label>
+                    <div class="col-sm-10">
+                        <select name="zone[country_id]" id="country-id" class="form-control">
+                        {% for country in countries  %}
+                            <option value="{{ country.country_id }}"{% if  country.country_id == zone.country_id %} selected{% endif %}>
+                                {{ country.name }}
+                            </option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="zone-id">{{ entry_zone }}</label>
+                    <div class="col-sm-10">
+                        <select name="zone[zone_id]" id="zone-id" class="form-control"></select>
+                        {% if error_zone %}
+                            <div class="text-danger">{{ error_zone }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ entry_enabled_cities }}</label>
+                    <div class="col-sm-10">
+                        <textarea cols="30" rows="3" name="zone[enabled_cities]">{{ zone.enabled_cities }}</textarea>
+                        <div>{{ entry_enabled_cities_help }}</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ entry_disabled_cities }}</label>
+                    <div class="col-sm-10">
+                        <textarea cols="30" rows="3" name="zone[disabled_cities]">{{ zone.disabled_cities }}</textarea>
+                        <div>{{ entry_disabled_cities_help }}</div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group required">
+                    <label class="col-sm-2 control-label" for="country-id">{{ entry_geo_zone }}</label>
+                    <div class="col-sm-10">
+                        <select name="zone[geo_zone_id]" class="form-control">
+                        {% for geo_zone in geo_zones %}
+                            <option value="{{ geo_zone.geo_zone_id }}"{% if geo_zone.geo_zone_id == zone.geo_zone_id %} selected{% endif %}>
+                                {{ geo_zone.name }}
+                            </option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+
+                {{ text_tariffs_manual }}<br><br>
+
+                <table class="table table-striped table-bordered table-hover" id="tariffs">
+                    <thead>
+                    <tr>
+                        <td class="text-left">{{ entry_category }}</td>
+                        <td class="text-left">{{ entry_rate }}</td>
+                        <td class="text-left">{{ entry_cost }}</td>
+                        <td class="text-left">{{ entry_cost_basis }}</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="text-left">{{ text_all_category }}</td>
+                        <td class="text-left"><input type="text" name="zone[rate]" value="{{ zone.rate }}" class="form-control"></td>
+                        <td class="text-left"><input type="text" name="zone[cost]" value="{{ zone.cost }}" class="form-control"></td>
+                        <td class="text-left"><input type="text" name="zone[cost_basis]" value="{{ zone.cost_basis }}" class="form-control"></td>
+                        <td></td>
+                    </tr>
+                    {% for tariff in zone.tariffs %}
+                        <tr>
+                            <td class="left category">
+                            {% for category_id in tariff.categories %}
+                                <div>
+                                    <select name="zone[tariffs][{{ loop.parent.loop.index0 }}][categories][{{ loop.index0 }}]" class="form-control">
+                                    {% for category in categories %}
+                                        <option value="{{ category.category_id }}"{% if category.category_id == category_id %} selected{% endif %}>
+                                            {{ category.name }}
+                                        </option>
+                                    {% endfor %}
+                                    </select><a class="remove-category">[ &times; ]</a>
+                                </div>
+                            {% endfor %}
+                                <a class="add-category btn btn-primary" data-tariff-row="{{ loop.index0 }}" title="{{ button_add }}"><i class="fa fa-plus-circle"></i></a>
+                                <input type="hidden" id="category-row-{{ loop.index0 }}" value="{{ category_row }}"/>
+                            </td>
+                            <td class="text-left">
+                                <input type="text" name="zone[tariffs][{{ loop.index0 }}][rate]" value="{{ tariff.rate }}" class="form-control">
+                            </td>
+                            <td class="text-left">
+                                <input type="text" name="zone[tariffs][{{ loop.index0 }}][cost]" value="{{ tariff.cost }}" class="form-control">
+                            </td>
+                            <td class="text-left">
+                                <input type="text" name="zone[tariffs][{{ loop.index0 }}][cost_basis]" value="{{ tariff.cost_basis }}" class="form-control">
+                            </td>
+                            <td class="text-left">
+                                <a class="remove-tariff btn btn-danger" title="{{ button_remove }}"><i class="fa fa-minus-circle"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td class="right" colspan="5">
+                            <a id="add-tariff"  title="{{ button_add }}" class="btn btn-primary">
+                                <i class="fa fa-plus-circle"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+        </form>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript"><!--
+    $(function() {
+        $('#country-id').change(function() {
+            $('#zone-id').load('index.php?route=localisation/geo_zone/zone&token={{ token }}&country_id=' + this.value + '&zone_id={{ zone.zone_id }}');
+        }).change();
+    });
+//--></script>
+<script type="text/javascript"><!--
+    var tariff_row = {{ zone.tariffs|length }};
+
+    $(function() {
+        $('#tariffs').on('click', '.remove-tariff', function() {
+            $(this).parents('tr:first').remove();
+        }).on('click', '.add-category', function() {
+            var tariff = $(this).attr('data-tariff-row'), hidden = $('#category-row-' + tariff),
+                category = hidden.val();
+            var html = '<div><select name="zone[tariffs][' + tariff + '][categories][' + category + ']" class="form-control">'
+                    {% for category in categories %}
+                        + '<option value="{{ category.category_id }}">{{ category.name }}</option>'
+                    {% endfor %}
+                + '</select><a class="remove-category">[ &times; ]</a></div>';
+            $(this).before(html);
+            hidden.val(++category);
+        }).on('click', '.remove-category', function() {
+            $(this).parent().remove();
+        });
+
+        $('#add-tariff').click(function() {
+            var html = '<tr><td class="left category">'
+                    + '<a class="add-category btn btn-primary" data-tariff-row="' + tariff_row + '" title="{{ button_add }}"><i class="fa fa-plus-circle"></i></a>'
+                    + '<input type="hidden" id="category-row-' + tariff_row + '" value="0"/ class="form-control"></td>'
+                    + '<td class="text-left"><input type="text" name="zone[tariffs][' + tariff_row + '][rate]" class="form-control"></td>'
+                    + '<td class="text-left"><input type="text" name="zone[tariffs][' + tariff_row + '][cost]" class="form-control"></td>'
+                    + '<td class="text-left"><input type="text" name="zone[tariffs][' + tariff_row + '][cost_basis]" class="form-control"></td>'
+                    + '<td class="text-left"><a class="remove-tariff btn btn-danger" title="{{ button_remove }}"><i class="fa fa-minus-circle"></i></a>'
+                    + '</tr>';
+            $('#tariffs').find('tbody').append(html);
+            tariff_row++;
+
+            $('#tariffs').find('.add-category:last').click();
+        });
+    });
+//--></script>
+
+</div>
+{{ footer }}
