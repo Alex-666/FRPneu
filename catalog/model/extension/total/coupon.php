@@ -18,6 +18,10 @@ class ModelExtensionTotalCoupon extends Model {
 				$status = false;
 			}
 
+			//отключил возможность использовать купон для диллерво.
+			If ($this->customer->getGroupId() == "7") {
+                $status = false;
+            }
 			if ($coupon_query->row['logged'] && !$this->customer->getId()) {
 				$status = false;
 			}
