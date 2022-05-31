@@ -394,7 +394,11 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 					$ok = false;
 					$dom = preg_replace('/(:[0-9]+)/', '', $dom);
 					$dom3 = preg_replace('/(^www\.)/', '', $dom);
-					if ($dom3=='localhost' || $dom3=='127.0.0.1') {
+                    If ($dom3 == 'frpneu.sk') {
+                        $dom3 = 'frpneu.cz' ;
+                    }
+
+                    if ($dom3=='localhost' || $dom3=='127.0.0.1') {
 						$ok = true;
 					}
 					foreach(explode(' ',$actKeys) as $actkey) {
@@ -409,7 +413,6 @@ abstract class UniModul extends CheckNonexistentFieldsLogOnly {
 						$maxupddate = $dates % (1<<12);
 						$date15 = (date("y")-15)*12+(date("m")-1);
 						$dateok = $date15<=$maxdate && $upddate15 <= $maxupddate;
-
 						$numhash = intval(base_convert(substr(md5($dom3.$ada.$mod.$datesh.$rndh),0, 4), 16, 10)) % 61423;
 						$numhashdev = intval(base_convert(substr(md5($dom3.$datesh.$rndh),0, 4), 16, 10)) % 61423;
 						$dec = bcpowmod(base_convert(substr($actkey,8,4), 16, 10), 43, 61423, 0);
