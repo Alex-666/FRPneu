@@ -1019,3 +1019,41 @@ Quick Checkout Stripe Payment CSS for OC 1.5.X AND 2.X
 #content div.row.pagination div.row.row-pagination-container {
   display: none;
 }
+/******************************
+TIRE SERVICE PRICELIST
+*******************************/
+#tire_service_price table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0
+}
+
+#tire_service_price table, td, th {
+  border: 1px solid #595959;
+}
+
+#tire_service_price td, th {
+  padding: 3px;
+  width: 30px;
+  height: 25px;
+}
+
+#tire_service_price .first_table {
+  border-top-color: #fff0;
+  border-left-color: #fff0;
+}
+
+#tire_service_price .table_first_header td, .table_two_header td {
+  border-width: 2px;
+  background-color: #dbdbdb;
+  text-align: center;
+  font-weight: 600;
+}
+
+#tire_service_price .w_price {
+  width: 10%;
+  text-align: center;
+}
+#tire_service_price .p_bottom{
+  padding-bottom: 25px;
+}
