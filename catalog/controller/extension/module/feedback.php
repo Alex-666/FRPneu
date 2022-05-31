@@ -30,7 +30,7 @@ class ControllerExtensionModuleFeedback extends Controller
         if ($this->customer->isLogged()) {
             $data['name'] = $this->customer->getFirstName() . '&nbsp;' . $this->customer->getLastName();
         } else {
-            $data['name'] = 'Not logged';
+            $data['name'] = 'Not_logged';
         }
 
         if ($this->customer->isLogged()) {
