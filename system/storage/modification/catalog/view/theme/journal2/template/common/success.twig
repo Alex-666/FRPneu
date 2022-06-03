@@ -34,7 +34,8 @@
     dataLayer.push({'event': 'order_cart' });
   </script>
 {% endif %}
-{% if order_id  %}
+
+{% if order_id and disable %}
     <!-- Event snippet for Google Ads Website Conversion Tag conversion page -->
     <script>
 
