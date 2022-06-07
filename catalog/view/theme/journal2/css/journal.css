@@ -1028,11 +1028,11 @@ TIRE SERVICE PRICELIST
   border-spacing: 0
 }
 
-#tire_service_price table, td, th {
+#tire_service_price table,#tire_service_price table td,#tire_service_price table th {
   border: 1px solid #595959;
 }
 
-#tire_service_price td, th {
+#tire_service_price td,#tire_service_price th {
   padding: 3px;
   width: 30px;
   height: 25px;
@@ -1043,7 +1043,7 @@ TIRE SERVICE PRICELIST
   border-left-color: #fff0;
 }
 
-#tire_service_price .table_first_header td, .table_two_header td {
+#tire_service_price .table_first_header td,#tire_service_price .table_two_header td {
   border-width: 2px;
   background-color: #dbdbdb;
   text-align: center;
