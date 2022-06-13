@@ -490,6 +490,10 @@
     color: #555555;
     text-align: left;
 }
+.simplecheckout-warning-block.alert-warning {
+    background-color: #f7bb2b;
+    border-color: #f7bb2b;
+}
 .simpleregister-warning-block {
     margin-bottom: 15px;
     padding: 10px 10px 10px 33px;
