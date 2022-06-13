@@ -98,12 +98,11 @@ $_['text_summary_payment_address']   = 'Payment address';
 $_['first_title_prague']             = 'Shipping';
 
 
-$_['error_stock_tursko']             = 'Výrobky označené 2 nejsou dostupné v požadovaném množství na skladě Tursko. Prosíme, vyberte si jiný způsob dopravy nebo jiný produkt.';
+$_['error_stock_tursko']             = 'Dear customer,the selected item is in a different warehouse than the one you have selected. It will take 2-3 days before we prepare the goods in the selected warehouse. Please be patient, we will contact you.';
 $_['error_tursko_12']                = 'Výrobky označené 2 nejsou dostupné v požadovaném množství na skladě Tursko. Prosíme, vyberte si jiný způsob dopravy nebo jiný produkt.';
 $_['error_postcode_tursko']          = 'Výrobky označené 6: Same woriking day delivery is not available in your region.';
 
-$_['error_stock_brno']               = 'Výrobky označené 3 nejsou dostupné v požadovaném množství na skladě Brno. Prosíme, vyberte si jiný způsob dopravy nebo jiný produkt.';
-$_['error_stock_branch']             = 'Výrobky označené 4 nejsou dostupné v požadovaném množství na skladě Tursko pro expedování na výdejní místa v okolí Prahy. Prosíme, vyberte si jiný způsob dopravy nebo jiný produkt';
-
+$_['error_stock_brno']             = 'Dear customer,the selected item is in a different warehouse than the one you have selected. It will take 2-3 days before we prepare the goods in the selected warehouse. Please be patient, we will contact you.';
+$_['error_stock_branch']             = 'Dear customer,the selected item is in a different warehouse than the one you have selected. It will take 2-3 days before we prepare the goods in the selected warehouse. Please be patient, we will contact you.';
 
 ?>

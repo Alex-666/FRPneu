@@ -1,4 +1,4 @@
-<div class="simplecheckout-block"
+    <div class="simplecheckout-block"
      id="simplecheckout_cart" {{ hide ? 'data-hide="true"' : '' }} {{ has_error ? 'data-error="true"' : '' }}>
     {% if display_header %}
         <div class="checkout-heading panel-heading">{{ text_cart }}</div>
@@ -10,16 +10,16 @@
         <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning }}</div>
     {% endif %}
     {% if error_warning_tursko %}
-        <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning_tursko }}</div>
+        <div class="alert alert-warning simplecheckout-warning-block">{{ error_warning_tursko }}</div>
     {% endif %}
     {% if error_warning_tursko_12 %}
         <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning_tursko_12 }}</div>
     {% endif %}
     {% if error_warning_brno %}
-        <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning_brno }}</div>
+        <div class="alert alert-warning simplecheckout-warning-block">{{ error_warning_brno }}</div>
     {% endif %}
     {% if error_warning_branch %}
-        <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning_branch }}</div>
+        <div class="alert alert-warning simplecheckout-warning-block">{{ error_warning_branch }}</div>
     {% endif %}
     {% if error_warning_postcode_tursko %}
         <div class="alert alert-danger simplecheckout-warning-block">{{ error_warning_postcode_tursko }}</div>
@@ -52,9 +52,9 @@
             {% for product in products %}
                 {% if product['recurring'] is not empty %}
                     <tr {% if not product['stock'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #F8ACAC;" {% endif %}
-                            {% if not product['stock_tursko'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fd9797;" {% endif %}
-                            {% if not product['stock_brno'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #ff7f7f;" {% endif %}
-                            {% if not product['stock_branch'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif %}
+                            {# % if not product['stock_tursko'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fd9797;" {% endif % #}
+                            {# % if not product['stock_brno'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #ff7f7f;" {% endif % #}
+                            {# }% if not product['stock_branch'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif % #}
                     >
                         <td class="simplecheckout-recurring-product" style="border:none;"><img
                                     src="{{ additional_path }}catalog/view/theme/default/image/reorder.png" alt=""
@@ -67,11 +67,11 @@
                     </tr>
                 {% endif %}
                 <tr {% if not product['stock'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #F8ACAC;" {% endif %}
-                        {% if not product['stock_tursko'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fd9797;" {% endif %}
-                        {% if not product['stock_brno'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #ff7f7f;" {% endif %}
-                        {% if not product['stock_branch'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif %}
-                        {% if not product['stock_tursko_twelve'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif %}
-                        {% if not product['postcode_tursko'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif %}>
+                        {# % if not product['stock_tursko'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fd9797;" {% endif % #}
+                        {# % if not product['stock_brno'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #ff7f7f;" {% endif % #}
+                        {# % if not product['stock_branch'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif % #}
+                        {# % if not product['stock_tursko_twelve'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif % #}
+                        {# % if not product['postcode_tursko'] and (config_stock_warning or not config_stock_checkout) %} style="background-color: #fb616154;" {% endif % #}>
                     <td class="image">
                         {% if product['thumb'] %}
                             <a href="{{ product['href'] }}">

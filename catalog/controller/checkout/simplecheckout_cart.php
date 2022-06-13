@@ -81,8 +81,8 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
             }
             if (!$this->config->get('config_stock_checkout')) {
                 $this->_templateData['error_warning_tursko'] = $this->language->get('error_stock_tursko');
-                $this->simplecheckout->addError('cart');
-                $this->simplecheckout->blockOrder();
+                //$this->simplecheckout->addError('cart');
+                //$this->simplecheckout->blockOrder();
             }
         }
         //Проверка по складу Brno
@@ -92,8 +92,8 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
             }
             if (!$this->config->get('config_stock_checkout')) {
                 $this->_templateData['error_warning_brno'] = $this->language->get('error_stock_brno');
-                $this->simplecheckout->addError('cart');
-                $this->simplecheckout->blockOrder();
+                //$this->simplecheckout->addError('cart');
+                //$this->simplecheckout->blockOrder();
             }
         }
         //Проверка по складу Brno
@@ -103,8 +103,8 @@ class ControllerCheckoutSimpleCheckoutCart extends SimpleController {
             }
             if (!$this->config->get('config_stock_checkout')) {
                 $this->_templateData['error_warning_branch'] = $this->language->get('error_stock_branch');
-                $this->simplecheckout->addError('cart');
-                $this->simplecheckout->blockOrder();
+                //$this->simplecheckout->addError('cart');
+                //$this->simplecheckout->blockOrder();
             }
         }
         //var_dump($this->session->data['shipping_methods']);
