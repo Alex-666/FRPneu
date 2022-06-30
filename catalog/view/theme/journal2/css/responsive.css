@@ -1924,8 +1924,8 @@ MOBILE POPUP
   .journal-header-default .header-assets {
     position: static; }
 
-  .journal-header-center .links a, .journal-header-center .links .no-link {
-    height: 40px; }
+/*  .journal-header-center .links a, .journal-header-center .links .no-link {
+    height: 40px; }*/
   .journal-header-center #header {
     padding-top: 0; }
     .journal-header-center #header .journal-links {
