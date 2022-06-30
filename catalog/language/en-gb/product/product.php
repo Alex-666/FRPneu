@@ -36,7 +36,7 @@ $_['text_product_available']                      = 'In Stock';
 $_['text_product_unavailable']                    = 'Out Of Stock';
 $_['text_stock_pohoda']                           = 'At the store to send:';
 $_['text_stock_sklad_tursko']                     = 'In Turkey store:';
-$_['text_little_signature']                       = '*Order by 12:00 - delivery in Prague on the same working day.';
+$_['text_little_signature']                       = '';
 $_['text_stock_sklad_brno']                       = 'In Brno store:';
 $_['text_outstock_pohoda']                        = 'Within 2-3 days from the supplier:';
 $_['text_date_today']                             = 'We can deliver to:';
@@ -78,6 +78,6 @@ $_['text_button_trusko']                          = 'Tire servis near Prague';
 $_['text_button_brna']                            = 'Tire servis near Brno';
 $_['text_button_sklo']                            = 'Glass change';
 
-$_['text_year']                                   = 'Year of manufacture 2021/2020';
+$_['text_year']                                   = 'Year of manufacture 2022/2021';
 $_['text_includes_recycling']                     = 'The price of the tire includes a recycling fee';
 $_['text_recycling_used_tires']                   = '<a target="_blank" href="/výrobky-s-ukončenou-životností.html"><span>Dispose of used tires for free here</span></a>';

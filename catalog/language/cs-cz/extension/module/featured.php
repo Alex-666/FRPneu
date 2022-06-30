@@ -1,5 +1,5 @@
 <?php //Copyright: opencart.cz
-$_['heading_title']                               = 'Doporučené produkty';
+$_['heading_title']                               = 'Výprodej';
 $_['text_tax']                                    = 'Cena bez DPH:';
 $_['text_availability']							  = 'Dostupnost:';
 
