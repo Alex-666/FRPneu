@@ -185,16 +185,24 @@
                 <div class="simplecheckout-button-block buttons" id="buttons">
                     <div class="simplecheckout-button-right">
                         {% if display_agreement_checkbox %}
+                            <div class="simplecheckout-button-checkbox">
                             <span id="agreement_checkbox">
                                 {% for agreement_id, text_agreement in text_agreements %}
                                     <div class="checkbox"><label><input type="checkbox" name="agreements[]" value="{{ agreement_id }}" {{ agreement_id in agreements ? 'checked="checked"' : '' }} />{{ text_agreement }}</label></div>
                                 {% endfor %}
                             </span>
+                            </div>
                         {% endif %}
+                        <div class="simplecheckout-button-button">
+                            <div class="simplecheckout-total_text">
+                                <span>{{ cart_total_text }}:</span>
+                                <span class="simplecheckout-total_all">{{ cart_total_all }}</span>
+                            </div>
                         {% if steps_count > 1 %}
                         <a class="button btn-primary button_oc btn" data-onclick="nextStep" id="simplecheckout_button_next"><span>{{ button_next }}</span></a>
                         {% endif %}
                         <a class="button btn-primary button_oc btn" {{ block_order ? 'disabled' : ''}} data-onclick="createOrder" id="simplecheckout_button_confirm"><span>{{ button_order }}</span></a>
+                        </div>
                     </div>
                     <div class="simplecheckout-button-left">
                         {% if display_back_button %}

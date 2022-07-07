@@ -51,6 +51,27 @@
     margin-right:0px;
     float: right;
 }
+#buttons .simplecheckout-button-button .simplecheckout-total_text {
+    font-weight: bold;
+}
+.simplecheckout-total_all {
+    display: inline-block;
+    margin: 0 5px 0;
+    font-size: 16px;
+    font-weight: 900;
+}
+#buttons .simplecheckout-button-checkbox {
+    margin: auto;
+}
+
+#buttons .simplecheckout-button-button {
+    margin: auto;
+    padding-bottom: 12px;
+}
+#buttons .simplecheckout-button-button .btn-primary {
+    width: 100%;
+}
+
 @media only screen and (max-width:768px) {
     .simplecheckout-three-column {
         display:block;
@@ -231,7 +252,7 @@
     }
 }
 .simplecheckout-button:hover {
-   background: url('../image/button-active.png') repeat-x;
+    background: url('../image/button-active.png') repeat-x;
 }
 
 #simplecheckout_customer .simplecheckout-block-content {
@@ -302,6 +323,13 @@
     display: inline-block;
     margin: 0px 3px;
     min-width: 60px;
+}
+#total_shipping .simplecheckout-cart-total-value {
+    font-weight: 800;
+}
+#total_total .simplecheckout-cart-total-value {
+    font-size: 16px;
+    font-weight: 900;
 }
 .simplecheckout-cart-total-remove {
     display: inline-block;
@@ -489,10 +517,6 @@
     border-radius: 5px 5px 5px 5px;
     color: #555555;
     text-align: left;
-}
-.simplecheckout-warning-block.alert-warning {
-    background-color: #f7bb2b;
-    border-color: #f7bb2b;
 }
 .simpleregister-warning-block {
     margin-bottom: 15px;
@@ -767,48 +791,73 @@
         display: none;
     }
 }
-@media only screen and (max-width:600px) {
-    #total_shipping span:first-child {
-        max-width: 300px;
-        display: inline-block;
-    }
-    td.quantity button[data-onclick*="Quantity"] {
-        display: none;
+@media only screen and (max-width:860px) {
+    .simplecheckout-button-right {
+        display: flex;
+        flex-direction: column;
     }
 }
-@media only screen and (max-width:420px) {
-    #total_shipping span:first-child {
-        max-width: 200px;
-        display: inline-block;
+    @media only screen and (max-width:600px) {
+        #total_shipping span:first-child {
+            max-width: 300px;
+            display: inline-block;
+        }
+
+        td.quantity button[data-onclick*="Quantity"] {
+            display: none;
+        }
     }
-}
-.row-customer_register .radio {
-    display: inline-block !important;
-    margin-right: 10px;
-}
-.simplecheckout-vertical-menu .checkout-heading {
-    cursor: pointer;
-    margin-bottom: 3px;
-}
-.simplecheckout-steps-wrapper {
-    padding: 10px;
-}
-.simple-step-vertical-completed {
+    @media only screen and (max-width:420px) {
+        #total_shipping span:first-child {
+            max-width: 200px;
+            display: inline-block;
+        }
+    }
+    .row-customer_register .radio {
+        display: inline-block !important;
+        margin-right: 10px;
+    }
+    .simplecheckout-vertical-menu .checkout-heading {
+        cursor: pointer;
+        margin-bottom: 3px;
+    }
+    .simplecheckout-steps-wrapper {
+        padding: 10px;
+    }
+    .simple-step-vertical-completed {
 
-}
-#agreement_checkbox {
-    float: left;
-    margin-right: 20px;
-}
-#agreement_checkbox .checkbox {
-    margin: 0;
-}
+    }
+    #agreement_checkbox {
+        float: left;
+        margin-top: auto;
+        margin-right: 20px;
+    }
+    #agreement_checkbox .checkbox {
+        margin: 0;
+    }
+    #agreement_checkbox label:before {
+        content: "*";
+        color: #EA2E49;
+        font-weight: bold;
+        font-size: 16px;
+        position: relative;
+        line-height: 0
+    }
+    @media only screen and (min-width:760px) {
+        #agreement_checkbox label {
+            font-size: 18px;
+        }
+    }
+        @media only screen and (min-width:860px) {
+            .simplecheckout-button-right {
+                display: flex;
+            }
+        }
+        .show_mallpaybinder, .show_cetelembinder {
+            display:none;
+            font-style:italic;
+        }
 
-.show_mallpaybinder, .show_cetelembinder {
-	display:none;
-	font-style:italic;
-}
-
-.show_mallpaybinder.now_show, .show_cetelembinder.now_show  {
-	display:block;
-}
+        .show_mallpaybinder.now_show, .show_cetelembinder.now_show  {
+            display:block;
+        }

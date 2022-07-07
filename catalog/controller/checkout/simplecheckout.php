@@ -367,6 +367,23 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
             $this->_templateData['cart_total'] = sprintf($text_items, 0, $this->simplecheckout->formatCurrency(0));
         }
 
+        //Общая сумма корзины.
+        $this->simplecheckout->loadModel('total/total');
+        $totals = array();
+        $total = $this->session->data['shipping_method'] ["cost"] + $this->cart->getTotal();
+        $taxes = $this->cart->getTaxes();
+
+        $total_data = array(
+            'totals' => &$totals,
+            'taxes'  => &$taxes,
+            'total'  => &$total,
+        );
+        $this->model_total_total->getTotal($total_data);
+
+        $this->_templateData['cart_total_text'] = $totals[0]["title"];
+        $this->_templateData['cart_total_all'] = $this->currency->format($totals[0]["value"], $this->session->data['currency']);
+
+
         $this->_templateData['customer_with_payment_address']  = $this->simplecheckout->isCustomerCombinedWithPaymentAddress();
         $this->_templateData['customer_with_shipping_address'] = $this->simplecheckout->isCustomerCombinedWithShippingAddress();
 
@@ -494,6 +511,7 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
                 $price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
                 $total = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'], $this->session->data['currency']);
             }
+
 
             $option_data = array();
 
