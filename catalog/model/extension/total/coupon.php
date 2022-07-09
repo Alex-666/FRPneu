@@ -179,9 +179,12 @@ class ModelExtensionTotalCoupon extends Model {
 							}
 						}
 					}
+                        $discount_total += $this->session->data['shipping_method']['cost'];
 
-					$discount_total += $this->session->data['shipping_method']['cost'];
 				}
+                If ($coupon_info['type'] == 'P') {
+                            $discount_total -= $this->session->data['shipping_method']["coupon_cost"];
+                }
 
 				// If discount greater than total
 				if ($discount_total > $total['total']) {

@@ -12,9 +12,31 @@ class ModelExtensionShippingFlat3 extends Model {
 		} else {
 			$status = false;
 		}
+        // Если купон по категориям.
+        $coupon_cost = false;
+        $this->load->model('extension/total/coupon');
+        $coupon = $this->model_extension_total_coupon->getCoupon($this->session->data['coupon']);
+
+        foreach ($this->cart->getProducts() as $product) {
+            if (is_array($coupon["product"])) {
+                if (in_array((int)$product['product_id'], $coupon["product"]) && $coupon["type"] == "P") {
+                    $coupon_cost = true;
+                } else {
+                    $coupon_cost = false;
+                    break;
+                }
+            }else {
+                if ($product['product_id'] == $coupon["product"]){
+                    $coupon_cost = true;
+                } else {
+                    $coupon_cost = false;
+                    break;
+                }
+
+            }
+        }
 
 		$method_data = array();
-
 		if ($status) {
 			$quote_data = array();
 
@@ -22,6 +44,7 @@ class ModelExtensionShippingFlat3 extends Model {
 				'code'         => 'flat3.flat3',
 				'title'        => $this->language->get('text_description'),
 				'cost'         => $this->config->get('shipping_flat3_cost'),
+                'coupon_cost'  => (!$coupon_cost ? $this->config->get('shipping_flat3_cost') : 0),
 				'tax_class_id' => $this->config->get('shipping_flat3_tax_class_id'),
 				'text'         => $this->currency->format($this->tax->calculate($this->config->get('shipping_flat3_cost'), $this->config->get('shipping_flat3_tax_class_id'), $this->config->get('config_tax')), $this->session->data['currency'])
 			);

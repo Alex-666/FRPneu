@@ -19,12 +19,16 @@ class ModelExtensionShippingPrCategoryDPD extends Model {
         $query = $this->db->query("SELECT * FROM prcategorydpd_zone WHERE country_id = '" . (int)$address['country_id'] . "' AND zone_id = '" . (int)$address['zone_id'] . "'");
 
         $tariff = $this->getTariff($query, $address, 'zone');
+        $product_tariff = $this->getProductTariff($query, $address, 'zone');
+
 
         if (!$tariff && $geo_zones_ids) {
 
             // Тарифы и другие данные для геозон
             $query = $this->db->query("SELECT * FROM prcategorydpd_geozone WHERE geo_zone_id IN (" . implode(', ', $geo_zones_ids) . ")");
             $tariff = $this->getTariff($query, $address, 'geozone');
+            $product_tariff = $this->getProductTariff($query, $address, 'geozone');
+
         }
 
         if ($tariff) {
@@ -37,6 +41,7 @@ class ModelExtensionShippingPrCategoryDPD extends Model {
                     'code' => 'prcategorydpd.prcategorydpd',
                     'title' => $this->config->get('prcategorydpd_quote_title'),
                     'cost' => $cost,
+                    'coupon_cost' => $product_tariff['total'],
                     'text' => $this->currency->format($cost, $currency_code),
                     'tax_class_id' => 0
             );
@@ -201,4 +206,148 @@ class ModelExtensionShippingPrCategoryDPD extends Model {
 
         return $this->db->query("SELECT * FROM " . DB_PREFIX . "category WHERE category_id = " . $category_id)->row;
     }
+
+    private function getProductTariff($query, $address, $type) {
+
+        if ($query->num_rows) {
+
+            foreach ($query->rows as $pr_zone) {
+
+                $current_city = utf8_strtolower($address['city']);
+
+                // Проверим города, для которых работает эта доставка
+                if (!empty($pr_zone['enabled_cities'])) {
+
+                    $enabled_cities = array();
+
+                    foreach (explode(',', $pr_zone['enabled_cities']) as $city) {
+
+                        $enabled_cities[utf8_strtolower(trim($city))] = 1;
+                    }
+
+                    if (!isset($enabled_cities[$current_city])) {
+                        continue;
+                    }
+                }
+
+                // Проверим города, для которых эта доставка отключена
+                if (!empty($pr_zone['disabled_cities'])) {
+
+                    $disabled_cities = array();
+
+                    foreach (explode(',', $pr_zone['disabled_cities']) as $city) {
+
+                        $disabled_cities[utf8_strtolower(trim($city))] = 1;
+                    }
+
+                    if (isset($disabled_cities[$current_city])) {
+                        continue;
+                    }
+                }
+
+                $tariffs = array();
+
+                $this->load->model('extension/total/coupon');
+                $coupon = $this->model_extension_total_coupon->getCoupon($this->session->data['coupon']);
+
+                // Группировка товаров по тарифам в зависимости от категории
+                foreach ($this->cart->getProducts() as $product) {
+                    if (is_array($coupon["product"])) {
+                        if (in_array((int)$product['product_id'], $coupon["product"]) && $coupon["type"] == "P") {
+                            continue;
+                        }
+                    }else {
+                        if ($product['product_id'] == $coupon["product"]){
+                            continue;
+                        }
+                    }
+
+                    if ($product['shipping']) {
+
+
+                        $category_tariff = false;
+
+                        // Ищем тариф для основной категории
+                        $main_category = $this->db->query("SELECT pc.category_id, c.parent_id FROM " . DB_PREFIX . "product_to_category pc LEFT JOIN " . DB_PREFIX . "category c ON pc.category_id = c.category_id WHERE product_id = '" . (int)$product['product_id'] . "' LIMIT 1")->row;
+
+                        if ($main_category) {
+
+                            $category_tariff = $this->getCategoryTariff($main_category['category_id'], $pr_zone, $type);
+
+                            if (!$category_tariff) {
+
+                                // Ищем тариф для родительских категорий
+                                $parent_id = $main_category['parent_id'];
+
+                                while ($parent_id > 0 && !$category_tariff) {
+
+                                    $parent = $this->getCategory($parent_id);
+                                    $category_tariff = $this->getCategoryTariff($parent['category_id'],
+                                        $pr_zone,
+                                        $type);
+                                    $parent_id = $parent['parent_id'];
+                                }
+                            }
+                        }
+
+                        if ($category_tariff) {
+                            $tariff = $category_tariff;
+                        }
+                        else {
+                            $tariff = array('prcategory_tariff_id' => 'default', 'rate' => $pr_zone['rate'], 'cost' => $pr_zone['cost'], 'cost_basis' => $pr_zone['cost_basis']);
+                        }
+
+                        if (isset($tariffs[$tariff['prcategory_tariff_id']])) {
+                            $tariffs[$tariff['prcategory_tariff_id']]['quantity'] += $product['quantity'];
+                        }
+                        else {
+                            $tariffs[$tariff['prcategory_tariff_id']] = $tariff;
+                            $tariffs[$tariff['prcategory_tariff_id']]['quantity'] = $product['quantity'];
+                        }
+                    }
+                }
+
+                $total = 0;
+
+                foreach ($tariffs as $tariff) {
+
+                    $success = false;
+
+                    if ($tariff['rate']) {
+
+                        $rates = explode(',', $tariff['rate']);
+
+                        // Найдем стоимость доставки в зависимости от веса
+                        foreach ($rates as $rate) {
+                            $data = explode(':', $rate);
+
+                            if ($data[0] >= $tariff['quantity']) {
+                                if (isset($data[1])) {
+                                    $total += $data[1];
+                                    $success = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!$success && $tariff['cost']) {
+
+                        $total += ($tariff['cost'] * $tariff['quantity'] + $tariff['cost_basis']);
+                        $success = true;
+                    }
+
+                    // Если не удалось рассчитать тариф
+                    if (!$success) {
+                        return false;
+                    }
+                }
+
+                return array('total' => $total);
+            }
+        }
+
+        return false;
+    }
+
 }
