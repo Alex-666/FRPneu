@@ -303,7 +303,7 @@
 </div>
 
 <!--notification-->
-{% if notification_all  %}
+{% if notification_all %}
     <div id="notification">
         <div class="notification__container"></div>
         <style>
@@ -373,7 +373,7 @@
                 border: 1px solid #fff;
                 color: #fff;
                 background-color: #005289;
-                padding: 0 20px;
+                padding: 0 10px;
                 cursor: pointer;
                 /*position: absolute;
                 right: 0;
@@ -451,9 +451,9 @@
                                         notification.remove()
                                     }, 300);
                                     var date = new Date;
-                                    var m = 1; // месяцев до удаления
+                                    var m = 0; // месяцев до удаления
                                     var d = 0; // дней до удаления
-                                    var h = 0; // часов до удаления
+                                    var h = 20; // часов до удаления
                                     var min = 0; // минут до удаления
                                     date = new Date(date.getFullYear(), date.getMonth() + m, date.getDate() + d, date.getHours() + h, date.getMinutes() + min);
                                     document.cookie = 'notification_confirm=Y; path=/; expires=' + date.toUTCString();
