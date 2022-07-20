@@ -1538,6 +1538,11 @@ PRODUCT LABELS
     display: inline-block;
     float: unset;
 }
+@media only screen and (max-width: 760px) {
+    .product-details p {
+        min-height: 40px;
+    }
+}
 
 /******************************
  QUICKVIEW
