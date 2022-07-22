@@ -381,7 +381,7 @@ class ControllerCheckoutSimpleCheckout extends SimpleController {
         $this->model_total_total->getTotal($total_data);
 
         $this->_templateData['cart_total_text'] = $totals[0]["title"];
-        $this->_templateData['cart_total_all'] = $this->currency->format($totals[0]["value"], $this->session->data['currency']);
+        $this->_templateData['cart_total_all'] = $this->currency->format(($this->session->data['shipping_method']["coupon_cost"] + $this->cart->getTotal()), $this->session->data['currency']);
 
 
         $this->_templateData['customer_with_payment_address']  = $this->simplecheckout->isCustomerCombinedWithPaymentAddress();
